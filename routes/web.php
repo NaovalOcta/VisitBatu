@@ -1,23 +1,32 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TripController;
 
 Route::get('/', function () {
-    return view('main');
-});
+    return view('login_page');
+})->name('login_page');
 
-Route::get('/about', function () {
-    return view('about');
-});
+Route::get('/register_page', function () {
+    return view('register_page');
+})->name('register_page');
 
-Route::get('/blog', function () {
-    return view('blog');
-});
+Route::get('/welcome_page', function () {
+    return view('welcome_page');
+})->name('welcome_page');
 
-Route::get('/contact', function () {
-    return view('contact');
-});
+Route::get('/about_page', function () {
+    return view('about_page');
+})->name('about_page');
 
-// Route Resource untuk Trip (Mencakup CRUD lengkap)
-Route::resource('trips', TripController::class);
+Route::get('/trips_page', function () {
+    return view('trips_page');
+})->name('trips_page');
+
+Route::get('/blog_page', function () {
+    return view('blog_page');
+})->name('blog_page');
+
+Route::get('/contact_page', function () {
+    return view('contact_page');
+})->name('contact_page');
+

@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Trip extends Model
 {
     protected $fillable = [
-        'name',
+        'title',
         'slug',
         'location',
         'description',
-        'image',
         'price',
+        'duration',
+        'thumbnail',
     ];
 }

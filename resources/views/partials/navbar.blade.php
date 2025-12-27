@@ -10,7 +10,7 @@
 <header class="site-navbar site-navbar-target" role="banner">
     <div class="container">
         <div class="row align-items-center position-relative">
-            <div class="col-3 ">
+            <div class="col-3">
                 <div class="site-logo">
                     <a href="{{ route('welcome_page') }}" class="font-weight-bold">
                         <img src="{{ asset('images/logo.png') }}" alt="Image" class="img-fluid">
@@ -18,75 +18,71 @@
                 </div>
             </div>
 
-            <div class="col-9  text-right">
+            <div class="col-9 text-right">
                 <span class="d-inline-block d-lg-none">
-                    <a href="#" class="site-menu-toggle js-menu-toggle py-5 text-white">
+                    <a href="#" class="text-white site-menu-toggle js-menu-toggle py-5 text-white">
                         <span class="icon-menu h3 text-white"></span>
                     </a>
                 </span>
 
                 <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
-                    <ul class="site-menu main-menu js-clone-nav ml-auto ">
-                        <li class="{{ request()->routeIs('welcome_page') ? 'active' : '' }}">
+                    <ul class="site-menu main-menu js-clone-nav ml-auto">
+                        <li class="{{ Request::routeIs('welcome_page') ? 'active' : '' }}">
                             <a href="{{ route('welcome_page') }}" class="nav-link">Home</a>
                         </li>
-                        <li class="{{ request()->routeIs('about_page') ? 'active' : '' }}">
+                        <li class="{{ Request::routeIs('about_page') ? 'active' : '' }}">
                             <a href="{{ route('about_page') }}" class="nav-link">About</a>
                         </li>
-                        <li class="{{ request()->routeIs('trips_page') ? 'active' : '' }}">
+                        <li class="{{ Request::routeIs('trips_page') ? 'active' : '' }}">
                             <a href="{{ route('trips_page') }}" class="nav-link">Trips</a>
                         </li>
-                        <li class="{{ request()->routeIs('blog_page') ? 'active' : '' }}">
+                        <li class="{{ Request::routeIs('blog_page') ? 'active' : '' }}">
                             <a href="{{ route('blog_page') }}" class="nav-link">Blog</a>
                         </li>
-                        <li class="{{ request()->routeIs('contact_page') ? 'active' : '' }}">
+                        <li class="{{ Request::routeIs('contact_page') ? 'active' : '' }}">
                             <a href="{{ route('contact_page') }}" class="nav-link">Contact</a>
                         </li>
 
-                        {{-- LOGIKA AUTHENTICATION --}}
+                        {{-- LOGIKA LOGIN / DASHBOARD / LOGOUT --}}
                         @guest
                             {{-- Jika Belum Login: Tampilkan Tombol Login --}}
-                            <li class="{{ request()->routeIs('login_page') ? 'active' : '' }}">
-                                <a href="{{ route('login_page') }}" class="nav-link">Login</a>
-                            </li>
                             <li>
-                                <a href="{{ route('register_page') }}"
-                                    class="btn btn-primary text-white py-2 px-3 mt-2 mt-lg-0 ml-lg-3"
-                                    style="border-radius: 30px;">Sign Up</a>
+                                <a href="{{ route('login') }}" class="btn btn-primary px-3 py-2 text-white">Login</a>
                             </li>
                         @else
-                            {{-- Jika Sudah Login: Tampilkan Nama & Dropdown --}}
-                            <li class="has-children">
-                                <a href="#" class="nav-link">
-                                    {{ Auth::user()->name }}
-                                    @if (Auth::user()->role == 'admin')
-                                        <span class="badge badge-warning text-white ml-1">Admin</span>
-                                    @endif
+                            {{-- Jika Sudah Login: Tampilkan Dropdown User --}}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle btn btn-outline-white text-white px-3 py-2"
+                                    href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    Halo, {{ Auth::user()->name }}
                                 </a>
-                                <ul class="dropdown">
-                                    {{-- Link ke Dashboard (Otomatis cek role di routes) --}}
-                                    <li><a href="{{ route('admin.dashboard_admin') }}" class="nav-link">Dashboard</a></li>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
 
-                                    <li>
-                                        <hr class="dropdown-divider" style="margin: 0;">
-                                    </li>
+                                    {{-- Cek Role: Admin --}}
+                                    @if (Auth::user()->role === 'admin')
+                                        <a class="dropdown-item" href="{{ route('admin.dashboard_admin') }}">
+                                            <i class="icon-dashboard mr-2"></i> Dashboard Admin
+                                        </a>
+                                    @else
+                                        {{-- Cek Role: User Biasa --}}
+                                        <a class="dropdown-item" href="{{ route('dashboard_user') }}">
+                                            <i class="icon-user mr-2"></i> Akun Saya
+                                        </a>
+                                    @endif
+
+                                    <div class="dropdown-divider"></div>
 
                                     {{-- Tombol Logout --}}
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                            class="nav-link text-danger">
-                                            Logout
-                                        </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                            class="d-none">
-                                            @csrf
-                                        </form>
-                                    </li>
-                                </ul>
+                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                        @csrf {{-- Wajib ada untuk keamanan --}}
+                                        <button type="submit" class="dropdown-item text-danger" style="cursor: pointer;">
+                                            <i class="icon-sign-out mr-2"></i> Logout
+                                        </button>
+                                    </form>
+                                </div>
                             </li>
                         @endguest
-                        {{-- END LOGIKA AUTHENTICATION --}}
 
                     </ul>
                 </nav>

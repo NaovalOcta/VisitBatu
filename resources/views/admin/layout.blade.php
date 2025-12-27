@@ -26,8 +26,8 @@
                     <div class="bg-white p-4 mb-4" style="border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                         <h3 class="text-black mb-4 h5 font-weight-bold">Menu</h3>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><a href="{{ route('admin.dashboard') }}"
-                                    class="d-block {{ request()->routeIs('admin.dashboard') ? 'text-primary font-weight-bold' : 'text-secondary' }}">Overview</a>
+                            <li class="mb-2"><a href="{{ route('admin.dashboard_admin') }}"
+                                    class="d-block {{ request()->routeIs('admin.dashboard_admin') ? 'text-primary font-weight-bold' : 'text-secondary' }}">Overview</a>
                             </li>
                             <li class="mb-2"><a href="{{ route('admin.trips.index') }}"
                                     class="d-block {{ request()->routeIs('admin.trips.*') ? 'text-primary font-weight-bold' : 'text-secondary' }}">Manage

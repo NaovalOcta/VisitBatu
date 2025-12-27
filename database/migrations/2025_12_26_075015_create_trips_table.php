@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('trips', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique(); // Untuk URL yang cantik
+            $table->string('title');
+            $table->string('slug')->unique(); // Untuk URL SEO friendly
             $table->string('location');
+            $table->decimal('price', 10, 2); // Harga format desimal
+            $table->string('duration');      // Contoh: "3 Hari 2 Malam"
             $table->text('description');
-            $table->string('image')->nullable(); // Foto utama destinasi
-            $table->decimal('price', 10, 2)->nullable(); // Estimasi harga tiket (opsional)
+            $table->string('thumbnail')->nullable(); // Foto wisata
             $table->timestamps();
         });
     }

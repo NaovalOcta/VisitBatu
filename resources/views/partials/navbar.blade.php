@@ -42,6 +42,52 @@
                         <li class="{{ request()->routeIs('contact_page') ? 'active' : '' }}">
                             <a href="{{ route('contact_page') }}" class="nav-link">Contact</a>
                         </li>
+
+                        {{-- LOGIKA AUTHENTICATION --}}
+                        @guest
+                            {{-- Jika Belum Login: Tampilkan Tombol Login --}}
+                            <li class="{{ request()->routeIs('login_page') ? 'active' : '' }}">
+                                <a href="{{ route('login_page') }}" class="nav-link">Login</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('register_page') }}"
+                                    class="btn btn-primary text-white py-2 px-3 mt-2 mt-lg-0 ml-lg-3"
+                                    style="border-radius: 30px;">Sign Up</a>
+                            </li>
+                        @else
+                            {{-- Jika Sudah Login: Tampilkan Nama & Dropdown --}}
+                            <li class="has-children">
+                                <a href="#" class="nav-link">
+                                    {{ Auth::user()->name }}
+                                    @if (Auth::user()->role == 'admin')
+                                        <span class="badge badge-warning text-white ml-1">Admin</span>
+                                    @endif
+                                </a>
+                                <ul class="dropdown">
+                                    {{-- Link ke Dashboard (Otomatis cek role di routes) --}}
+                                    <li><a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a></li>
+
+                                    <li>
+                                        <hr class="dropdown-divider" style="margin: 0;">
+                                    </li>
+
+                                    {{-- Tombol Logout --}}
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                            class="nav-link text-danger">
+                                            Logout
+                                        </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
+                                            @csrf
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endguest
+                        {{-- END LOGIKA AUTHENTICATION --}}
+
                     </ul>
                 </nav>
             </div>

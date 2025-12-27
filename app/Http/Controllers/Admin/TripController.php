@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage; // Penting untuk hapus gambar
@@ -12,7 +13,7 @@ class TripController extends Controller
     public function index()
     {
         $trips = Trip::latest()->paginate(10);
-        return view('trips_page', compact('trips'));
+        return view('admin.trips.index', compact('trips'));
     }
 
     // 2. FORM TAMBAH DATA (CREATE)

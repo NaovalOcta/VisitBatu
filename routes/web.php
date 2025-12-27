@@ -1,8 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\TripController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', function () {
     return view('welcome_page');
@@ -37,35 +39,21 @@ Route::get('/contact-page', function () {
 Route::resource('trips', TripController::class);
 
 
-// Route Logout (Standar Laravel)
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('/');
-})->name('logout');
+// --- AUTHENTICATION ROUTES ---
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
 
-// Group Route untuk User yang sudah Login
-Route::middleware(['auth'])->group(function () {
+    Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
+});
 
-    // Redirect logic sederhana ke dashboard berdasarkan role
-    Route::get('/dashboard-redirect', function () {
-        $role = Auth::user()->role; // Pastikan kolom 'role' ada di tabel users
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-        if ($role === 'admin') {
-            return redirect()->route('admin.dashboard');
-        } else {
-            return redirect()->route('user.dashboard');
-        }
-    })->name('dashboard');
-
-    // Dummy Route untuk Admin Dashboard (Nanti diganti dengan Controller asli)
-    Route::get('/admin/dashboard', function () {
-        return "Halaman Admin Dashboard"; // Ganti dengan view('admin.dashboard') nanti
-    })->name('admin.dashboard');
-
-    // Dummy Route untuk User Dashboard (Nanti diganti dengan Controller asli)
-    Route::get('/user/dashboard', function () {
-        return "Halaman User Dashboard"; // Ganti dengan view('user.dashboard') nanti
-    })->name('user.dashboard');
+// --- ADMIN ROUTES ---
+// Menggunakan middleware 'auth' dan middleware 'is_admin' (pastikan alias middleware sudah didaftarkan)
+Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class])->name('admin.')->group(function () {
+    Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard_admin');
+    Route::resource('trips', TripController::class);
+    Route::resource('posts', PostController::class);
 });

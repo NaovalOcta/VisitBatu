@@ -31,12 +31,12 @@
                             <h3 class="mb-3">Create Account</h3>
                         </div>
 
-                        <form action="#" method="POST">
+                        <form action="{{ route('register') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label for="name">Full Name</label>
-                                    <input type="text" id="name" class="form-control" placeholder="Your Full Name"
+                                    <input type="text" id="name" name="name" class="form-control" placeholder="Your Full Name"
                                         required>
                                 </div>
                             </div>
@@ -44,7 +44,7 @@
                             <div class="row">
                                 <div class="col-md-12 form-group">
                                     <label for="email">Email Address</label>
-                                    <input type="email" id="email" class="form-control" placeholder="example@mail.com"
+                                    <input type="email" id="email" name="email" class="form-control" placeholder="example@mail.com"
                                         required>
                                 </div>
                             </div>
@@ -52,12 +52,12 @@
                             <div class="row">
                                 <div class="col-md-6 form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" id="password" class="form-control" placeholder="Password"
+                                    <input type="password" id="password" name="password" class="form-control" placeholder="Password"
                                         required>
                                 </div>
                                 <div class="col-md-6 form-group">
                                     <label for="confirm_password">Confirm Password</label>
-                                    <input type="password" id="confirm_password" class="form-control"
+                                    <input type="password" id="confirm_password" name="password_confirmation" class="form-control"
                                         placeholder="Re-type Password" required>
                                 </div>
                             </div>

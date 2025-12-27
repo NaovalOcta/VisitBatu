@@ -65,7 +65,7 @@
                                 </a>
                                 <ul class="dropdown">
                                     {{-- Link ke Dashboard (Otomatis cek role di routes) --}}
-                                    <li><a href="{{ route('dashboard') }}" class="nav-link">Dashboard</a></li>
+                                    <li><a href="{{ route('admin.dashboard_admin') }}" class="nav-link">Dashboard</a></li>
 
                                     <li>
                                         <hr class="dropdown-divider" style="margin: 0;">

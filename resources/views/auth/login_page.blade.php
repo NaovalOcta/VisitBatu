@@ -38,18 +38,18 @@
                             <h3 class="mb-3">User Login</h3>
                         </div>
 
-                        <form action="#" method="POST">
+                        <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email Address</label>
-                                <input type="email" id="email" class="form-control" placeholder="example@mail.com"
-                                    required>
+                                <input type="email" id="email" name="email" class="form-control"
+                                    placeholder="example@mail.com" required>
                             </div>
 
                             <div class="form-group mb-4">
                                 <label for="password">Password</label>
-                                <input type="password" id="password" class="form-control" placeholder="Your Password"
-                                    required>
+                                <input type="password" id="password" name="password" class="form-control"
+                                    placeholder="Your Password" required>
                             </div>
 
                             <div class="form-group">

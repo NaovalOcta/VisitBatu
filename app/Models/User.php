@@ -46,10 +46,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    // Helper function untuk cek admin
-    public function isAdmin()
-    {
-        return $this->role === 'admin';
-    }
 }

@@ -49,6 +49,47 @@
     <script src="{{ asset('js/aos.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        // Konfigurasi Toast (Notifikasi Kecil)
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end', // Muncul di pojok kanan atas
+            showConfirmButton: false,
+            timer: 3000, // Hilang setelah 3 detik
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        // Cek apakah ada Session 'success' dari Controller
+        @if (session('success'))
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('success') }}'
+            });
+        @endif
+
+        // Cek apakah ada Session 'error'
+        @if (session('error'))
+            Toast.fire({
+                icon: 'error',
+                title: '{{ session('error') }}'
+            });
+        @endif
+
+        // Cek apakah ada error validasi (opsional, agar user sadar ada yang salah)
+        @if ($errors->any())
+            Toast.fire({
+                icon: 'error',
+                title: 'Ada kesalahan pada input Anda.'
+            });
+        @endif
+    </script>
+
     @stack('scripts')
 </body>
 

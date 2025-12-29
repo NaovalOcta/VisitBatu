@@ -25,13 +25,13 @@ Route::get('/contact-page', function () {
 
 
 // Route Resource untuk Trip (Mencakup CRUD lengkap)
-Route::resource('trips', TripController::class);
+Route::resource('trips', TripController::class)->only(['index', 'show']);
 
 
 // --- AUTHENTICATION ROUTES ---
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:6,1');
 
     Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);

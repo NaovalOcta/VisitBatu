@@ -1,7 +1,7 @@
 @extends('layouts.guest')
 
 @section('content')
-    <div x-data="{ isSignUp: {{ json_encode(($isSignUp ?? false) || session('error_register') || $errors->has('name')) }} }"
+    <div x-data="{ isSignUp: {{ json_encode(($isSignUp ?? false) || session('error_register') || $errors->has('name') || !empty(old('name'))) }} }"
         class="relative w-full max-w-[1000px] min-h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:block m-4">
 
         <div class="absolute top-0 left-0 h-full w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white transition-all duration-700 ease-in-out"
@@ -60,6 +60,16 @@
         <div class="absolute top-0 left-0 h-full w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white transition-all duration-700 ease-in-out"
             :class="isSignUp ? 'md:translate-x-full opacity-0 z-0 pointer-events-none' : 'opacity-100 z-20'">
 
+            @if (session('success'))
+                <div class="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+                    {{ session('error') }}
+                </div>
+            @endif
             <form action="{{ route('login') }}" method="POST" class="w-full max-w-sm text-center">
                 @csrf
                 <div class="flex justify-center mb-6">

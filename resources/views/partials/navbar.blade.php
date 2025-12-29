@@ -24,9 +24,9 @@
             <div class="hidden md:flex items-center space-x-8">
                 <a href="{{ url('/') }}"
                     class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Home</a>
-                <a href="{{ url('/trips') }}"
+                <a href="{{ url('/trips-page') }}"
                     class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Destinations</a>
-                <a href="{{ url('/blog') }}"
+                <a href="{{ url('/blog-page') }}"
                     class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Stories</a>
             </div>
 

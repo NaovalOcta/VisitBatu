@@ -7,10 +7,9 @@ use App\Http\Controllers\User\UserPostController;
 use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\User\UserController; // Pastikan Anda membuat controller ini atau gunakan penutupan (closure)
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('welcome_page');
-})->name('welcome_page');
+Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
 
 Route::get('/register-page', function () {
     return view('auth.register_page');
@@ -24,13 +23,9 @@ Route::get('/about-page', function () {
     return view('about_page');
 })->name('about_page');
 
-Route::get('/trips-page', function () {
-    return view('trips_page');
-})->name('trips_page');
+Route::get('/trips-page', [HomeController::class, 'trips'])->name('trips_page');
 
-Route::get('/blog-page', function () {
-    return view('blog_page');
-})->name('blog_page');
+Route::get('/blog-page', [HomeController::class, 'blog'])->name('blog_page');
 
 Route::get('/contact-page', function () {
     return view('contact_page');

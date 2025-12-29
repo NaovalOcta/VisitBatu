@@ -131,95 +131,28 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @forelse($trips ?? [] as $trip)
+                @forelse($trips as $trip)
                     <div
                         class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 cursor-pointer">
                         <div class="relative h-72 overflow-hidden">
-                            <img src="{{ $trip->image }}"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700">
-                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
-                            <div
-                                class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-primary-800 shadow-sm uppercase tracking-wide">
-                                Popular</div>
+                            <img src="{{ Str::startsWith($trip->thumbnail, 'http') ? $trip->thumbnail : asset('storage/' . $trip->thumbnail) }}"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
+                                alt="{{ $trip->title }}">
                         </div>
                         <div class="p-8">
-                            <h3
-                                class="font-serif text-2xl font-bold text-gray-900 mb-2 group-hover:text-primary-700 transition">
-                                {{ $trip->name }}</h3>
-                            <p class="text-gray-500 mb-6 line-clamp-2 text-sm leading-relaxed">{{ $trip->description }}</p>
+                            <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">{{ $trip->title }}</h3>
+                            <p class="text-gray-500 mb-6 line-clamp-2 text-sm">{{ $trip->description }}</p>
                             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                                <div>
-                                    <span class="text-xs text-gray-400 uppercase font-bold block">Start from</span>
-                                    <span class="text-xl font-bold text-primary-700">Rp
-                                        {{ number_format($trip->price) }}</span>
-                                </div>
-                                <a href="{{ url('/trips/' . $trip->id) }}"
-                                    class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-primary-700 hover:text-white hover:border-primary-700 transition">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                    </svg>
+                                <span class="text-xl font-bold text-primary-700">Rp {{ number_format($trip->price) }}</span>
+                                <a href="{{ route('trips.show', $trip->id) }}"
+                                    class="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-primary-700 hover:text-white transition">
+                                    &rarr;
                                 </a>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div
-                        class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
-                        <div class="relative h-72 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=2070&auto=format&fit=crop"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
-                                alt="Paralayang">
-                        </div>
-                        <div class="p-8">
-                            <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">Paralayang Batu</h3>
-                            <p class="text-gray-500 mb-6 text-sm">Menikmati pemandangan city light kota Batu dari
-                                ketinggian Gunung Banyak.</p>
-                            <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                                <span class="text-xl font-bold text-primary-700">Rp 15.000</span>
-                                <button
-                                    class="w-10 h-10 rounded-full border hover:bg-primary-700 hover:text-white transition flex items-center justify-center">→</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
-                        <div class="relative h-72 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1513884923967-4b182ef16715?q=80&w=1974&auto=format&fit=crop"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
-                                alt="Theme Park">
-                        </div>
-                        <div class="p-8">
-                            <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">Batu Night Spectacular</h3>
-                            <p class="text-gray-500 mb-6 text-sm">Wisata malam hari dengan lampion garden dan wahana
-                                permainan seru untuk keluarga.</p>
-                            <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                                <span class="text-xl font-bold text-primary-700">Rp 40.000</span>
-                                <button
-                                    class="w-10 h-10 rounded-full border hover:bg-primary-700 hover:text-white transition flex items-center justify-center">→</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div
-                        class="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500">
-                        <div class="relative h-72 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1554907984-15263bf06302?q=80&w=1976&auto=format&fit=crop"
-                                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
-                                alt="Museum">
-                        </div>
-                        <div class="p-8">
-                            <h3 class="font-serif text-2xl font-bold text-gray-900 mb-2">Museum Angkut</h3>
-                            <p class="text-gray-500 mb-6 text-sm">Museum transportasi modern pertama di Asia Tenggara
-                                dengan koleksi klasik.</p>
-                            <div class="flex items-center justify-between pt-6 border-t border-gray-100">
-                                <span class="text-xl font-bold text-primary-700">Rp 100.000</span>
-                                <button
-                                    class="w-10 h-10 rounded-full border hover:bg-primary-700 hover:text-white transition flex items-center justify-center">→</button>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="col-span-full text-center text-gray-500">Belum ada destinasi wisata.</p>
                 @endforelse
             </div>
 
@@ -243,43 +176,29 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-                <article class="flex gap-6 group cursor-pointer">
-                    <div class="w-1/3 h-40 rounded-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1542300058-b94b8ab7411b?q=80&w=1974&auto=format&fit=crop"
-                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span
-                                class="text-[10px] font-bold bg-accent-100 text-accent-700 px-2 py-0.5 rounded uppercase">Review</span>
-                            <span class="text-xs text-gray-400">2 hari lalu</span>
+                @forelse($posts as $post)
+                    <article class="flex gap-6 group cursor-pointer">
+                        <div class="w-1/3 h-40 rounded-2xl overflow-hidden">
+                            <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/' . $post->image) }}"
+                                class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
                         </div>
-                        <h3
-                            class="font-serif text-xl font-bold text-gray-900 mb-2 leading-tight group-hover:text-primary-700 transition">
-                            Keseruan Seharian di Alun-Alun Batu</h3>
-                        <p class="text-sm text-gray-500 line-clamp-2">Suasana malam hari yang indah ditemani bianglala dan
-                            kuliner ketan susu.</p>
-                    </div>
-                </article>
-
-                <article class="flex gap-6 group cursor-pointer">
-                    <div class="w-1/3 h-40 rounded-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=2070&auto=format&fit=crop"
-                            class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
-                    </div>
-                    <div class="flex-1">
-                        <div class="flex items-center gap-2 mb-2">
-                            <span
-                                class="text-[10px] font-bold bg-primary-100 text-primary-700 px-2 py-0.5 rounded uppercase">Tips</span>
-                            <span class="text-xs text-gray-400">5 hari lalu</span>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span
+                                    class="text-[10px] font-bold bg-accent-100 text-accent-700 px-2 py-0.5 rounded uppercase">Blog</span>
+                                <span class="text-xs text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
+                            </div>
+                            <h3
+                                class="font-serif text-xl font-bold text-gray-900 mb-2 leading-tight group-hover:text-primary-700 transition">
+                                <a href="{{ route('blog.show', $post->slug) }}">{{ $post->title }}</a>
+                            </h3>
+                            <p class="text-sm text-gray-500 line-clamp-2">
+                                {{ Str::limit(strip_tags($post->content), 100) }}</p>
                         </div>
-                        <h3
-                            class="font-serif text-xl font-bold text-gray-900 mb-2 leading-tight group-hover:text-primary-700 transition">
-                            Tips Camping Aman di Coban Rais</h3>
-                        <p class="text-sm text-gray-500 line-clamp-2">Persiapan peralatan dan waktu terbaik untuk
-                            mengunjungi air terjun ini.</p>
-                    </div>
-                </article>
+                    </article>
+                @empty
+                    <p class="text-gray-500">Belum ada cerita terbaru.</p>
+                @endforelse
             </div>
         </div>
     </section>

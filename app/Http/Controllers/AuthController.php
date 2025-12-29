@@ -12,7 +12,7 @@ class AuthController extends Controller
     // --- LOGIN ---
     public function showLoginForm()
     {
-        return view('auth.login_page');
+        return view('auth.auth_page', ['isSignUp' => false]);
     }
 
     public function login(Request $request)
@@ -41,7 +41,7 @@ class AuthController extends Controller
     // --- REGISTER ---
     public function showRegisterForm()
     {
-        return view('auth.register_page');
+        return view('auth.auth_page', ['isSignUp' => true]);
     }
 
     public function register(Request $request)

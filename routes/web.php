@@ -11,14 +11,6 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
 
-Route::get('/register-page', function () {
-    return view('auth.register_page');
-})->name('register_page');
-
-Route::get('/login-page', function () {
-    return view('auth.login_page');
-})->name('login_page');
-
 Route::get('/about-page', function () {
     return view('about_page');
 })->name('about_page');
@@ -81,4 +73,3 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/blog/{slug}', [UserPostController::class, 'show'])->name('blog.show');
-

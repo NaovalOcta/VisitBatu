@@ -5,99 +5,113 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Trip;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; // Penting untuk hapus gambar
+use Illuminate\Support\Str; // Tambahkan ini untuk Slug otomatis
+use Illuminate\Support\Facades\Storage;
 
 class TripController extends Controller
 {
-    // 1. TAMPILKAN DATA (INDEX)
+    // 1. TAMPILKAN DATA
     public function index()
     {
         $trips = Trip::latest()->paginate(10);
+        // Perbaikan path view: admin.trips.index
         return view('admin.trips.index', compact('trips'));
     }
 
-    // 2. FORM TAMBAH DATA (CREATE)
+    // 2. FORM TAMBAH DATA
     public function create()
     {
-        return view('trips.create');
+        // Perbaikan path view: admin.trips.create
+        return view('admin.trips.create');
     }
 
-    // 3. PROSES SIMPAN DATA (STORE)
+    // 3. PROSES SIMPAN DATA
     public function store(Request $request)
     {
         // Validasi
-        $validated = $request->validate([
+        $request->validate([
             'title'       => 'required|max:255',
-            'slug'        => 'required|unique:trips',
+            // Slug tidak perlu divalidasi dari input, kita buat otomatis
             'location'    => 'required',
             'price'       => 'required|numeric',
             'duration'    => 'required',
             'description' => 'required',
-            'thumbnail'   => 'image|file|max:2048'
+            'thumbnail'   => 'required|image|file|max:2048' // Wajibkan ada gambar
         ]);
 
+        $data = [
+            'title'       => $request->title,
+            'slug'        => Str::slug($request->title), // Auto-generate slug dari title
+            'location'    => $request->location,
+            'price'       => $request->price,
+            'duration'    => $request->duration,
+            'description' => $request->description,
+        ];
+
         // Upload Gambar
-        if ($request->file('thumbnail')) {
-            $validated['thumbnail'] = $request->file('thumbnail')->store('trip-images', 'public');
+        if ($request->hasFile('thumbnail')) {
+            // Simpan ke folder: public/storage/trip-images
+            $path = $request->file('thumbnail')->store('trip-images', 'public');
+            $data['thumbnail'] = $path;
         }
 
-        Trip::create($validated);
+        Trip::create($data);
 
-        return redirect()->route('trips.index')->with('success', 'Data wisata berhasil ditambahkan!');
+        // Perbaikan route redirect: admin.trips.index
+        return redirect()->route('admin.trips.index')->with('success', 'Data wisata berhasil ditambahkan!');
     }
 
-    // 4. DETAIL DATA (SHOW)
-    public function show(Trip $trip)
-    {
-        return view('trips.show', compact('trip'));
-    }
-
-    // 5. FORM EDIT DATA (EDIT)
+    // 4. FORM EDIT DATA
     public function edit(Trip $trip)
     {
-        return view('trips.edit', compact('trip'));
+        // Pastikan path view sesuai folder: resources/views/admin/trips/edit.blade.php
+        return view('admin.trips.edit', compact('trip'));
     }
 
-    // 6. PROSES UPDATE DATA (UPDATE)
     public function update(Request $request, Trip $trip)
     {
-        $rules = [
+        $request->validate([
             'title'       => 'required|max:255',
-            'slug'        => 'required|unique:trips,slug,' . $trip->id, // Pengecualian unique untuk ID ini
             'location'    => 'required',
             'price'       => 'required|numeric',
             'duration'    => 'required',
             'description' => 'required',
-            'thumbnail'   => 'image|file|max:2048'
+            'thumbnail'   => 'nullable|image|file|max:2048' // Nullable karena tidak wajib ganti gambar
+        ]);
+
+        $data = [
+            'title'       => $request->title,
+            'slug'        => Str::slug($request->title),
+            'location'    => $request->location,
+            'price'       => $request->price,
+            'duration'    => $request->duration,
+            'description' => $request->description,
         ];
 
-        $validated = $request->validate($rules);
-
-        // Cek jika ada gambar baru
-        if ($request->file('thumbnail')) {
-            // Hapus gambar lama
-            if ($trip->thumbnail) {
+        // Logika Penggantian Gambar
+        if ($request->hasFile('thumbnail')) {
+            // Hapus gambar lama jika ada di storage
+            if ($trip->thumbnail && Storage::exists('public/' . $trip->thumbnail)) {
                 Storage::delete('public/' . $trip->thumbnail);
             }
             // Simpan gambar baru
-            $validated['thumbnail'] = $request->file('thumbnail')->store('trip-images', 'public');
+            $data['thumbnail'] = $request->file('thumbnail')->store('trip-images', 'public');
         }
 
-        $trip->update($validated);
+        $trip->update($data);
 
-        return redirect()->route('trips.index')->with('success', 'Data wisata berhasil diperbarui!');
+        return redirect()->route('admin.trips.index')->with('success', 'Data wisata berhasil diperbarui!');
     }
 
-    // 7. HAPUS DATA (DESTROY)
+    // 6. HAPUS DATA
     public function destroy(Trip $trip)
     {
-        // Hapus gambar dari storage
-        if ($trip->thumbnail) {
+        if ($trip->thumbnail && Storage::exists('public/' . $trip->thumbnail)) {
             Storage::delete('public/' . $trip->thumbnail);
         }
 
         $trip->delete();
 
-        return redirect()->route('trips.index')->with('success', 'Data wisata berhasil dihapus!');
+        return redirect()->route('admin.trips.index')->with('success', 'Data wisata berhasil dihapus!');
     }
 }

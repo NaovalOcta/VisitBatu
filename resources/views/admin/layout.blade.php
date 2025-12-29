@@ -107,7 +107,7 @@
             </nav>
 
             <div class="container-fluid">
-                @yield('content')
+                @yield('admin_content')
             </div>
         </div>
     </div>

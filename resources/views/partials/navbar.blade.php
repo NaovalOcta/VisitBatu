@@ -1,102 +1,67 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<nav x-data="{ scrolled: false, mobileOpen: false }" @scroll.window="scrolled = (window.pageYOffset > 50)"
+    :class="scrolled ? 'glass-effect py-3 shadow-sm text-gray-800' : 'bg-transparent py-6 text-white'"
+    class="fixed w-full z-50 transition-all duration-300 top-0 left-0">
 
-<div class="site-mobile-menu site-navbar-target">
-    <div class="site-mobile-menu-header">
-        <div class="site-mobile-menu-close mt-3">
-            <span class="icon-close2 js-menu-toggle"></span>
-        </div>
-    </div>
-    <div class="site-mobile-menu-body"></div>
-</div>
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="flex justify-between items-center">
 
-<header class="site-navbar site-navbar-target" role="banner">
-    <div class="container">
-        <div class="row align-items-center position-relative">
-            <div class="col-3">
-                <div class="site-logo">
-                    <a href="{{ route('welcome_page') }}" class="font-weight-bold">
-                        <img src="{{ asset('images/logo.png') }}" alt="Image" class="img-fluid">
-                    </a>
+            <a href="{{ url('/') }}" class="flex items-center gap-3 group">
+                <div :class="scrolled ? 'bg-primary-800 text-white' : 'bg-white text-primary-900'"
+                    class="w-10 h-10 flex items-center justify-center rounded-lg shadow-lg transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
                 </div>
+                <div>
+                    <h1 class="font-serif font-bold text-2xl leading-none tracking-tight">Visit<span
+                            class="text-accent-500">Batu</span></h1>
+                    <p class="text-[10px] uppercase tracking-[0.2em] font-medium opacity-80">Nature & Heritage</p>
+                </div>
+            </a>
+
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="{{ url('/') }}"
+                    class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Home</a>
+                <a href="{{ url('/trips') }}"
+                    class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Destinations</a>
+                <a href="{{ url('/blog') }}"
+                    class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Stories</a>
             </div>
 
-            <div class="col-9 text-right">
-                <span class="d-inline-block d-lg-none">
-                    <a href="#" class="site-menu-toggle js-menu-toggle py-5 text-white">
-                        <span class="icon-menu h3 text-white"></span>
-                    </a>
-                </span>
-
-                <nav class="site-navigation text-right ml-auto d-none d-lg-block" role="navigation">
-                    <ul class="site-menu main-menu js-clone-nav ml-auto">
-                        <li class="{{ Request::routeIs('welcome_page') ? 'active' : '' }}">
-                            <a href="{{ route('welcome_page') }}" class="nav-link">Home</a>
-                        </li>
-                        <li class="{{ Request::routeIs('about_page') ? 'active' : '' }}">
-                            <a href="{{ route('about_page') }}" class="nav-link">About</a>
-                        </li>
-                        <li class="{{ Request::routeIs('trips_page') ? 'active' : '' }}">
-                            <a href="{{ route('trips_page') }}" class="nav-link">Trips</a>
-                        </li>
-                        <li class="{{ Request::routeIs('blog_page') ? 'active' : '' }}">
-                            <a href="{{ route('blog_page') }}" class="nav-link">Blog</a>
-                        </li>
-                        <li class="{{ Request::routeIs('contact_page') ? 'active' : '' }}">
-                            <a href="{{ route('contact_page') }}" class="nav-link">Contact</a>
-                        </li>
-
-                        {{-- LOGIKA LOGIN / DASHBOARD / LOGOUT --}}
-                        @guest
-                            {{-- Jika Belum Login: Tampilkan Tombol Login --}}
-                            <li>
-                                <a href="{{ route('login') }}" class="btn btn-primary px-3 py-2 text-white">Login</a>
-                            </li>
-                        @else
-                            {{-- Jika Sudah Login: Tampilkan Dropdown User --}}
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle btn btn-outline-white text-white px-3 py-2"
-                                    href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    Halo, {{ Auth::user()->name }}
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-
-                                    {{-- Cek Role: Admin --}}
-                                    @if (Auth::user()->role === 'admin')
-                                        <a class="dropdown-item" href="{{ route('admin.dashboard_admin') }}">
-                                            <i class="fa-solid fa-gauge mr-3"></i> Dashboard Admin
-                                            {{-- <i class="icon-dashboard mr-2"></i> Dashboard Admin --}}
-                                        </a>
-                                    @else
-                                        {{-- Cek Role: User Biasa --}}
-                                        <a href="{{ route('posts.create') }}" class="dropdown-item">
-                                            <i class="fa-solid fa-pen-to-square mr-3"></i> Create Blog
-                                        </a>
-
-                                        <a href="{{ route('user.dashboard_user') }}" class="dropdown-item">
-                                            <i class="fa-solid fa-gauge mr-3"></i> User Dashboard
-                                            {{-- <i class="icon-dashboard mr-2"></i> User Dashboard --}}
-                                        </a>
-                                    @endif
-
-                                    <div class="dropdown-divider"></div>
-
-                                    {{-- Tombol Logout --}}
-                                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                                        @csrf {{-- Wajib ada untuk keamanan --}}
-                                        <button type="submit" class="dropdown-item text-danger" style="cursor: pointer;">
-                                            <i class="fa-solid fa-arrow-right-from-bracket mr-3" style="color: #ff4d4d;"></i> Logout
-                                            {{-- <i class="icon-sign-out mr-2"></i> Logout --}}
-                                        </button>
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-
-
-                    </ul>
-                </nav>
+            <div class="hidden md:flex items-center gap-4">
+                @auth
+                    <div class="relative" x-data="{ open: false }">
+                        <button @click="open = !open" @click.outside="open = false"
+                            class="flex items-center gap-2 focus:outline-none">
+                            <span class="text-right text-sm leading-tight">
+                                <span class="block font-bold">{{ Auth::user()->name }}</span>
+                            </span>
+                            <div
+                                class="h-9 w-9 rounded-full bg-accent-500 flex items-center justify-center text-white font-serif font-bold shadow-md">
+                                {{ substr(Auth::user()->name, 0, 1) }}
+                            </div>
+                        </button>
+                        <div x-show="open" x-transition
+                            class="absolute right-0 mt-3 w-48 bg-white text-gray-800 rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                            <a href="{{ url('/dashboard') }}" class="block px-4 py-2 hover:bg-gray-50">Dashboard</a>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">Log
+                                    Out</button>
+                            </form>
+                        </div>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="font-bold text-sm hover:underline decoration-accent-500 decoration-2 underline-offset-4">Log
+                        In</a>
+                    <a href="{{ route('register') }}"
+                        class="px-5 py-2.5 bg-accent-500 hover:bg-accent-600 text-white rounded-full text-sm font-bold shadow-lg shadow-accent-500/30 transition transform hover:-translate-y-0.5">Sign
+                        Up</a>
+                @endauth
             </div>
         </div>
     </div>
-</header>
+</nav>

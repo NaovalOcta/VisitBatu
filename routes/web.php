@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\AdminPostController;
+use App\Http\Controllers\User\UserPostController;
 use App\Http\Controllers\Admin\TripController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\User\UserController; // Pastikan Anda membuat controller ini atau gunakan penutupan (closure)
 
 Route::get('/', function () {
     return view('welcome_page');
@@ -56,5 +57,33 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class])->name('admin.')->group(function () {
     Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard_admin');
     Route::resource('trips', TripController::class);
-    Route::resource('posts', PostController::class);
+    Route::resource('posts', AdminPostController::class);
 });
+
+// --- USER ROUTES ---
+Route::middleware(['auth'])->group(function () {
+    // Hubungkan ke UserController@dashboard, bukan lagi return view() langsung
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard_user');
+});
+
+// web.php
+
+Route::middleware(['auth'])->group(function () {
+    // Route Dashboard User yang sudah ada
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard_user');
+
+    // Tambahkan resource route untuk post agar user bisa Create, Edit, dll.
+    Route::resource('posts', UserPostController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+});
+
+Route::middleware(['auth'])->group(function () {
+    // Route Dashboard User
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard_user');
+
+    // Route untuk Create Blog
+    Route::get('/posts/create', [UserPostController::class, 'create'])->name('posts.create');
+    Route::post('/posts', [UserPostController::class, 'store'])->name('posts.store');
+});
+
+Route::get('/blog/{slug}', [UserPostController::class, 'show'])->name('blog.show');
+

@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Trip;
 use App\Models\Post;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class AdminPostController extends Controller
 {
     // Menampilkan daftar semua post (terutama yang pending)
     public function index()

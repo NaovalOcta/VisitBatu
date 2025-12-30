@@ -12,9 +12,17 @@ use Illuminate\Support\Facades\Auth;
 
 class UserPostController extends Controller
 {
-    /**
-     * Menyimpan blog baru ke database.
-     */
+    public function index()
+    {
+        $posts = Post::where('user_id', Auth::id())->latest()->paginate(10);
+
+        return view('user.posts.index', compact('posts'));
+    }
+    public function show(Post $post)
+    {
+        return view('user.posts.show', compact('post'));
+    }
+
     public function create()
     {
         return view('user.posts.create');
@@ -43,17 +51,17 @@ class UserPostController extends Controller
         ]);
 
         return redirect()->route('user.dashboard_user')
-                         ->with('success', 'Blog berhasil dibuat! Menunggu persetujuan admin.');
+            ->with('success', 'Blog berhasil dibuat! Menunggu persetujuan admin.');
     }
 
-    public function show($slug)
-    {
-        // Mencari post berdasarkan slug, jika tidak ada akan muncul error 404
-        $post = Post::where('slug', $slug)->with('user')->firstOrFail();
+    // public function show($slug)
+    // {
+    //     // Mencari post berdasarkan slug, jika tidak ada akan muncul error 404
+    //     $post = Post::where('slug', $slug)->with('user')->firstOrFail();
 
-        // Mengembalikan view detail blog
-        return view('user.posts.show', compact('post'));
-    }
+    //     // Mengembalikan view detail blog
+    //     return view('user.posts.show', compact('post'));
+    // }
 
     public function edit(Post $post)
     {
@@ -96,7 +104,7 @@ class UserPostController extends Controller
         $post->update($data);
 
         return redirect()->route('user.dashboard_user')
-                        ->with('success', 'Blog berhasil diperbarui dan sedang menunggu persetujuan ulang.');
+            ->with('success', 'Blog berhasil diperbarui dan sedang menunggu persetujuan ulang.');
     }
 
     public function destroy(Post $post)
@@ -115,6 +123,6 @@ class UserPostController extends Controller
         $post->delete();
 
         return redirect()->route('user.dashboard_user')
-                        ->with('success', 'Blog telah berhasil dihapus secara permanen.');
+            ->with('success', 'Blog telah berhasil dihapus secara permanen.');
     }
 }

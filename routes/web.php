@@ -48,28 +48,9 @@ Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class]
 });
 
 // --- USER ROUTES ---
-Route::middleware(['auth'])->group(function () {
-    // Hubungkan ke UserController@dashboard, bukan lagi return view() langsung
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard_user');
-});
-
-// web.php
-
-Route::middleware(['auth'])->group(function () {
-    // Route Dashboard User yang sudah ada
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard_user');
-
-    // Tambahkan resource route untuk post agar user bisa Create, Edit, dll.
-    Route::resource('posts', UserPostController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
-});
-
-Route::middleware(['auth'])->group(function () {
-    // Route Dashboard User
-    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('user.dashboard_user');
-
-    // Route untuk Create Blog
-    Route::get('/posts/create', [UserPostController::class, 'create'])->name('posts.create');
-    Route::post('/posts', [UserPostController::class, 'store'])->name('posts.store');
+Route::middleware(['auth'])->name('user.')->group(function () {
+    Route::get('/dashboard-user', [UserController::class, 'dashboard'])->name('dashboard_user');
+    Route::resource('posts', UserPostController::class);
 });
 
 Route::get('/blog/{slug}', [UserPostController::class, 'show'])->name('blog.show');

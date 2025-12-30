@@ -1,125 +1,140 @@
-@extends('admin.layout')
+@extends('layouts.admin')
 
-{{-- Pastikan nama section ini sesuai dengan layout Anda ('content' atau 'admin_content') --}}
+@section('page_title', 'Overview')
+
 @section('admin_content')
-    <div class="row mb-4 align-items-center">
-        <div class="col-md-6">
-            <h2 class="fw-bold text-dark">Dashboard Pengelola</h2>
-            <p class="text-muted mb-0">Selamat datang kembali! Berikut ringkasan konten website Anda.</p>
+
+    {{-- 1. Hero Section (Compact & Modern) --}}
+    <div class="relative w-full h-48 md:h-56 rounded-3xl overflow-hidden shadow-lg shadow-teal-900/10 mb-8 group">
+        {{-- Background Image --}}
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+            style="background-image: url('{{ asset('images/hero_1.jpg') }}');">
         </div>
-        <div class="col-md-6 text-md-end mt-3 mt-md-0">
-            <a href="{{ route('admin.trips.create') }}" class="btn btn-primary rounded-pill px-4 shadow-sm">
-                <i class="icon-plus me-2"></i> Tambah Wisata Baru
+        {{-- Overlay Gradient --}}
+        <div class="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/60 to-transparent"></div>
+
+        <div class="relative h-full flex flex-col justify-center px-8 md:px-12">
+            <h2 class="font-serif text-3xl md:text-4xl font-bold text-white mb-2">Halo,
+                {{ explode(' ', Auth::user()->name)[0] }}! 👋</h2>
+            <p class="text-slate-300 text-sm md:text-base max-w-lg mb-6">Kelola destinasi wisata dan cerita perjalanan Kota
+                Batu dalam satu tempat.</p>
+
+            <div class="flex flex-wrap gap-3">
+                <a href="{{ route('admin.trips.create') }}"
+                    class="inline-flex items-center px-5 py-2.5 bg-white text-teal-700 text-sm font-bold rounded-full shadow-sm hover:bg-teal-50 hover:scale-105 transition-all duration-200">
+                    <i class="icon-plus mr-2"></i> Tambah Wisata
+                </a>
+                <a href="{{ route('admin.posts.create') }}"
+                    class="inline-flex items-center px-5 py-2.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white text-sm font-bold rounded-full hover:bg-white/20 transition-all duration-200">
+                    <i class="icon-pencil mr-2"></i> Tulis Blog
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {{-- 2. Statistics Cards --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        {{-- Card 1 --}}
+        <div
+            class="bg-white p-6 rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-teal-50 text-teal-600 rounded-xl">
+                    <i class="icon-map text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Destinasi</p>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ $totalTrips ?? 0 }}</h3>
+                </div>
+            </div>
+        </div>
+
+        {{-- Card 2 --}}
+        <div
+            class="bg-white p-6 rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-orange-50 text-orange-600 rounded-xl">
+                    <i class="icon-book text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Artikel Blog</p>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ \App\Models\Post::count() }}</h3>
+                </div>
+            </div>
+        </div>
+
+        {{-- Card 3 --}}
+        <div
+            class="bg-white p-6 rounded-2xl shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] hover:-translate-y-1 transition-all duration-300 border border-gray-100">
+            <div class="flex items-center gap-4">
+                <div class="p-3 bg-indigo-50 text-indigo-600 rounded-xl">
+                    <i class="icon-users text-2xl"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Pengguna</p>
+                    <h3 class="text-2xl font-bold text-gray-900">{{ \App\Models\User::count() }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- 3. Moderation Queue Table --}}
+    <div class="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden">
+        <div class="px-6 py-5 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+            <h3 class="font-serif font-bold text-gray-800 text-lg">Antrian Moderasi</h3>
+            <a href="{{ route('admin.posts.index') }}"
+                class="text-sm font-medium text-teal-600 hover:text-teal-700 flex items-center">
+                Lihat Semua <i class="icon-arrow-right ml-1"></i>
             </a>
         </div>
-    </div>
 
-    {{-- Row Statistik Utama --}}
-    <div class="row">
-        <div class="col-md-6 mb-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-                <div class="card-body p-4 d-flex align-items-center">
-                    <div class="icon-box bg-primary bg-opacity-10 p-4 rounded-circle me-4">
-                        <span class="icon-map text-primary display-6"></span>
-                    </div>
-                    <div>
-                        <h6 class="text-uppercase text-muted small fw-bold mb-1">Destinasi Wisata</h6>
-                        <h2 class="fw-bold mb-0 text-dark">{{ $totalTrips }}</h2>
-                        <small class="text-muted">Tempat wisata terdaftar</small>
-                    </div>
-                    <div class="ms-auto">
-                        <a href="{{ route('admin.trips.index') }}"
-                            class="btn btn-outline-primary btn-sm rounded-pill">Kelola</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 mb-4">
-            <div class="card border-0 shadow-sm rounded-4 h-100 overflow-hidden">
-                <div class="card-body p-4 d-flex align-items-center">
-                    <div class="icon-box bg-warning bg-opacity-10 p-4 rounded-circle me-4">
-                        <span class="icon-chat text-warning display-6"></span>
-                    </div>
-                    <div>
-                        <h6 class="text-uppercase text-muted small fw-bold mb-1">Menunggu Review</h6>
-                        <h2 class="fw-bold mb-0 text-dark">{{ $pendingPosts }}</h2>
-                        <small class="text-muted">Postingan cerita pengguna</small>
-                    </div>
-                    @if ($pendingPosts > 0)
-                        <div class="ms-auto">
-                            <span class="badge bg-warning text-dark rounded-pill px-3 py-2">Perlu Tindakan</span>
-                        </div>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Row Tabel Moderasi --}}
-    <div class="row mt-2">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div
-                    class="card-header bg-white border-bottom-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
-                    <h5 class="fw-bold text-dark mb-0">Antrian Moderasi Blog</h5>
-                    <a href="{{ route('admin.posts.index') }}" class="text-decoration-none small fw-bold">Lihat Semua
-                        &rarr;</a>
-                </div>
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0"
-                            style="border-collapse: separate; border-spacing: 0;">
-                            <thead class="bg-light">
-                                <tr>
-                                    <th class="px-4 py-3 border-0 small text-uppercase text-muted fw-bold">Judul Cerita</th>
-                                    <th class="border-0 small text-uppercase text-muted fw-bold">Penulis</th>
-                                    <th class="border-0 small text-uppercase text-muted fw-bold">Tanggal Upload</th>
-                                    <th class="px-4 border-0 small text-uppercase text-muted fw-bold text-end">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($moderationQueue as $post)
-                                    <tr>
-                                        <td class="px-4 py-3">
-                                            <div class="fw-bold text-dark">{{ Str::limit($post->title, 40) }}</div>
-                                            <small class="text-muted">{{ Str::limit(strip_tags($post->body), 50) }}</small>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center">
-                                                <div class="bg-secondary bg-opacity-25 rounded-circle d-flex align-items-center justify-content-center text-secondary fw-bold"
-                                                    style="width: 35px; height: 35px; font-size: 0.8rem;">
-                                                    {{ substr($post->user->name ?? 'U', 0, 1) }}
-                                                </div>
-                                                <span class="ms-2 fw-medium">{{ $post->user->name ?? 'Pengguna' }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="text-muted small">
-                                            <i class="icon-calendar me-1"></i> {{ $post->created_at->format('d M Y') }}
-                                        </td>
-                                        <td class="px-4 text-end">
-                                            <a href="{{ route('admin.posts.index') }}"
-                                                class="btn btn-sm btn-primary rounded-pill px-3">
-                                                Review
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="4" class="text-center py-5">
-                                            <div class="text-muted d-flex flex-column align-items-center">
-                                                <i class="icon-check_circle display-4 text-success opacity-25 mb-3"></i>
-                                                <span class="fw-medium">Semua aman! Tidak ada postingan yang menunggu
-                                                    moderasi.</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <div class="overflow-x-auto">
+            <table class="w-full whitespace-nowrap text-left text-sm">
+                <thead class="bg-gray-50 text-gray-500">
+                    <tr>
+                        <th class="px-6 py-4 font-semibold">Judul Cerita</th>
+                        <th class="px-6 py-4 font-semibold">Penulis</th>
+                        <th class="px-6 py-4 font-semibold">Tanggal</th>
+                        <th class="px-6 py-4 font-semibold text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                    @forelse($moderationQueue as $post)
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <p class="font-bold text-gray-900 max-w-xs truncate">{{ $post->title }}</p>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="h-8 w-8 rounded-full bg-teal-100 text-teal-600 flex items-center justify-center text-xs font-bold">
+                                        {{ substr($post->user->name, 0, 1) }}
+                                    </div>
+                                    <span class="font-medium text-gray-700">{{ $post->user->name }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500">
+                                {{ $post->created_at->format('d M, Y') }}
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <a href="{{ route('admin.posts.index') }}"
+                                    class="inline-flex items-center justify-center h-8 px-4 border border-gray-200 rounded-full text-xs font-bold text-gray-600 hover:border-teal-500 hover:text-teal-600 hover:bg-teal-50 transition-all">
+                                    Review
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-6 py-12 text-center text-gray-400 bg-gray-50/30">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i class="icon-check_circle text-4xl mb-3 text-gray-300"></i>
+                                    <p>Tidak ada postingan menunggu moderasi.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
+
 @endsection

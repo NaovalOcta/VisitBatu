@@ -1,56 +1,102 @@
-@extends('layouts.app')
+@extends('layouts.user')
 
-@section('title', 'Create New Blog - iFurnish')
-
-@section('content')
-<div class="site-section-cover overlay" style="background-image: url('{{ asset('images/hero_1.jpg') }}'); height: 250px;">
-    <div class="container">
-        <div class="row align-items-center justify-content-center text-center" style="height: 250px;">
-            <div class="col-md-10">
-                <h1 class="text-white font-weight-bold">Tulis Blog Baru</h1>
-                <p class="text-white">Bagikan pengalaman perjalanan Anda kepada dunia.</p>
-            </div>
+@section('user_content')
+    {{-- Header --}}
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+            <h2 class="font-serif text-3xl font-bold text-gray-900">Tulis Cerita Baru ✍️</h2>
+            <p class="text-gray-500 text-sm mt-1">Bagikan pengalaman perjalananmu yang menginspirasi.</p>
         </div>
+        <a href="{{ route('user.dashboard_user') }}"
+            class="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-bold rounded-full hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
+            <i class="icon-arrow-left mr-2"></i> Kembali
+        </a>
     </div>
-</div>
 
-<div class="site-section bg-light">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="bg-white p-5 shadow-sm rounded">
-                    <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
+    {{-- Alert Error --}}
+    @if ($errors->any())
+        <div class="mb-6 p-4 rounded-2xl bg-red-50 border border-red-100 text-red-800 flex gap-3 items-start">
+            <i class="icon-warning text-lg mt-0.5"></i>
+            <ul class="list-disc list-inside text-sm space-y-1">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-                        <div class="form-group mb-4">
-                            <label class="text-black font-weight-bold" for="title">Judul Blog</label>
-                            <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" placeholder="Masukkan judul yang menarik..." value="{{ old('title') }}">
-                            @error('title') <div class="invalid-feedback">{{ $message }}</div> @enderror
+    {{-- Form Container --}}
+    <div class="bg-white border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-6 md:p-10">
+        <form action="{{ route('user.posts.store') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="space-y-8">
+                {{-- Judul --}}
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Judul Cerita</label>
+                    <input type="text" name="title"
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-serif text-lg font-bold text-gray-900 placeholder-gray-400"
+                        placeholder="Contoh: Petualangan Seru di Museum Angkut..." value="{{ old('title') }}" required>
+                </div>
+
+                {{-- Upload Gambar --}}
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Foto Sampul</label>
+                    <label for="image-upload"
+                        class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-3xl cursor-pointer bg-gray-50 hover:bg-teal-50 hover:border-teal-300 transition-all group overflow-hidden">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6 relative z-10">
+                            <div
+                                class="h-16 w-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <i class="icon-image text-3xl text-teal-500"></i>
+                            </div>
+                            <p class="mb-2 text-sm text-gray-500 group-hover:text-teal-700 font-medium">Klik untuk upload
+                                foto</p>
+                            <p class="text-xs text-gray-400">JPG, PNG, JPEG (Max. 2MB)</p>
                         </div>
+                        <input id="image-upload" name="image" type="file" class="hidden" accept="image/*" />
+                    </label>
+                </div>
 
-                        <div class="form-group mb-4">
-                            <label class="text-black font-weight-bold" for="image">Foto Sampul</label>
-                            <input type="file" name="image" id="image" class="form-control-file @error('image') is-invalid @enderror">
-                            <small class="text-muted">Format: JPG, PNG, JPEG (Maks. 2MB)</small>
-                            @error('image') <div class="text-danger small">{{ $message }}</div> @enderror
-                        </div>
-
-                        <div class="form-group mb-4">
-                            <label class="text-black font-weight-bold" for="content">Konten Blog</label>
-                            <textarea name="content" id="content" cols="30" rows="10" class="form-control @error('content') is-invalid @enderror" placeholder="Tulis cerita Anda di sini...">{{ old('content') }}</textarea>
-                            @error('content') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                        </div>
-
-                        <div class="form-group mb-0">
-                            <button type="submit" class="btn btn-primary px-5 py-3 text-white font-weight-bold">
-                                <i class="fa-solid fa-paper-plane mr-2"></i> Publikasikan Blog
-                            </button>
-                            <a href="{{ route('user.dashboard_user') }}" class="btn btn-outline-secondary px-5 py-3 ml-2">Batal</a>
-                        </div>
-                    </form>
+                {{-- Konten --}}
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Isi Cerita</label>
+                    <textarea name="content" rows="12"
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all text-gray-700 leading-relaxed resize-y"
+                        placeholder="Ceritakan pengalamanmu secara detail di sini..." required>{{ old('content') }}</textarea>
                 </div>
             </div>
-        </div>
+
+            {{-- Actions --}}
+            <div class="pt-8 mt-8 border-t border-gray-100 flex items-center justify-end gap-3">
+                <a href="{{ route('user.dashboard_user') }}"
+                    class="px-6 py-3 rounded-full text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all">
+                    Batal
+                </a>
+                <button type="submit"
+                    class="px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold rounded-full shadow-lg hover:shadow-teal-500/30 transition-all transform hover:-translate-y-1">
+                    <i class="icon-paper-plane mr-2"></i> Publikasikan
+                </button>
+            </div>
+        </form>
     </div>
-</div>
+
+    {{-- Script Preview Gambar Sederhana --}}
+    <script>
+        document.getElementById('image-upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Ganti background label dengan gambar
+                    const label = document.querySelector('label[for="image-upload"]');
+                    label.style.backgroundImage = `url('${e.target.result}')`;
+                    label.style.backgroundSize = 'cover';
+                    label.style.backgroundPosition = 'center';
+                    // Sembunyikan konten teks agar bersih
+                    label.firstElementChild.style.opacity = '0';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 @endsection

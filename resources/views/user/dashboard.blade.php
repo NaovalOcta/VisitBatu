@@ -1,129 +1,159 @@
-@extends('layouts.app')
+@extends('layouts.user')
 
-@section('title', 'My Dashboard - iFurnish')
+@section('user_content')
+    {{-- 1. Hero Welcome Section --}}
+    <div class="relative w-full h-48 md:h-64 rounded-3xl overflow-hidden shadow-xl shadow-teal-900/10 mb-8 group">
+        {{-- Background Image --}}
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-105"
+            style="background-image: url('{{ asset('images/hero_1.jpg') }}');">
+        </div>
+        {{-- Overlay Gradient (Teal-ish) --}}
+        <div class="absolute inset-0 bg-gradient-to-r from-teal-900/90 via-teal-800/60 to-transparent"></div>
 
-@section('content')
-<div class="site-section-cover overlay" style="background-image: url('{{ asset('images/hero_1.jpg') }}'); height: 350px;">
-    <div class="container">
-        <div class="row align-items-center justify-content-center text-center" style="height: 350px;">
-            <div class="col-md-10">
-                <h1 class="text-white font-weight-bold">User Dashboard</h1>
-                <p class="text-white">Kelola akun dan aktivitas Anda di sini.</p>
+        <div class="relative h-full flex flex-col justify-center px-8 md:px-12 text-white">
+            <span
+                class="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-xs font-bold uppercase tracking-wider w-fit mb-3">
+                User Dashboard
+            </span>
+            <h1 class="font-serif text-3xl md:text-4xl font-bold mb-2">Selamat Datang,
+                {{ explode(' ', Auth::user()->name)[0] }}! 🌿</h1>
+            <p class="text-teal-50 text-sm md:text-base max-w-xl mb-6 font-light">
+                Bagikan pengalaman seru liburanmu di Batu kepada ribuan wisatawan lainnya.
+            </p>
+
+            <div class="flex gap-3">
+                <a href="{{ route('user.posts.create') }}"
+                    class="inline-flex items-center px-6 py-2.5 bg-white text-teal-700 text-sm font-bold rounded-full shadow-lg hover:bg-teal-50 hover:scale-105 transition-all duration-300">
+                    <i class="icon-pencil mr-2"></i> Mulai Menulis
+                </a>
             </div>
         </div>
     </div>
-</div>
 
-<div class="site-section bg-light">
-    <div class="container">
-        <div class="row">
-            {{-- Sidebar Profil --}}
-            <div class="col-lg-4">
-                <div class="bg-white p-4 shadow-sm rounded text-center">
-                    {{-- Mengambil nama untuk avatar, pastikan variabel $user tersedia --}}
-                    <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=F58727&color=fff&size=100"
-                        class="rounded-circle mb-3 shadow-sm" alt="Profile">
-
-                    <h4 class="text-black font-weight-bold mb-0">{{ $user->name }}</h4>
-                    <p class="text-muted small mb-3">{{ $user->email }}</p>
-
-                    {{-- Menampilkan Role dari Database --}}
-                    <div class="badge badge-primary px-3 py-2 mb-3">Status: {{ ucfirst($user->role) }}</div>
-
-                    <hr>
-                    <div class="text-left">
-                        <p class="mb-1"><strong>Bergabung sejak:</strong></p>
-                        {{-- Menggunakan format tanggal dari kolom created_at --}}
-                        <p class="text-muted small">
-                            {{ $user->created_at ? $user->created_at->format('d M Y') : 'Tanggal tidak tersedia' }}
-                        </p>
-                    </div>
+    {{-- 2. Stats & Quick Info --}}
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        {{-- Card 1: Total Posts --}}
+        <div
+            class="bg-white p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all">
+            <div class="flex items-center gap-4">
+                <div class="h-14 w-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500 text-2xl">
+                    <i class="icon-book"></i>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Cerita Saya</p>
+                    <h3 class="text-3xl font-bold text-gray-900 mt-1">{{ Auth::user()->posts()->count() }}</h3>
                 </div>
             </div>
+        </div>
 
-            {{-- Statistik & Aktivitas --}}
-            <div class="col-lg-8">
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="bg-white p-4 shadow-sm rounded border-left border-primary" style="border-left: 5px solid #F58727 !important;">
-                            <span class="text-muted small text-uppercase font-weight-bold">Blog Posts</span>
-                            <h2 class="mb-0 font-weight-bold">0</h2>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="bg-white p-4 shadow-sm rounded border-left border-info" style="border-left: 5px solid #17a2b8 !important;">
-                            <span class="text-muted small text-uppercase font-weight-bold">Saved Trips</span>
-                            <h2 class="mb-0 font-weight-bold">0</h2>
-                        </div>
-                    </div>
+        {{-- Card 2: Status Akun --}}
+        <div
+            class="bg-white p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all">
+            <div class="flex items-center gap-4">
+                <div class="h-14 w-14 rounded-2xl bg-teal-50 flex items-center justify-center text-teal-600 text-2xl">
+                    <i class="icon-check_circle"></i>
                 </div>
+                <div>
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Status Akun</p>
+                    <span
+                        class="inline-flex items-center mt-1 px-2.5 py-0.5 rounded-full text-sm font-bold bg-green-100 text-green-700">
+                        Aktif
+                    </span>
+                </div>
+            </div>
+        </div>
 
-                <div class="bg-white p-5 shadow-sm rounded">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="text-black font-weight-bold mb-0">History Blog Saya</h5>
-                    </div>
-                    <div class="row">
-                        @forelse($posts as $post)
-                            <div class="col-md-6 mb-4">
-                                <div class="card border-0 shadow-sm h-100" style="transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                                    @if($post->image)
-                                        <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top" alt="{{ $post->title }}" style="height: 150px; object-fit: cover; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                                    @else
-                                        <div class="bg-light d-flex align-items-center justify-content-center" style="height: 150px; border-top-left-radius: 5px; border-top-right-radius: 5px;">
-                                            <i class="fa-solid fa-image text-muted fa-2x"></i>
-                                        </div>
-                                    @endif
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-start mb-2">
-                                            <h6 class="card-title font-weight-bold text-black mb-0">{{ Str::limit($post->title, 40) }}</h6>
-                                            <span class="badge {{ $post->status === 'approved' ? 'badge-success' : 'badge-warning' }} small">
-                                                {{ ucfirst($post->status) }}
-                                            </span>
-                                        </div>
-                                        <p class="text-muted small mb-3">{{ Str::limit(strip_tags($post->content), 80) }}</p>
-                                        <span class="text-muted small"><i class="fa-solid fa-calendar-days mr-4 mb-4"></i> {{ $post->created_at->format('d M Y') }}</span>
-                                        <div class="d-flex justify-content-start align-items-center">
-                                            <a href="{{ route('blog.show', $post->slug) }}" class="btn btn-outline-info btn-sm">
-                                                <i class="fa-brands fa-blogger"></i>
-                                            </a> {{-- {{ route('blog-page', $post->slug) }} --}}
-                                            <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-outline-warning btn-sm ml-1">
-                                                <i class="fa-solid fa-pen-to-square"></i>
-                                            </a>
-                                            <form action="{{ route('posts.destroy', $post->id) }}" method="POST"
-                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus blog ini? Tindakan ini tidak dapat dibatalkan.');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-outline-danger btn-sm">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </button>
+        {{-- Card 3: Tips --}}
+        <div
+            class="bg-gradient-to-br from-indigo-500 to-purple-600 p-6 rounded-3xl shadow-lg text-white relative overflow-hidden group">
+            <div
+                class="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/20 transition-transform group-hover:scale-150 duration-700">
+            </div>
+            <div class="relative z-10">
+                <h4 class="font-bold text-lg mb-1 font-serif">Tips Menulis ✨</h4>
+                <p class="text-white/80 text-xs leading-relaxed mb-3">
+                    Gunakan foto yang jernih dan judul yang menarik agar ceritamu disukai banyak pembaca!
+                </p>
+                <a href="#"
+                    class="text-xs font-bold underline decoration-white/50 hover:decoration-white transition">Pelajari
+                    Selengkapnya</a>
+            </div>
+        </div>
+    </div>
 
+    {{-- 3. Recent Posts Table --}}
+    <div class="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden">
+        <div class="px-6 py-5 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h3 class="font-serif font-bold text-gray-800 text-xl">Riwayat Tulisan</h3>
+                <p class="text-gray-500 text-xs mt-1">Daftar cerita perjalanan yang telah Anda buat.</p>
+            </div>
+            <a href="{{ route('user.posts.index') }}"
+                class="text-sm font-bold text-teal-600 hover:text-teal-700 flex items-center group">
+                Lihat Semua <i class="icon-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform"></i>
+            </a>
+        </div>
 
-                                            </form>
-                                        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm whitespace-nowrap">
+                <thead class="bg-gray-50 text-gray-500 border-b border-gray-100">
+                    <tr>
+                        <th class="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Judul Cerita</th>
+                        <th class="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Tanggal</th>
+                        <th class="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Status</th>
+                        <th class="px-6 py-4 font-bold uppercase tracking-wider text-[10px] text-right">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                    @forelse(Auth::user()->posts()->latest()->take(5)->get() as $post)
+                        <tr class="hover:bg-gray-50/50 transition-colors">
+                            <td class="px-6 py-4">
+                                <div class="font-bold text-gray-900 max-w-xs truncate">{{ $post->title }}</div>
+                            </td>
+                            <td class="px-6 py-4 text-gray-500 text-xs">
+                                <i class="icon-calendar mr-1"></i> {{ $post->created_at->format('d M Y') }}
+                            </td>
+                            <td class="px-6 py-4">
+                                @if ($post->status == 'approved')
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                                        Published
+                                    </span>
+                                @elseif($post->status == 'rejected')
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">
+                                        Rejected
+                                    </span>
+                                @else
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">
+                                        Pending
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 text-right">
+                                <a href="{{ route('user.posts.edit', $post->id) }}"
+                                    class="text-gray-400 hover:text-teal-600 font-bold text-xs transition-colors">
+                                    Edit
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="4" class="px-6 py-12 text-center">
+                                <div class="flex flex-col items-center justify-center text-gray-400">
+                                    <div class="h-12 w-12 bg-gray-50 rounded-full flex items-center justify-center mb-3">
+                                        <i class="icon-pencil text-xl text-gray-300"></i>
                                     </div>
+                                    <p class="font-medium text-gray-500 text-sm">Belum ada cerita yang dibuat.</p>
+                                    <a href="{{ route('user.posts.create') }}"
+                                        class="text-teal-600 hover:underline text-xs mt-1">Buat cerita pertamamu!</a>
                                 </div>
-                            </div>
-                        @empty
-                            <div class="col-12 text-center py-5">
-                                <i class="fa-solid fa-folder-open text-muted fa-3x mb-3"></i>
-                                <p class="text-muted">Anda belum pernah membuat blog.</p>
-                            </div>
-                        @endforelse
-
-                        @if(session('success'))
-                            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
-                                <i class="fa-solid fa-circle-check mr-2"></i> {{ session('success') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-
-
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
 @endsection

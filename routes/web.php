@@ -40,16 +40,17 @@ Route::middleware('guest')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 // --- ADMIN ROUTES ---
-// Menggunakan middleware 'auth' dan middleware 'is_admin' (pastikan alias middleware sudah didaftarkan)
 Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class])->name('admin.')->group(function () {
-    Route::get('/dashboard-admin', [DashboardController::class, 'index'])->name('dashboard_admin');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('trips', TripController::class);
     Route::resource('posts', AdminPostController::class);
+    Route::post('/posts/{post}/approve', [AdminPostController::class, 'approve'])->name('posts.approve');
+    Route::post('/posts/{post}/reject', [AdminPostController::class, 'reject'])->name('posts.reject');
 });
 
 // --- USER ROUTES ---
 Route::middleware(['auth'])->name('user.')->group(function () {
-    Route::get('/dashboard-user', [UserController::class, 'dashboard'])->name('dashboard_user');
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::resource('posts', UserPostController::class);
 });
 

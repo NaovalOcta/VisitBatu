@@ -13,12 +13,54 @@
         rel="stylesheet">
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="font-sans text-gray-900 antialiased bg-gray-50 flex items-center justify-center min-h-screen">
     @yield('content')
+
+    <script>
+        // Konfigurasi Toast (Notifikasi Kecil di Pojok)
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+
+        // Cek Session Success (Berhasil)
+        @if (session('success'))
+            Toast.fire({
+                icon: 'success',
+                title: '{{ session('success') }}'
+            });
+        @endif
+
+        // Cek Session Error (Gagal) - Menggunakan Modal Tengah agar lebih diperhatikan
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: '{{ session('error') }}',
+                confirmButtonColor: '#0d9488', // Sesuaikan dengan warna tema web Anda (Teal)
+            });
+        @endif
+
+        // Cek Validasi Error (Jika ada error input form)
+        @if ($errors->any())
+            Toast.fire({
+                icon: 'warning',
+                title: 'Mohon periksa kembali inputan Anda.'
+            });
+        @endif
+    </script>
 </body>
 
 </html>

@@ -8,6 +8,7 @@ class Post extends Model
 {
     protected $fillable = [
         'user_id',
+        'trip_id',
         'title',
         'slug',
         'content',
@@ -20,8 +21,18 @@ class Post extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class);
+    }
+
     public function scopeApproved($query)
     {
         return $query->where('status', 'approved');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

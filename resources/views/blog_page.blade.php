@@ -97,28 +97,44 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                 @foreach ($posts as $post)
-                    {{-- Skip jika ini adalah featured post agar tidak muncul 2x --}}
+                    {{-- Skip jika ini adalah featured post --}}
                     @continue($featuredPost && $post->id === $featuredPost->id)
 
                     <article class="flex flex-col group h-full">
                         <div class="rounded-2xl overflow-hidden h-64 mb-6 shadow-md relative">
+                            {{-- Gambar Sampul --}}
                             <img src="{{ Str::startsWith($post->image, 'http') ? $post->image : asset('storage/' . $post->image) }}"
                                 class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+
+                            {{-- Badge Lokasi (Baru) --}}
+                            @if ($post->trip)
+                                <div
+                                    class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-teal-700 shadow-sm flex items-center gap-1">
+                                    <i class="icon-location_on"></i> {{ $post->trip->title }}
+                                </div>
+                            @endif
                         </div>
+
                         <div class="flex-1 flex flex-col">
+                            {{-- Info Meta (Tanggal & Penulis) --}}
                             <div
                                 class="flex items-center gap-2 text-xs text-gray-500 mb-3 uppercase tracking-wide font-bold">
                                 <span>{{ $post->created_at->format('M d, Y') }}</span>
                                 <span class="text-accent-500">&bull;</span>
                                 <span>{{ $post->user->name ?? 'User' }}</span>
                             </div>
+
+                            {{-- Judul Postingan --}}
                             <h3
                                 class="font-serif text-2xl font-bold text-gray-900 mb-3 leading-snug group-hover:text-primary-700 transition">
                                 <a href="{{ route('blog.show', $post->slug) }}">{{ $post->title }}</a>
                             </h3>
+
+                            {{-- Cuplikan Isi --}}
                             <p class="text-gray-600 line-clamp-3 mb-4 font-light text-sm">
                                 {{ Str::limit(strip_tags($post->content), 120) }}
                             </p>
+
                             <a href="{{ route('blog.show', $post->slug) }}"
                                 class="mt-auto inline-flex items-center gap-1 text-primary-800 font-bold text-sm hover:text-accent-600 transition">
                                 Baca Selengkapnya &rarr;

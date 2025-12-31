@@ -44,7 +44,7 @@
 
                     {{-- Desktop Menu --}}
                     <div class="hidden md:flex md:ml-10 md:space-x-8">
-                        <a href="{{ route('user.dashboard_user') }}"
+                        <a href="{{ route('user.dashboard') }}"
                             class="inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium transition-colors duration-200
                            {{ Request::is('user/dashboard-user') ? 'border-teal-500 text-gray-900' : 'border-transparent text-gray-500 hover:text-teal-600 hover:border-teal-300' }}">
                             Dashboard
@@ -102,7 +102,7 @@
         {{-- Mobile Menu --}}
         <div x-show="mobileMenuOpen" class="md:hidden bg-white border-t border-gray-100" x-transition>
             <div class="pt-2 pb-3 space-y-1 px-4">
-                <a href="{{ route('user.dashboard_user') }}"
+                <a href="{{ route('user.dashboard') }}"
                     class="block pl-3 pr-4 py-2 text-base font-medium rounded-lg {{ Request::is('user/dashboard-user') ? 'bg-teal-50 text-teal-700' : 'text-gray-600 hover:bg-gray-50' }}">
                     Dashboard
                 </a>

@@ -7,7 +7,7 @@
             <p class="text-gray-500 text-sm mt-1">Perbarui tulisan "<span
                     class="font-bold text-teal-600">{{ $post->title }}</span>"</p>
         </div>
-        <a href="{{ route('user.dashboard_user') }}"
+        <a href="{{ route('user.dashboard') }}"
             class="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-bold rounded-full hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
             <i class="icon-arrow-left mr-2"></i> Batal
         </a>
@@ -36,6 +36,21 @@
                     <input type="text" name="title"
                         class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-serif text-lg font-bold text-gray-900"
                         value="{{ old('title', $post->title) }}" required>
+                </div>
+
+                {{-- Lokasi --}}
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Lokasi</label>
+                    <select name="trip_id"
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-serif text-lg font-bold text-gray-900 placeholder-gray-400"
+                        required>
+                        <option value="">Pilih Lokasi</option>
+                        @foreach ($trips as $trip)
+                            <option value="{{ $trip->id }}" {{ old('trip_id') == $trip->id ? 'selected' : '' }}>
+                                {{ $trip->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
 
                 {{-- Image Section (Grid Layout) --}}

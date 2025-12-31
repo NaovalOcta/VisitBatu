@@ -45,11 +45,23 @@
                         </button>
                         <div x-show="open" x-transition
                             class="absolute right-0 mt-3 w-48 bg-white text-gray-800 rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
-                            <a href="{{ url('/dashboard') }}" class="block px-4 py-2 hover:bg-gray-50">Dashboard</a>
+
+                            {{-- LOGIKA PENGECEKAN ROLE --}}
+                            @if (Auth::user()->role === 'admin')
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-gray-50">
+                                    Dashboard
+                                </a>
+                            @else
+                                <a href="{{ route('user.dashboard') }}" class="block px-4 py-2 hover:bg-gray-50">
+                                    Dashboard
+                                </a>
+                            @endif
+
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-                                <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">Log
-                                    Out</button>
+                                <button type="submit" class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50">
+                                    Log Out
+                                </button>
                             </form>
                         </div>
                     </div>

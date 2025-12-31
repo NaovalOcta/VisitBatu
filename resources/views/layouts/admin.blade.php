@@ -73,11 +73,11 @@
             <nav class="p-4 space-y-1 overflow-y-auto h-[calc(100vh-5rem)]">
                 <p class="px-4 pt-4 pb-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Main Menu</p>
 
-                <a href="{{ route('admin.dashboard_admin') }}"
+                <a href="{{ route('admin.dashboard') }}"
                     class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group
-                   {{ Request::is('admin/dashboard_admin') ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                   {{ Request::is('admin/dashboard') ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                     <i
-                        class="icon-dashboard mr-3 text-lg {{ Request::is('admin/dashboard_admin') ? 'text-teal-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                        class="icon-dashboard mr-3 text-lg {{ Request::is('admin/dashboard') ? 'text-teal-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
                     Dashboard
                 </a>
 
@@ -86,7 +86,7 @@
                    {{ Request::is('admin/trips*') ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                     <i
                         class="icon-map mr-3 text-lg {{ Request::is('admin/trips*') ? 'text-teal-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
-                    Paket Wisata
+                    Kelola Wisata
                 </a>
 
                 <a href="{{ route('admin.posts.index') }}"

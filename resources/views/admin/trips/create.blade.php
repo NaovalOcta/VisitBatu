@@ -96,25 +96,66 @@
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Foto Utama
                         (Thumbnail)</label>
                     <div class="flex items-center justify-center w-full">
+                        {{-- Tambahkan 'relative' dan 'overflow-hidden' agar preview gambar rapi --}}
                         <label for="dropzone-file"
-                            class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-2xl cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <i class="icon-cloud-upload text-3xl text-gray-400 mb-3"></i>
-                                <p class="mb-2 text-sm text-gray-500"><span class="font-bold text-teal-600">Klik untuk
-                                        upload</span> atau drag and drop</p>
-                                <p class="text-xs text-gray-500">JPG, PNG, JPEG (MAX. 2MB)</p>
+                            class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all overflow-hidden group">
+
+                            {{-- 1. Konten Default (Teks & Icon) --}}
+                            {{-- Tambahkan ID 'upload-prompt' agar bisa disembunyikan via JS --}}
+                            <div id="upload-prompt"
+                                class="flex flex-col items-center justify-center pt-5 pb-6 transition-opacity duration-300">
+                                <i
+                                    class="icon-cloud-upload text-3xl text-gray-400 mb-3 group-hover:scale-110 transition-transform duration-300"></i>
+                                <p class="mb-2 text-sm text-gray-500">
+                                    <span class="font-bold text-teal-600">Klik untuk upload</span> atau drag and drop
+                                </p>
+                                <p class="text-xs text-gray-500">JPG, PNG, JPEG, WEBP (MAX. 2MB)</p>
                             </div>
+
+                            {{-- 2. Container Preview Gambar (Awalnya Hidden) --}}
+                            <div id="image-preview" class="hidden absolute inset-0 w-full h-full bg-cover bg-center">
+                                {{-- Overlay Gelap saat Hover (Agar teks 'Ganti' terbaca) --}}
+                                <div
+                                    class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <p class="text-white font-bold text-sm tracking-wider">
+                                        <i class="icon-refresh mr-1"></i> Ganti Gambar
+                                    </p>
+                                </div>
+                            </div>
+
+                            {{-- Input File --}}
                             <input id="dropzone-file" name="thumbnail" type="file" class="hidden" accept="image/*"
-                                required />
+                                onchange="previewImage(event)" required />
                         </label>
                     </div>
-                    {{-- Script sederhana untuk menampilkan nama file setelah dipilih (Opsional) --}}
+
+                    {{-- Script untuk Menampilkan Preview --}}
                     <script>
-                        document.getElementById('dropzone-file').addEventListener('change', function(e) {
-                            if (e.target.files[0]) {
-                                alert('File terpilih: ' + e.target.files[0].name);
+                        function previewImage(event) {
+                            const file = event.target.files[0];
+                            const prompt = document.getElementById('upload-prompt');
+                            const preview = document.getElementById('image-preview');
+
+                            if (file) {
+                                const reader = new FileReader();
+
+                                reader.onload = function(e) {
+                                    // Set gambar background pada div preview
+                                    preview.style.backgroundImage = `url('${e.target.result}')`;
+
+                                    // Tampilkan preview, sembunyikan prompt teks
+                                    preview.classList.remove('hidden');
+                                    prompt.classList.add('hidden');
+                                }
+
+                                reader.readAsDataURL(file);
+                            } else {
+                                // Jika user membatalkan pilih file (cancel), kembalikan ke awal
+                                preview.style.backgroundImage = 'none';
+                                preview.classList.add('hidden');
+                                prompt.classList.remove('hidden');
                             }
-                        });
+                        }
                     </script>
                 </div>
             </div>

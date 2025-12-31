@@ -36,7 +36,7 @@ class TripController extends Controller
             'price'       => 'required|numeric',
             'duration'    => 'required',
             'description' => 'required',
-            'thumbnail'   => 'required|image|file|max:2048' // Wajibkan ada gambar
+            'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,webp|max:2048' // Wajibkan ada gambar
         ]);
 
         $data = [

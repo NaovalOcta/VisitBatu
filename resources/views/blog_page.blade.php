@@ -90,6 +90,8 @@
                             <span class="font-bold">{{ $featuredPost->user->name ?? 'Admin' }}</span>
                             <span>•</span>
                             <span>{{ $featuredPost->created_at->format('d M Y') }}</span>
+                            <span>•</span>
+                            <span>{{ $featuredPost->trip->title ?? 'Unknown' }}</span>
                         </div>
                     </div>
                 </div>

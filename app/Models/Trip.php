@@ -15,4 +15,9 @@ class Trip extends Model
         'duration',
         'thumbnail',
     ];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
 }

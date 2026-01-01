@@ -36,7 +36,7 @@ class HomeController extends Controller
     public function blog()
     {
         // Ambil post yang approved, paginate 9 item
-        $posts = Post::with('user')->approved()->latest()->paginate(9);
+        $posts = Post::with('user', 'trip')->approved()->latest()->paginate(9);
 
         // Ambil item pertama sebagai Featured Post
         $featuredPost = $posts->first();

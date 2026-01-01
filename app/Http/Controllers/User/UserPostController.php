@@ -15,7 +15,7 @@ class UserPostController extends Controller
 {
     public function index()
     {
-        $posts = Post::where('user_id', Auth::id())->with('trip')->latest()->paginate(10);
+        $posts = Post::where('user_id', Auth::id())->with('user', 'trip')->latest()->paginate(10);
         return view('user.posts.index', compact('posts'));
     }
 

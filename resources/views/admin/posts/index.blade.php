@@ -15,6 +15,7 @@
                     <tr>
                         <th class="px-6 py-4 font-bold uppercase tracking-wider text-xs w-1/3">Konten Postingan</th>
                         <th class="px-6 py-4 font-bold uppercase tracking-wider text-xs">Penulis</th>
+                        <th class="px-6 py-4 font-bold uppercase tracking-wider text-xs">Lokasi</th>
                         <th class="px-6 py-4 font-bold uppercase tracking-wider text-xs">Status</th>
                         <th class="px-6 py-4 font-bold uppercase tracking-wider text-xs text-right">Aksi Moderasi</th>
                     </tr>
@@ -42,6 +43,13 @@
                                     </div>
                                     <span class="font-medium text-gray-700">{{ $post->user->name }}</span>
                                 </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                @if ($post->trip)
+                                    <i class="icon-map-marker pr-2 text-gray-400"></i> {{ $post->trip->title }}
+                                @else
+                                    <i class="icon-map-marker pr-2 text-gray-400"></i> Tidak ada lokasi
+                                @endif
                             </td>
                             <td class="px-6 py-4">
                                 @if ($post->status == 'pending')

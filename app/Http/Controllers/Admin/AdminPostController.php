@@ -15,8 +15,8 @@ class AdminPostController extends Controller
     // Menampilkan daftar semua post (terutama yang pending)
     public function index()
     {
-        $posts = Post::with('user')
-            ->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')") // Pending paling atas
+        $posts = Post::with('user', 'trip')
+            ->orderByRaw("FIELD(status, 'pending', 'approved', 'rejected')")
             ->latest()
             ->paginate(10);
 

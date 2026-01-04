@@ -28,7 +28,7 @@ class HomeController extends Controller
     }
 
     public function showTrip(Trip $trip)
-    {
+    {   
         // Menampilkan detail trip (Anda perlu membuat view trips/show.blade.php nanti)
         return view('trips.show', compact('trip'));
     }

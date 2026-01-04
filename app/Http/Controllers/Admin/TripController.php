@@ -11,11 +11,52 @@ use Illuminate\Support\Facades\Storage;
 class TripController extends Controller
 {
     // 1. TAMPILKAN DATA
-    public function index()
+    public function index(Request $request)
     {
-        $trips = Trip::latest()->paginate(10);
-        // Perbaikan path view: admin.trips.index
-        return view('admin.trips.index', compact('trips'));
+        // 1. Inisialisasi Query
+        $query = Trip::query();
+
+        // 2. Filter: Pencarian (Search)
+        if ($request->filled('search')) {
+            $query->where('title', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%');
+        }
+
+        // 3. Filter: Kategori (Checkbox array)
+        if ($request->has('categories')) {
+            $query->whereIn('category', $request->categories);
+        }
+
+        // 4. Filter: Range Harga (Maksimal Harga)
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // 5. Sorting
+        if ($request->filled('sort')) {
+            switch ($request->sort) {
+                case 'price_low':
+                    $query->orderBy('price', 'asc');
+                    break;
+                case 'price_high':
+                    $query->orderBy('price', 'desc');
+                    break;
+                case 'newest':
+                    $query->orderBy('created_at', 'desc');
+                    break;
+                default: // 'rekomendasi'
+                    $query->inRandomOrder(); // Atau logika rekomendasi lainnya
+                    break;
+            }
+        } else {
+            $query->latest(); // Default sort jika tidak ada pilihan
+        }
+
+        // 6. Pagination & Query String Preservation
+        // withQueryString() PENTING agar filter tidak hilang saat pindah halaman (page 1 ke 2)
+        $trips = $query->paginate(8)->withQueryString();
+
+        return view('trips_page', compact('trips'));
     }
 
     // 2. FORM TAMBAH DATA

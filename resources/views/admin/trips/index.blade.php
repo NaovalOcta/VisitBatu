@@ -73,13 +73,13 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('admin.trips.edit', $trip->id) }}"
+                                    <a href="{{ route('admin.trips.edit', $trip) }}"
                                         class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-transparent hover:border-blue-100"
                                         title="Edit">
                                         <i class="icon-pencil"></i>
                                     </a>
 
-                                    <form action="{{ route('admin.trips.destroy', $trip->id) }}" method="POST"
+                                    <form action="{{ route('admin.trips.destroy', $trip) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                         @csrf
                                         @method('DELETE')

@@ -69,8 +69,21 @@
                     </div>
                 </div>
 
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Kategori Wisata</label>
+                    <select name="category_id" class="w-full border rounded p-2" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 {{-- Harga --}}
-                <div class="md:col-span-2">
+                <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Harga Tiket Masuk
                         (IDR)</label>
                     <div class="relative">

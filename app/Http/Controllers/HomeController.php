@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Trip; // Menggunakan Model yang sudah ada
 use App\Models\Post; // Menggunakan Model yang sudah ada
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -20,15 +21,41 @@ class HomeController extends Controller
         return view('welcome_page', compact('trips', 'posts'));
     }
 
-    public function trips()
+    public function trips(Request $request)
     {
-        // Ambil semua trip dengan pagination (8 per halaman)
-        $trips = Trip::latest()->paginate(8);
-        return view('trips_page', compact('trips'));
+        $query = Trip::query();
+
+        // Ambil data kategori untuk ditampilkan di sidebar filter
+        $categories = Category::all();
+
+        // 1. Filter Search
+        if ($request->filled('search')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('title', 'like', '%' . $request->search . '%')
+                    ->orWhere('description', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        // 2. Filter Kategori (DINAMIS via Relasi)
+        if ($request->has('categories')) {
+            // Kita filter berdasarkan ID kategori (karena value checkbox nanti adalah ID)
+            $query->whereIn('category_id', $request->categories);
+        }
+
+        // 3. Filter Harga
+        if ($request->filled('max_price')) {
+            $query->where('price', '<=', $request->max_price);
+        }
+
+        // Sorting... (sama seperti sebelumnya)
+
+        $trips = $query->paginate(8)->withQueryString();
+
+        return view('trips_page', compact('trips', 'categories'));
     }
 
     public function showTrip(Trip $trip)
-    {   
+    {
         // Menampilkan detail trip (Anda perlu membuat view trips/show.blade.php nanti)
         return view('trips.show', compact('trip'));
     }

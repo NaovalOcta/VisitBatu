@@ -1,13 +1,15 @@
 <?php
 
+use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Admin\AdminPostController;
-use App\Http\Controllers\User\UserPostController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\TripController;
+use App\Http\Controllers\User\UserPostController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\User\UserController; // Pastikan Anda membuat controller ini atau gunakan penutupan (closure)
-use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
 
@@ -42,8 +44,33 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 // --- ADMIN ROUTES ---
 Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class])->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('trips', TripController::class);
-    Route::resource('posts', AdminPostController::class);
+    Route::resource('trips', TripController::class)->names([
+        'index' => 'trips.index',
+        'create' => 'trips.create',
+        'store' => 'trips.store',
+        'show' => 'trips.show',
+        'edit' => 'trips.edit',
+        'update' => 'trips.update',
+        'destroy' => 'trips.destroy',
+    ]);
+    Route::resource('categories', CategoryController::class)->names([
+        'index' => 'categories.index',
+        'create' => 'categories.create',
+        'store' => 'categories.store',
+        'show' => 'categories.show',
+        'edit' => 'categories.edit',
+        'update' => 'categories.update',
+        'destroy' => 'categories.destroy',
+    ]);
+    Route::resource('posts', AdminPostController::class)->names([
+        'index' => 'posts.index',
+        'create' => 'posts.create',
+        'store' => 'posts.store',
+        'show' => 'posts.show',
+        'edit' => 'posts.edit',
+        'update' => 'posts.update',
+        'destroy' => 'posts.destroy',
+    ]);
     Route::post('/posts/{post}/approve', [AdminPostController::class, 'approve'])->name('posts.approve');
     Route::post('/posts/{post}/reject', [AdminPostController::class, 'reject'])->name('posts.reject');
 });
@@ -51,7 +78,15 @@ Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class]
 // --- USER ROUTES ---
 Route::middleware(['auth'])->name('user.')->group(function () {
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
-    Route::resource('posts', UserPostController::class);
+    Route::resource('posts', UserPostController::class)->names([
+        'index' => 'posts.index',
+        'create' => 'posts.create',
+        'store' => 'posts.store',
+        'show' => 'posts.show',
+        'edit' => 'posts.edit',
+        'update' => 'posts.update',
+        'destroy' => 'posts.destroy',
+    ]);
 });
 
 Route::get('/blog/{slug}', [UserPostController::class, 'show'])->name('blog.show');

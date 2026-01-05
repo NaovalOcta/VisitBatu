@@ -28,7 +28,7 @@
     @endif
 
     <div class="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden p-6 md:p-8">
-        <form action="{{ route('admin.trips.update', $trip->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.trips.update', $trip) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -66,8 +66,21 @@
                     </div>
                 </div>
 
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2">Kategori Wisata</label>
+                    <select name="category_id" class="w-full border rounded p-2" required>
+                        <option value="">-- Pilih Kategori --</option>
+                        @foreach ($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id', $trip->category_id) == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
                 {{-- Harga --}}
-                <div class="md:col-span-2">
+                <div>
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Harga Tiket Masuk
                         (IDR)</label>
                     <div class="relative">
@@ -106,12 +119,8 @@
 
                         {{-- Input Foto Baru --}}
                         <div class="flex-1 w-full">
-                            {{-- Tambahkan 'relative' dan 'overflow-hidden' agar preview gambar rapi --}}
                             <label for="dropzone-file"
                                 class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all overflow-hidden group">
-
-                                {{-- 1. Konten Default (Teks & Icon) --}}
-                                {{-- Tambahkan ID 'upload-prompt' agar bisa disembunyikan via JS --}}
                                 <div id="upload-prompt"
                                     class="flex flex-col items-center justify-center pt-5 pb-6 transition-opacity duration-300">
                                     <i
@@ -123,9 +132,7 @@
                                     <p class="text-xs text-gray-500">JPG, PNG, JPEG, WEBP (MAX. 2MB)</p>
                                 </div>
 
-                                {{-- 2. Container Preview Gambar (Awalnya Hidden) --}}
                                 <div id="image-preview" class="hidden absolute inset-0 w-full h-full bg-cover bg-center">
-                                    {{-- Overlay Gelap saat Hover (Agar teks 'Ganti' terbaca) --}}
                                     <div
                                         class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                                         <p class="text-white font-bold text-sm tracking-wider">
@@ -134,13 +141,11 @@
                                     </div>
                                 </div>
 
-                                {{-- Input File --}}
                                 <input id="dropzone-file" name="thumbnail" type="file" class="hidden" accept="image/*"
-                                    onchange="previewImage(event)" required />
+                                    onchange="previewImage(event)" />
                             </label>
                         </div>
 
-                        {{-- Script untuk Menampilkan Preview --}}
                         <script>
                             function previewImage(event) {
                                 const file = event.target.files[0];

@@ -89,6 +89,13 @@
                     Kelola Wisata
                 </a>
 
+                <a href="{{ route('admin.categories.index') }}"
+                    class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group {{ Request::is('admin/categories*') ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    <i
+                        class="icon-list mr-3 text-lg {{ Request::is('admin/categories*') ? 'text-teal-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
+                    Kategori Wisata
+                </a>
+
                 <a href="{{ route('admin.posts.index') }}"
                     class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group
                    {{ Request::is('admin/posts*') ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">

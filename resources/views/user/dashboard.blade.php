@@ -132,7 +132,7 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <a href="{{ route('user.posts.edit', $post->id) }}"
+                                <a href="{{ route('user.posts.edit', $post) }}"
                                     class="text-gray-400 hover:text-teal-600 font-bold text-xs transition-colors">
                                     Edit
                                 </a>

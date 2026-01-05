@@ -25,7 +25,7 @@
 
     <div class="bg-white border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-6 md:p-10">
         {{-- Perhatikan route name: user.posts.update --}}
-        <form action="{{ route('user.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('user.posts.update', $post) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 

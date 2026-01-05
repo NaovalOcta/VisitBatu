@@ -45,7 +45,7 @@
                                     </div>
                                     <div>
                                         <div class="font-bold text-gray-900 max-w-xs truncate">{{ $post->title }}</div>
-                                        <a href="{{ route('user.posts.show', $post->slug) }}"
+                                        <a href="{{ route('user.posts.show', $post) }}"
                                             class="text-[10px] text-teal-600 hover:underline font-bold">
                                             Lihat Preview ↗
                                         </a>
@@ -95,14 +95,14 @@
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
                                     {{-- Tombol Edit --}}
-                                    <a href="{{ route('user.posts.edit', $post->id) }}"
+                                    <a href="{{ route('user.posts.edit', $post) }}"
                                         class="h-8 w-8 flex items-center justify-center rounded-full border border-gray-200 text-gray-500 hover:text-teal-600 hover:border-teal-200 hover:bg-teal-50 transition-all"
                                         title="Edit">
                                         <i class="icon-pencil text-xs"></i>
                                     </a>
 
                                     {{-- Tombol Hapus --}}
-                                    <form action="{{ route('user.posts.destroy', $post->id) }}" method="POST"
+                                    <form action="{{ route('user.posts.destroy', $post) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus cerita ini?');">
                                         @csrf
                                         @method('DELETE')

@@ -36,10 +36,9 @@ class HomeController extends Controller
             });
         }
 
-        // 2. Filter Kategori (DINAMIS via Relasi)
+        // 2. Filter Kategori
         if ($request->has('categories')) {
-            // Kita filter berdasarkan ID kategori (karena value checkbox nanti adalah ID)
-            $query->whereIn('category_id', $request->categories);
+            $query->whereIn('category_id', (array)$request->categories);
         }
 
         // 3. Filter Harga
@@ -47,7 +46,24 @@ class HomeController extends Controller
             $query->where('price', '<=', $request->max_price);
         }
 
-        // Sorting... (sama seperti sebelumnya)
+        // 4. LOGIKA SORTING (Baru Ditambahkan)
+        $sort = $request->input('sort', 'rekomendasi'); // Default ke 'rekomendasi' jika kosong
+
+        switch ($sort) {
+            case 'price_low':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'newest':
+                $query->latest();
+                break;
+            case 'rekomendasi':
+            default:
+                $query->orderBy('title', 'asc');
+                break;
+        }
 
         $trips = $query->paginate(8)->withQueryString();
 

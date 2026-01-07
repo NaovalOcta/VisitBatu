@@ -85,12 +85,24 @@ class HomeController extends Controller
         // Ambil item pertama sebagai Featured Post
         $featuredPost = $posts->first();
 
-        return view('blog_page', compact('posts', 'featuredPost'));
+        return view('blog.index', compact('posts', 'featuredPost'));
     }
+
 
     public function showBlog(Post $post)
     {
-        return view('blog.show', compact('post'));
+        // Load relasi user (penulis) dan trip (jika ada)
+        $post->load(['user', 'trip']);
+
+        // Ambil 3 postingan terbaru lainnya untuk sidebar (Rekomendasi bacaan)
+        $recentPosts = Post::where('id', '!=', $post->id)
+            ->with('user')
+            ->approved()
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('blog.show', compact('post', 'recentPosts'));
     }
 
     public function contact()

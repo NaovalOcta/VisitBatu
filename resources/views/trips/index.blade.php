@@ -18,7 +18,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row gap-10">
 
-                <form action="{{ route('trips.index') }}" method="GET" id="filterForm" class="w-full lg:w-1/4">
+                <form action="{{ route('trips-page.index') }}" method="GET" id="filterForm" class="w-full lg:w-1/4">
 
                     <input type="hidden" name="sort" id="hiddenSortInput" value="{{ request('sort') }}">
 

@@ -18,7 +18,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
             <div class="relative rounded-3xl overflow-hidden shadow-2xl mb-20 group cursor-pointer h-[500px]">
-                <img src="https://images.unsplash.com/photo-1571772996211-2f02c9727629?q=80&w=2070&auto=format&fit=crop"
+                <img src="/images/0M72t12000fpqazsc2AB2_R5.png_.webp"
                     class="absolute inset-0 w-full h-full object-cover transition duration-1000 group-hover:scale-105"
                     alt="Featured Post">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>

@@ -22,6 +22,7 @@ Route::get('/trips-page', [HomeController::class, 'trips'])->name('trips-page.in
 Route::get('/trips-page/{trip}', [HomeController::class, 'showTrip'])->name('trips-page.show');
 
 Route::get('/blog-page', [HomeController::class, 'blog'])->name('blog-page.index');
+Route::get('/blog/{post:slug}', [HomeController::class, 'showBlog'])->name('blog-page.show');
 
 Route::get('/contact-page', [HomeController::class, 'contact'])->name('contact_page');
 Route::post('/contact-page', [HomeController::class, 'sendContact'])->name('contact.send');

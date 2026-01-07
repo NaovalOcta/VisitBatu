@@ -13,7 +13,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" /> 
                         </svg>
                     </div>
                     <span class="font-serif text-2xl font-bold tracking-wide">Visit<span
@@ -24,13 +24,25 @@
                     kuliner, dan hiburan terbaik dalam satu genggaman.
                 </p>
                 <div class="flex space-x-4">
-                    @foreach (['facebook', 'twitter', 'instagram', 'youtube'] as $social)
-                        <a href="#"
-                            class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-accent-500 hover:text-white transition-all duration-300">
-                            <img src="https://cdn.simpleicons.org/{{ $social }}/white"
-                                class="w-4 h-4 opacity-70 hover:opacity-100">
-                        </a>
-                    @endforeach
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-accent-500 hover:text-white transition-all duration-300">
+                        <img src="https://cdn.simpleicons.org/instagram/white"
+                            class="w-4 h-4 opacity-70 hover:opacity-100">
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-accent-500 hover:text-white transition-all duration-300">
+                        <img src="https://cdn.simpleicons.org/facebook/white"
+                            class="w-4 h-4 opacity-70 hover:opacity-100">
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-accent-500 hover:text-white transition-all duration-300">
+                        <img src="https://cdn.simpleicons.org/x/white" class="w-4 h-4 opacity-70 hover:opacity-100">
+                    </a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-accent-500 hover:text-white transition-all duration-300">
+                        <img src="https://cdn.simpleicons.org/youtube/white"
+                            class="w-4 h-4 opacity-70 hover:opacity-100">
+                    </a>
                 </div>
             </div>
 

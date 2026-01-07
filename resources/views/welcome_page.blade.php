@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <header class="relative h-[90vh] min-h-[600px] flex items-center justify-center bg-fixed bg-cover bg-center"
-        style="background-image: url('https://images.unsplash.com/photo-1596401057633-565652f56878?q=80&w=2070&auto=format&fit=crop');">
+    <header class="relative h-[100vh] min-h-[600px] flex items-center justify-center bg-fixed bg-cover bg-center"
+        style="background-image: url('/images/0100212000m50kq2i5872.jpg');">
 
         <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/80"></div>
 
@@ -22,7 +22,7 @@
             </p>
         </div>
 
-        <div class="absolute bottom-0 translate-y-1/2 w-full px-4 z-20">
+        {{-- <div class="absolute bottom-0 translate-y-1/2 w-full px-4 z-20">
             <div
                 class="max-w-4xl mx-auto bg-white rounded-3xl shadow-float p-4 md:p-6 flex flex-col md:flex-row gap-4 items-center border border-gray-100">
                 <div class="flex-1 w-full relative">
@@ -50,7 +50,7 @@
                     <span>Cari</span>
                 </button>
             </div>
-        </div>
+        </div> --}}
     </header>
 
     <section class="pt-32 pb-20 bg-white">
@@ -61,9 +61,9 @@
                         class="absolute -top-4 -left-4 w-24 h-24 bg-accent-100 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob">
                     </div>
                     <div class="relative grid grid-cols-2 gap-4">
-                        <img src="https://images.unsplash.com/photo-1506105423376-2e86b0931215?q=80&w=1931&auto=format&fit=crop"
+                        <img src="/images/0M70r12000fppl8mk8D3E_R5.png_.webp"
                             class="rounded-2xl shadow-lg w-full h-64 object-cover mt-8 transform hover:-translate-y-2 transition duration-500">
-                        <img src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?q=80&w=2070&auto=format&fit=crop"
+                        <img src="/images/0M70g12000fpqctw23875_R5.png_.webp"
                             class="rounded-2xl shadow-lg w-full h-64 object-cover transform hover:-translate-y-2 transition duration-500">
                     </div>
                     <div

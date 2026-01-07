@@ -46,8 +46,8 @@
                 <div class="lg:col-span-2 space-y-8">
 
                     {{-- Main Image --}}
-                    <div class="bg-white p-2 rounded-[2rem] shadow-xl">
-                        <div class="relative aspect-video rounded-[1.5rem] overflow-hidden">
+                    <div class="bg-white p-2 mt-5 rounded-4xl shadow-xl">
+                        <div class="relative aspect-video rounded-3xl overflow-hidden">
                             <img src="{{ Str::startsWith($trip->thumbnail, 'http') ? $trip->thumbnail : asset('storage/' . $trip->thumbnail) }}"
                                 alt="{{ $trip->title }}"
                                 class="w-full h-full object-cover hover:scale-105 transition duration-700">
@@ -74,7 +74,7 @@
 
                         {{-- Card Informasi Harga --}}
                         <div
-                            class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100 relative overflow-hidden group">
+                            class="bg-white rounded-3xl p-8 mt-5 shadow-lg border border-gray-100 relative overflow-hidden group">
                             <div
                                 class="absolute top-0 right-0 w-24 h-24 bg-primary-50 rounded-bl-full -mr-4 -mt-4 transition group-hover:bg-primary-100">
                             </div>
@@ -92,7 +92,7 @@
                                 <div class="flex items-start gap-4">
                                     <div
                                         class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0">
-                                        <i class="icon-clock-o text-lg"></i>
+                                        <i class="fa-regular fa-clock"></i>
                                     </div>
                                     <div>
                                         <p class="text-xs text-gray-400 font-bold uppercase">Jam Buka / Durasi</p>
@@ -102,7 +102,7 @@
                                 <div class="flex items-start gap-4">
                                     <div
                                         class="w-10 h-10 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 shrink-0">
-                                        <i class="icon-map-marker text-lg"></i>
+                                        <i class="fa-regular fa-map"></i>>
                                     </div>
                                     <div>
                                         <p class="text-xs text-gray-400 font-bold uppercase">Lokasi</p>
@@ -112,11 +112,11 @@
                             </div>
 
                             {{-- Tombol Booking (Bisa diarahkan ke WA) --}}
-                            <a href="#"
+                            {{-- <a href="#"
                                 class="block w-full py-4 bg-gray-900 text-white font-bold text-center rounded-xl hover:bg-primary-600 transition shadow-lg hover:shadow-primary-500/30 transform hover:-translate-y-1">
                                 Booking Sekarang
                             </a>
-                            <p class="text-xs text-center text-gray-400 mt-4">Konfirmasi instan & pembayaran aman.</p>
+                            <p class="text-xs text-center text-gray-400 mt-4">Konfirmasi instan & pembayaran aman.</p> --}}
                         </div>
 
                         {{-- Card Bantuan (Optional) --}}
@@ -125,7 +125,7 @@
                             <h4 class="font-serif text-xl font-bold mb-2 relative z-10">Butuh Bantuan?</h4>
                             <p class="text-primary-100 text-sm mb-6 relative z-10">Hubungi tim kami untuk info lebih lanjut.
                             </p>
-                            <a href="{{ route('contact-page') }}"
+                            <a href="{{ route('contact_page') }}"
                                 class="inline-block px-6 py-2 bg-white text-primary-900 font-bold rounded-full text-sm hover:bg-accent-400 hover:text-white transition relative z-10">
                                 Hubungi Kami
                             </a>

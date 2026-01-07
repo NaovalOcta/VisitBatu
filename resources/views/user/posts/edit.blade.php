@@ -47,7 +47,7 @@
                         <option value="">Pilih Lokasi</option>
                         @foreach ($trips as $trip)
                             <option value="{{ $trip->id }}" {{ old('trip_id') == $trip->id ? 'selected' : '' }}>
-                                {{ $trip->name }}
+                                {{ $trip->title }}
                             </option>
                         @endforeach
                     </select>

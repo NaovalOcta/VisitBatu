@@ -23,9 +23,8 @@ Route::get('/trips-page/{trip}', [HomeController::class, 'showTrip'])->name('tri
 
 Route::get('/blog-page', [HomeController::class, 'blog'])->name('blog-page.index');
 
-Route::get('/contact-page', function () {
-    return view('contact_page');
-})->name('contact-page');
+Route::get('/contact-page', [HomeController::class, 'contact'])->name('contact_page');
+Route::post('/contact-page', [HomeController::class, 'sendContact'])->name('contact.send');
 
 
 // Route Resource untuk Trip (Mencakup CRUD lengkap)

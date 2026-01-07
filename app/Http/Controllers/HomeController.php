@@ -92,4 +92,27 @@ class HomeController extends Controller
     {
         return view('blog.show', compact('post'));
     }
+
+    public function contact()
+    {
+        return view('contact_page');
+    }
+
+    public function sendContact(Request $request)
+    {
+        // 1. Validasi Input
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'email'   => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string',
+        ]);
+
+        // 2. Simulasi Pengiriman Email (Bisa dikembangkan dengan Mail::to()...)
+        // Saat ini kita hanya akan me-log datanya atau langsung memberi feedback sukses.
+        // Log::info('Contact Form:', $request->all());
+
+        // 3. Redirect kembali dengan pesan sukses
+        return back()->with('success', 'Terima kasih! Pesan Anda telah kami terima. Tim kami akan segera menghubungi Anda.');
+    }
 }

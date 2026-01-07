@@ -18,7 +18,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col lg:flex-row gap-10">
 
-                <form action="{{ route('trips_page') }}" method="GET" id="filterForm" class="w-full lg:w-1/4">
+                <form action="{{ route('trips.index') }}" method="GET" id="filterForm" class="w-full lg:w-1/4">
 
                     <input type="hidden" name="sort" id="hiddenSortInput" value="{{ request('sort') }}">
 
@@ -128,7 +128,7 @@
                                             <p class="text-xl font-bold text-primary-700">Rp
                                                 {{ number_format($trip->price) }}</p>
                                         </div>
-                                        <a href="{{ route('trips.show', $trip) }}"
+                                        <a href="{{ route('trips-page.show', $trip) }}"
                                             class="px-6 py-2 bg-gray-900 text-white rounded-full text-sm font-bold hover:bg-accent-500 transition">
                                             Detail
                                         </a>

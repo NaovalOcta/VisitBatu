@@ -67,12 +67,13 @@ class HomeController extends Controller
 
         $trips = $query->paginate(8)->withQueryString();
 
-        return view('trips_page', compact('trips', 'categories'));
+        return view('trips.index', compact('trips', 'categories'));
     }
 
     public function showTrip(Trip $trip)
     {
-        // Menampilkan detail trip (Anda perlu membuat view trips/show.blade.php nanti)
+        $trip->load('category');
+
         return view('trips.show', compact('trip'));
     }
 

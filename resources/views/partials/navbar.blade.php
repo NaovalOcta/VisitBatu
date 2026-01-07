@@ -22,11 +22,11 @@
             </a>
 
             <div class="hidden md:flex items-center space-x-8">
-                <a href="{{ url('/') }}"
+                <a href="{{ route('welcome_page') }}"
                     class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Home</a>
-                <a href="{{ url('/trips-page') }}"
+                <a href="{{ route('trips-page.index') }}"
                     class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Destinations</a>
-                <a href="{{ url('/blog-page') }}"
+                <a href="{{ route('blog-page.index') }}"
                     class="font-medium hover:text-accent-500 transition tracking-wide text-sm uppercase">Stories</a>
             </div>
 

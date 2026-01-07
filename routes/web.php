@@ -15,15 +15,17 @@ Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
 
 Route::get('/about-page', function () {
     return view('about_page');
-})->name('about_page');
+})->name('about-page');
 
-Route::get('/trips-page', [HomeController::class, 'trips'])->name('trips_page');
+Route::get('/trips-page', [HomeController::class, 'trips'])->name('trips-page.index');
 
-Route::get('/blog-page', [HomeController::class, 'blog'])->name('blog_page');
+Route::get('/trips-page/{trip}', [HomeController::class, 'showTrip'])->name('trips-page.show');
+
+Route::get('/blog-page', [HomeController::class, 'blog'])->name('blog-page.index');
 
 Route::get('/contact-page', function () {
     return view('contact_page');
-})->name('contact_page');
+})->name('contact-page');
 
 
 // Route Resource untuk Trip (Mencakup CRUD lengkap)

@@ -25,7 +25,7 @@
                     <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 sticky top-28">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="font-serif text-xl font-bold text-gray-900">Filter</h3>
-                            <a href="{{ route('trips.index') }}"
+                            <a href="{{ route('trips-page.index') }}"
                                 class="text-xs text-primary-700 font-bold hover:underline">Reset</a>
                         </div>
 

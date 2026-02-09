@@ -111,13 +111,13 @@
                         </li>
                     </ul>
 
-                    <a href="{{ url('/trips') }}"
+                    {{-- <a href="{{ url('/trips') }}"
                         class="inline-flex items-center gap-2 text-primary-800 font-bold border-b-2 border-primary-800 pb-1 hover:text-accent-600 hover:border-accent-600 transition">
                         Pelajari Lebih Lanjut <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </div>
@@ -144,7 +144,7 @@
                             <p class="text-gray-500 mb-6 line-clamp-2 text-sm">{{ $trip->description }}</p>
                             <div class="flex items-center justify-between pt-6 border-t border-gray-100">
                                 <span class="text-xl font-bold text-primary-700">Rp {{ number_format($trip->price) }}</span>
-                                <a href="{{ route('trips.show', $trip->id) }}"
+                                <a href="{{ route('trips-page.show', $trip) }}"
                                     class="w-10 h-10 rounded-full border flex items-center justify-center hover:bg-primary-700 hover:text-white transition">
                                     &rarr;
                                 </a>
@@ -157,7 +157,7 @@
             </div>
 
             <div class="mt-16 text-center">
-                <a href="{{ url('/trips') }}"
+                <a href="{{ route('trips-page.index') }}"
                     class="inline-block px-8 py-3 rounded-full border-2 border-gray-900 text-gray-900 font-bold hover:bg-gray-900 hover:text-white transition">Lihat
                     Semua Destinasi</a>
             </div>
@@ -171,7 +171,8 @@
                     <h2 class="font-serif text-4xl font-bold text-gray-900">Traveler's Stories</h2>
                     <p class="text-gray-500 mt-2">Cerita pengalaman langsung dari pengunjung.</p>
                 </div>
-                <a href="{{ url('/blog') }}" class="text-primary-700 font-bold hover:text-accent-500 transition">Read
+                <a href="{{ route('blog-page.index') }}"
+                    class="text-primary-700 font-bold hover:text-accent-500 transition">Read
                     Journal &rarr;</a>
             </div>
 

@@ -41,10 +41,17 @@ class TripController extends Controller
             'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,webp|max:2048' // Wajibkan ada gambar
         ]);
 
+        $slug = Str::slug($request->title);
+        $originalSlug = $slug;
+        $count = 1;
+        while (Trip::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
         $data = [
             'title'       => $request->title,
             'category_id' => $request->category_id,
-            'slug'        => Str::slug($request->title),
+            'slug'        => $slug,
             'location'    => $request->location,
             'price'       => $request->price,
             'duration'    => $request->duration,
@@ -82,10 +89,17 @@ class TripController extends Controller
             'thumbnail'   => 'nullable|image|file|max:2048'
         ]);
 
+        $slug = Str::slug($request->title);
+        $originalSlug = $slug;
+        $count = 1;
+        while (Trip::where('slug', $slug)->where('id', '!=', $trip->id)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
         $data = [
             'title'       => $request->title,
             'category_id' => $request->category_id,
-            'slug'        => Str::slug($request->title),
+            'slug'        => $slug,
             'location'    => $request->location,
             'price'       => $request->price,
             'duration'    => $request->duration,

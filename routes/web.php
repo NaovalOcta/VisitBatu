@@ -53,6 +53,12 @@ Route::middleware('guest')->group(function () {
     Route::get('/verify-otp', [AuthController::class, 'showOtpForm'])->name('otp.show');
     Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.verify');
     Route::post('/resend-otp', [AuthController::class, 'resendOtp'])->middleware('throttle:3,1')->name('otp.resend');
+
+    // Forgot Password
+    Route::get('/forgot-password', [AuthController::class, 'showForgotPasswordForm'])->name('password.request');
+    Route::post('/forgot-password', [AuthController::class, 'sendResetLinkEmail'])->name('password.email');
+    Route::get('/reset-password/{token}', [AuthController::class, 'showResetPasswordForm'])->name('password.reset');
+    Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.update');
 });
 
 // --- EMAIL VERIFICATION ROUTES ---

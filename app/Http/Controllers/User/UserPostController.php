@@ -34,7 +34,7 @@ class UserPostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title'   => 'required|string|max:255|unique:posts,title',
+            'title'   => 'required|string|max:255',
             'trip_id' => 'required|exists:trips,id',
             'content' => 'required',
             'image'   => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
@@ -48,11 +48,18 @@ class UserPostController extends Controller
             $imagePath = $request->file('image')->store('posts', 'public');
         }
 
+        $slug = Str::slug($request->title);
+        $originalSlug = $slug;
+        $count = 1;
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
         Post::create([
             'user_id' => Auth::id(),
             'trip_id' => $request->trip_id,
             'title'   => $request->title,
-            'slug'    => Str::slug($request->title),
+            'slug'    => $slug,
             'content' => $request->content,
             'image'   => $imagePath,
             'status'  => 'pending',
@@ -79,16 +86,23 @@ class UserPostController extends Controller
         }
 
         $request->validate([
-            'title'   => 'required|string|max:255|unique:posts,title,' . $post->id,
+            'title'   => 'required|string|max:255',
             'trip_id' => 'required|exists:trips,id',
             'content' => 'required',
             'image'   => 'nullable|file|mimes:jpeg,png,jpg|max:2048',
         ]);
 
+        $slug = Str::slug($request->title);
+        $originalSlug = $slug;
+        $count = 1;
+        while (Post::where('slug', $slug)->where('id', '!=', $post->id)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
         $data = [
             'trip_id' => $request->trip_id,
             'title'   => $request->title,
-            'slug'    => Str::slug($request->title),
+            'slug'    => $slug,
             'content' => $request->content,
             'status'  => 'pending',
         ];

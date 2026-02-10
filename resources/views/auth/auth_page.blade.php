@@ -1,19 +1,24 @@
 @extends('layouts.guest')
 
 @section('content')
-    <div x-data="{ isSignUp: {{ json_encode(($isSignUp ?? false) || session('error_register') || $errors->has('name') || !empty(old('name'))) }} }"
+    <div x-data="{
+        isSignUp: {{ json_encode(($isSignUp ?? false) || session('error_register') || $errors->has('name') || !empty(old('name'))) }},
+        isLoading: false
+    }"
         class="relative w-full max-w-[1000px] min-h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:block m-4">
 
         <div class="absolute top-0 left-0 h-full w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white transition-all duration-700 ease-in-out"
             :class="isSignUp ? 'md:translate-x-full opacity-100 z-20' : 'opacity-0 z-0 pointer-events-none'">
 
-            <form action="{{ route('register') }}" method="POST" class="w-full max-w-sm text-center">
+            <form action="{{ route('register') }}" method="POST" class="w-full max-w-sm text-center"
+                @submit="isLoading = true">
                 @csrf
                 <h1 class="font-serif text-3xl font-bold text-gray-900 mb-4">Create Account</h1>
 
                 {{-- Google Sign Up Button --}}
-                <a href="{{ route('auth.google') }}"
-                    class="flex items-center justify-center gap-3 w-full bg-white border-2 border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full hover:bg-gray-50 hover:border-gray-300 transition shadow-sm mb-4">
+                <a href="{{ route('auth.google') }}" @click="isLoading = true"
+                    class="flex items-center justify-center gap-3 w-full bg-white border-2 border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full hover:bg-gray-50 hover:border-gray-300 transition shadow-sm mb-4"
+                    :class="isLoading ? 'pointer-events-none opacity-50' : ''">
                     <svg class="w-5 h-5" viewBox="0 0 24 24">
                         <path fill="#4285F4"
                             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -61,9 +66,20 @@
                     </div>
                 </div>
 
-                <button
-                    class="mt-6 bg-primary-900 text-white font-bold py-3 px-12 rounded-full hover:bg-primary-800 transition shadow-lg transform hover:-translate-y-1">
-                    Sign Up
+                <button type="submit" :disabled="isLoading"
+                    class="mt-6 bg-primary-900 text-white font-bold py-3 px-12 rounded-full hover:bg-primary-800 transition shadow-lg transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span x-show="!isLoading">Sign Up</span>
+                    <span x-show="isLoading" class="flex items-center gap-2">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Processing...
+                    </span>
                 </button>
 
                 <p class="mt-6 text-sm md:hidden">Sudah punya akun? <button type="button" @click="isSignUp = false"
@@ -73,7 +89,8 @@
 
         <div class="absolute top-0 left-0 h-full w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white transition-all duration-700 ease-in-out"
             :class="isSignUp ? 'md:translate-x-full opacity-0 z-0 pointer-events-none' : 'opacity-100 z-20'">
-            <form action="{{ route('login') }}" method="POST" class="w-full max-w-sm text-center">
+            <form action="{{ route('login') }}" method="POST" class="w-full max-w-sm text-center"
+                @submit="isLoading = true">
                 @csrf
                 <div class="flex justify-center mb-6">
                     <div
@@ -89,8 +106,9 @@
                 <h1 class="font-serif text-3xl font-bold text-gray-900 mb-4">Sign In</h1>
 
                 {{-- Google Sign In Button --}}
-                <a href="{{ route('auth.google') }}"
-                    class="flex items-center justify-center gap-3 w-full bg-white border-2 border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full hover:bg-gray-50 hover:border-gray-300 transition shadow-sm mb-4">
+                <a href="{{ route('auth.google') }}" @click="isLoading = true"
+                    class="flex items-center justify-center gap-3 w-full bg-white border-2 border-gray-200 text-gray-700 font-medium py-3 px-6 rounded-full hover:bg-gray-50 hover:border-gray-300 transition shadow-sm mb-4"
+                    :class="isLoading ? 'pointer-events-none opacity-50' : ''">
                     <svg class="w-5 h-5" viewBox="0 0 24 24">
                         <path fill="#4285F4"
                             d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -123,15 +141,28 @@
 
                 <div class="flex justify-between items-center mt-4 mb-6 text-xs">
                     <label class="flex items-center text-gray-500 cursor-pointer">
-                        <input type="checkbox" name="remember" class="mr-2 text-primary-600 rounded focus:ring-primary-500">
+                        <input type="checkbox" name="remember"
+                            class="mr-2 text-primary-600 rounded focus:ring-primary-500">
                         Ingat saya
                     </label>
-                    <a href="#" class="font-bold text-gray-900 hover:text-primary-700">Lupa Password?</a>
+                    <a href="{{ route('password.request') }}" class="font-bold text-gray-900 hover:text-primary-700">Lupa
+                        Password?</a>
                 </div>
 
-                <button
-                    class="bg-primary-900 text-white font-bold py-3 px-12 rounded-full hover:bg-primary-800 transition shadow-lg transform hover:-translate-y-1">
-                    Sign In
+                <button type="submit" :disabled="isLoading"
+                    class="bg-primary-900 text-white font-bold py-3 px-12 rounded-full hover:bg-primary-800 transition shadow-lg transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <span x-show="!isLoading">Sign In</span>
+                    <span x-show="isLoading" class="flex items-center gap-2">
+                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                            </path>
+                        </svg>
+                        Processing...
+                    </span>
                 </button>
 
                 <p class="mt-6 text-sm md:hidden">Belum punya akun? <button type="button" @click="isSignUp = true"

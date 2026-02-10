@@ -24,9 +24,16 @@ class CategoryController extends Controller
     {
         $request->validate(['name' => 'required|unique:categories,name']);
 
+        $slug = Str::slug($request->name);
+        $originalSlug = $slug;
+        $count = 1;
+        while (Category::where('slug', $slug)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
         Category::create([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $slug,
         ]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dibuat');
@@ -41,9 +48,16 @@ class CategoryController extends Controller
     {
         $request->validate(['name' => 'required|unique:categories,name,' . $category->id]);
 
+        $slug = Str::slug($request->name);
+        $originalSlug = $slug;
+        $count = 1;
+        while (Category::where('slug', $slug)->where('id', '!=', $category->id)->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+        }
+
         $category->update([
             'name' => $request->name,
-            'slug' => Str::slug($request->name),
+            'slug' => $slug,
         ]);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diupdate');

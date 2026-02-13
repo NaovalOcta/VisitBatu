@@ -66,6 +66,116 @@
                         </div>
                     </div>
 
+                    {{-- 3. REVIEW SECTION --}}
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                        <h3 class="font-serif text-2xl font-bold text-gray-900 mb-8 flex items-center gap-3">
+                            <span class="w-8 h-1 bg-accent-500 rounded-full block"></span>
+                            Ulasan Pengunjung
+                        </h3>
+
+                        {{-- Rating Stats --}}
+                        <div class="flex items-center gap-6 mb-10 pb-10 border-b border-gray-100">
+                            <div class="text-center">
+                                <div class="text-5xl font-bold text-gray-900 mb-1">
+                                    {{ number_format($trip->average_rating, 1) }}</div>
+                                <div class="flex text-accent-500 mb-1">
+                                    @for ($i = 1; $i <= 5; $i++)
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-5 w-5 {{ $i <= round($trip->average_rating) ? 'fill-current' : 'text-gray-200' }}"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path
+                                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                        </svg>
+                                    @endfor
+                                </div>
+                                <div class="text-sm text-gray-400 font-medium">{{ $trip->reviews->count() }} Ulasan</div>
+                            </div>
+                        </div>
+
+                        {{-- Review Form (Hanya untuk yang sudah login) --}}
+                        @auth
+                            <div class="mb-12 bg-gray-50 rounded-2xl p-6 border border-gray-100" x-data="{ rating: 0, isLoading: false }">
+                                <h4 class="font-bold text-gray-900 mb-4">Berikan Ulasan Anda</h4>
+                                <form action="{{ route('reviews.store', $trip->slug) }}" method="POST"
+                                    @submit="isLoading = true">
+                                    @csrf
+                                    <input type="hidden" name="rating" :value="rating">
+
+                                    <div class="flex items-center gap-2 mb-4">
+                                        <span class="text-sm text-gray-600 mr-2">Rating:</span>
+                                        <template x-for="i in 5">
+                                            <button type="button" @click="rating = i"
+                                                class="focus:outline-none transition transform hover:scale-110">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8"
+                                                    :class="i <= rating ? 'text-accent-500 fill-current' : 'text-gray-300'"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                            </button>
+                                        </template>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <textarea name="comment" rows="3" required
+                                            class="w-full bg-white border border-gray-200 rounded-xl p-4 focus:ring-2 focus:ring-primary-500 outline-none transition"
+                                            placeholder="Bagaimana pengalaman Anda berkunjung ke sini?"></textarea>
+                                    </div>
+
+                                    <button type="submit" :disabled="isLoading || rating === 0"
+                                        class="px-8 py-3 bg-primary-900 text-white font-bold rounded-full hover:bg-primary-800 transition shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <span x-show="!isLoading">Kirim Ulasan</span>
+                                        <span x-show="isLoading">Mengirim...</span>
+                                    </button>
+                                </form>
+                            </div>
+                        @else
+                            <div class="mb-12 bg-blue-50 rounded-2xl p-6 border border-blue-100 text-center">
+                                <p class="text-blue-700 mb-4">Silakan login untuk memberikan ulasan pada destinasi ini.</p>
+                                <a href="{{ route('login') }}"
+                                    class="inline-block px-6 py-2 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition">Login
+                                    Sekarang</a>
+                            </div>
+                        @endauth
+
+                        {{-- Review List --}}
+                        <div class="space-y-8">
+                            @forelse($trip->reviews()->with('user')->latest()->get() as $review)
+                                <div class="flex gap-4">
+                                    <div class="shrink-0">
+                                        <img src="{{ $review->user->avatar ?? 'https://ui-avatars.com/api/?name=' . urlencode($review->user->name) }}"
+                                            class="w-12 h-12 rounded-full object-cover border-2 border-primary-50"
+                                            alt="{{ $review->user->name }}">
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-1">
+                                            <h5 class="font-bold text-gray-900">{{ $review->user->name }}</h5>
+                                            <span
+                                                class="text-xs text-gray-400 font-medium">{{ $review->created_at->diffForHumans() }}</span>
+                                        </div>
+                                        <div class="flex text-accent-500 mb-2">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-4 w-4 {{ $i <= $review->rating ? 'fill-current' : 'text-gray-200' }}"
+                                                    viewBox="0 0 20 20" fill="currentColor">
+                                                    <path
+                                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                </svg>
+                                            @endfor
+                                        </div>
+                                        <p class="text-gray-600 leading-relaxed">{{ $review->comment }}</p>
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="text-center py-10">
+                                    <div class="text-gray-300 mb-4 text-6xl italic leading-none">"</div>
+                                    <p class="text-gray-400 italic">Belum ada ulasan untuk destinasi ini. Jadilah yang
+                                        pertama memberikan ulasan!</p>
+                                </div>
+                            @endforelse
+                        </div>
+                    </div>
+
                 </div>
 
                 {{-- KOLOM KANAN: Sidebar Sticky (Info & Booking) --}}
@@ -123,13 +233,80 @@
                         <div class="bg-primary-900 rounded-3xl p-8 text-center text-white relative overflow-hidden">
                             <div class="absolute inset-0 bg-pattern opacity-10"></div>
                             <h4 class="font-serif text-xl font-bold mb-2 relative z-10">Butuh Bantuan?</h4>
-                            <p class="text-primary-100 text-sm mb-6 relative z-10">Hubungi tim kami untuk info lebih lanjut.
+                            <p class="text-primary-100 text-sm mb-6 relative z-10">Hubungi tim kami untuk info lebih
+                                lanjut.
                             </p>
                             <a href="{{ route('contact_page') }}"
                                 class="inline-block px-6 py-2 bg-white text-primary-900 font-bold rounded-full text-sm hover:bg-accent-400 hover:text-white transition relative z-10">
                                 Hubungi Kami
                             </a>
                         </div>
+
+                        {{-- Map Card --}}
+                        @if ($trip->latitude && $trip->longitude)
+                            <div class="bg-white rounded-3xl p-4 shadow-lg border border-gray-100 overflow-hidden">
+                                <h4 class="font-serif text-lg font-bold text-gray-900 mb-4 px-2">Lokasi di Peta</h4>
+                                <div id="map" class="rounded-2xl overflow-hidden aspect-square z-10 antialiased">
+                                </div>
+                                <div class="mt-4 px-2 flex justify-between items-center">
+                                    <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Interactive
+                                        Map</span>
+                                    <a href="https://www.google.com/maps/search/?api=1&query={{ $trip->latitude }},{{ $trip->longitude }}"
+                                        target="_blank"
+                                        class="text-xs text-primary-600 font-bold hover:text-primary-700 transition flex items-center gap-1">
+                                        Buka di Google Maps <i class="icon-external-link"></i>
+                                    </a>
+                                </div>
+                            </div>
+
+                            @push('styles')
+                                <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+                                    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+                                <style>
+                                    .leaflet-container {
+                                        font-family: inherit;
+                                    }
+                                </style>
+                            @endpush
+
+                            @push('scripts')
+                                <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                                    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        const lat = {{ $trip->latitude }};
+                                        const lng = {{ $trip->longitude }};
+                                        const map = L.map('map', {
+                                            scrollWheelZoom: false
+                                        }).setView([lat, lng], 15);
+
+                                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                                        }).addTo(map);
+
+                                        L.marker([lat, lng]).addTo(map)
+                                            .bindPopup('<b class="font-serif">{{ $trip->title }}</b><br>{{ $trip->location }}')
+                                            .openPopup();
+
+                                        // Allow scroll zoom on click
+                                        map.on('click', function() {
+                                            if (map.scrollWheelZoom.enabled()) {
+                                                map.scrollWheelZoom.disable();
+                                            } else {
+                                                map.scrollWheelZoom.enable();
+                                            }
+                                        });
+                                    });
+                                </script>
+                            @endpush
+                        @elseif ($trip->map_iframe)
+                            <div class="bg-white rounded-3xl p-4 shadow-lg border border-gray-100 overflow-hidden">
+                                <h4 class="font-serif text-lg font-bold text-gray-900 mb-4 px-2">Lokasi di Peta</h4>
+                                <div class="rounded-2xl overflow-hidden aspect-square">
+                                    {!! $trip->map_iframe !!}
+                                </div>
+                            </div>
+                        @endif
 
                     </div>
                 </div>

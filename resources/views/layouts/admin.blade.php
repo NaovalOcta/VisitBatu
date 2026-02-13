@@ -44,12 +44,11 @@
             background: #94a3b8;
         }
     </style>
+    @stack('styles')
 </head>
 
 <body class="bg-gray-50 font-sans text-gray-700 antialiased" x-data="{ sidebarOpen: false }">
-
     <div class="flex h-screen overflow-hidden">
-
         {{-- 1. Sidebar (Desktop & Mobile) --}}
         <aside
             class="fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-100 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 shadow-lg lg:shadow-none"
@@ -58,11 +57,12 @@
             {{-- Header Sidebar --}}
             <div class="flex items-center justify-between h-20 px-8 border-b border-gray-50">
                 <a href="{{ route('welcome_page') }}" class="group">
-                    <span
-                        class="font-serif text-2xl font-bold text-gray-900 group-hover:text-teal-600 transition">Visit<span
-                            class="text-teal-500">Batu</span></span>
+                    <span class="font-serif text-2xl font-bold text-gray-900 group-hover:text-teal-600 transition">
+                        Visit<span class="text-teal-500">Batu</span>
+                    </span>
                     <p class="text-[10px] tracking-[0.2em] text-gray-400 font-bold mt-1 uppercase">Admin Panel</p>
                 </a>
+
                 {{-- Close Button (Mobile Only) --}}
                 <button @click="sidebarOpen = false" class="lg:hidden text-gray-400 hover:text-gray-600">
                     <i class="icon-close text-xl"></i>
@@ -90,7 +90,8 @@
                 </a>
 
                 <a href="{{ route('admin.categories.index') }}"
-                    class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group {{ Request::is('admin/categories*') ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                    class="flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 group
+                   {{ Request::is('admin/categories*') ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-100' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
                     <i
                         class="icon-list mr-3 text-lg {{ Request::is('admin/categories*') ? 'text-teal-600' : 'text-gray-400 group-hover:text-gray-600' }}"></i>
                     Kategori Wisata
@@ -143,8 +144,9 @@
                             <p class="text-xs text-gray-500">Administrator</p>
                         </div>
                         <div
-                            class="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border-2 border-white shadow-sm ring-1 ring-gray-100">
-                            {{ substr(Auth::user()->name, 0, 1) }}
+                            class="h-10 w-10 rounded-full border-2 border-white shadow-sm ring-1 ring-gray-100 overflow-hidden">
+                            <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
+                                class="w-full h-full object-cover">
                         </div>
                     </div>
 
@@ -163,12 +165,14 @@
                 @yield('admin_content')
 
                 <footer class="mt-10 pt-6 border-t border-gray-100 text-center">
-                    <p class="text-xs text-gray-400">&copy; {{ date('Y') }} VisitBatu Admin Panel. All rights
-                        reserved.</p>
+                    <p class="text-xs text-gray-400">&copy;
+                        {{ date('Y') }} VisitBatu Admin Panel. All rights reserved.</p>
                 </footer>
             </main>
         </div>
     </div>
+
+    @stack('scripts')
 </body>
 
 </html>

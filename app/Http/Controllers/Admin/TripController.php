@@ -38,7 +38,10 @@ class TripController extends Controller
             'price'       => 'required|numeric',
             'duration'    => 'required',
             'description' => 'required',
-            'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,webp|max:2048' // Wajibkan ada gambar
+            'thumbnail'   => 'required|image|mimes:jpeg,png,jpg,webp|max:2048', // Wajibkan ada gambar
+            'map_iframe'  => 'nullable|string',
+            'latitude'    => 'nullable|numeric',
+            'longitude'   => 'nullable|numeric',
         ]);
 
         $slug = Str::slug($request->title);
@@ -56,6 +59,9 @@ class TripController extends Controller
             'price'       => $request->price,
             'duration'    => $request->duration,
             'description' => $request->description,
+            'map_iframe'  => $request->map_iframe,
+            'latitude'    => $request->latitude,
+            'longitude'   => $request->longitude,
         ];
 
         // Upload Gambar
@@ -86,7 +92,10 @@ class TripController extends Controller
             'price'       => 'required|numeric',
             'duration'    => 'required',
             'description' => 'required',
-            'thumbnail'   => 'nullable|image|file|max:2048'
+            'thumbnail'   => 'nullable|image|file|max:2048',
+            'map_iframe'  => 'nullable|string',
+            'latitude'    => 'nullable|numeric',
+            'longitude'   => 'nullable|numeric',
         ]);
 
         $slug = Str::slug($request->title);
@@ -104,6 +113,9 @@ class TripController extends Controller
             'price'       => $request->price,
             'duration'    => $request->duration,
             'description' => $request->description,
+            'map_iframe'  => $request->map_iframe,
+            'latitude'    => $request->latitude,
+            'longitude'   => $request->longitude,
         ];
 
         if ($request->hasFile('thumbnail')) {

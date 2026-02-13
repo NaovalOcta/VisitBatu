@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Trip; // Menggunakan Model yang sudah ada
 use App\Models\Post; // Menggunakan Model yang sudah ada
 use App\Models\Category;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -120,9 +122,8 @@ class HomeController extends Controller
             'message' => 'required|string',
         ]);
 
-        // 2. Simulasi Pengiriman Email (Bisa dikembangkan dengan Mail::to()...)
-        // Saat ini kita hanya akan me-log datanya atau langsung memberi feedback sukses.
-        // Log::info('Contact Form:', $request->all());
+        // 2. Simulasi Pengiriman Email
+        Mail::to(config('mail.from.address'))->send(new ContactMail($request->all()));
 
         // 3. Redirect kembali dengan pesan sukses
         return back()->with('success', 'Terima kasih! Pesan Anda telah kami terima. Tim kami akan segera menghubungi Anda.');

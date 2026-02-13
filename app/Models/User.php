@@ -100,8 +100,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return !empty($this->google_id);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    /**
+     * Get the user's avatar URL.
+     */
+    public function getAvatarUrlAttribute(): string
+    {
+        if ($this->avatar) {
+            if (\Illuminate\Support\Str::startsWith($this->avatar, 'http')) {
+                return $this->avatar;
+            }
+            return asset('storage/' . $this->avatar);
+        }
+
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=0D9488&color=fff';
     }
 }

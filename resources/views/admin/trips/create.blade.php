@@ -46,17 +46,31 @@
                         value="{{ old('title') }}" placeholder="Contoh: Jatim Park 1" required>
                 </div>
 
-                {{-- Lokasi --}}
-                <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Lokasi /
-                        Alamat</label>
+                {{-- Lokasi / Alamat dengan Autocomplete --}}
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Lokasi / Alamat
+                        Lengkap</label>
                     <div class="relative">
                         <span class="absolute left-4 top-3.5 text-gray-400"><i class="icon-map-marker"></i></span>
-                        <input type="text" name="location"
+                        <input type="text" name="location" id="location-input"
                             class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all"
-                            value="{{ old('location') }}" placeholder="Alamat lengkap lokasi" required>
+                            value="{{ old('location') }}" placeholder="Ketik nama tempat atau alamat..." required>
                     </div>
                 </div>
+
+                {{-- Interactive Map dengan Google Maps --}}
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Pilih Lokasi di
+                        Peta</label>
+                    <div id="map"
+                        class="w-full h-96 rounded-2xl border-2 border-gray-100 shadow-inner z-10 antialiased"></div>
+                    <p class="text-xs text-gray-400 mt-2">Gunakan kotak pencarian di atas atau geser penanda (marker) untuk
+                        akurasi maksimal.</p>
+                </div>
+
+                {{-- Hidden Coordinates --}}
+                <input type="hidden" name="latitude" id="latitude" value="{{ old('latitude') }}">
+                <input type="hidden" name="longitude" id="longitude" value="{{ old('longitude') }}">
 
                 {{-- Durasi --}}
                 <div>
@@ -99,10 +113,135 @@
                 <div class="md:col-span-2">
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Deskripsi
                         Lengkap</label>
-                    <textarea name="description" rows="5"
+                    <textarea name="description" rows="10"
                         class="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all"
                         placeholder="Jelaskan keunikan dan daya tarik tempat wisata ini..." required>{{ old('description') }}</textarea>
                 </div>
+
+                {{-- Google Maps Iframe (Optional / Legacy) --}}
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Google Maps Embed
+                        Code (Optional)</label>
+                    <textarea name="map_iframe" rows="3"
+                        class="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all"
+                        placeholder="Tempelkan kode <iframe> dari Google Maps di sini...">{{ old('map_iframe') }}</textarea>
+                    <p class="text-xs text-gray-400 mt-2">Gunakan ini hanya jika Anda ingin menampilkan peta secara manual.
+                    </p>
+                </div>
+
+                @push('styles')
+                    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+                        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+                    <style>
+                        .autocomplete-item {
+                            padding: 12px 16px;
+                            cursor: pointer;
+                            transition: background-color 0.2s;
+                        }
+
+                        .autocomplete-item:hover {
+                            background-color: #f3f4f6;
+                        }
+                    </style>
+                @endpush
+
+                @push('scripts')
+                    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+                        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const apiKey = "{{ config('services.locationiq.key') }}";
+                            const defaultLat = -7.871181;
+                            const defaultLng = 112.526848;
+
+                            // Initialize Map
+                            const map = L.map('map').setView([defaultLat, defaultLng], 13);
+                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                            }).addTo(map);
+
+                            const marker = L.marker([defaultLat, defaultLng], {
+                                draggable: true
+                            }).addTo(map);
+
+                            function updateInputs(lat, lng) {
+                                document.getElementById('latitude').value = lat.toFixed(8);
+                                document.getElementById('longitude').value = lng.toFixed(8);
+                            }
+
+                            updateInputs(defaultLat, defaultLng);
+
+                            // Marker events
+                            marker.on('dragend', function() {
+                                const pos = marker.getLatLng();
+                                updateInputs(pos.lat, pos.lng);
+                            });
+
+                            map.on('click', function(e) {
+                                marker.setLatLng(e.latlng);
+                                updateInputs(e.latlng.lat, e.latlng.lng);
+                            });
+
+                            // Autocomplete Logic
+                            const input = document.getElementById('location-input');
+                            const resultsContainer = document.getElementById('autocomplete-results');
+                            let timeout = null;
+
+                            input.addEventListener('input', function() {
+                                clearTimeout(timeout);
+                                const query = this.value;
+
+                                if (query.length < 3) {
+                                    resultsContainer.classList.add('hidden');
+                                    return;
+                                }
+
+                                timeout = setTimeout(() => {
+                                    fetch(
+                                            `https://api.locationiq.com/v1/autocomplete.php?key=${apiKey}&q=${encodeURIComponent(query)}&limit=5&format=json`)
+                                        .then(res => res.json())
+                                        .then(data => {
+                                            if (data && data.length > 0) {
+                                                resultsContainer.innerHTML = '';
+                                                data.forEach(item => {
+                                                    const div = document.createElement('div');
+                                                    div.className =
+                                                        'autocomplete-item border-b border-gray-50 last:border-0';
+                                                    div.innerHTML = `
+                                                    <div class="font-bold text-sm text-gray-800 truncate">${item.display_name.split(',')[0]}</div>
+                                                    <div class="text-[10px] text-gray-500 truncate mt-0.5">${item.display_name}</div>
+                                                `;
+                                                    div.onclick = () => {
+                                                        const lat = parseFloat(item.lat);
+                                                        const lon = parseFloat(item.lon);
+
+                                                        input.value = item.display_name;
+                                                        resultsContainer.classList.add('hidden');
+
+                                                        map.setView([lat, lon], 16);
+                                                        marker.setLatLng([lat, lon]);
+                                                        updateInputs(lat, lon);
+                                                    };
+                                                    resultsContainer.appendChild(div);
+                                                });
+                                                resultsContainer.classList.remove('hidden');
+                                            } else {
+                                                resultsContainer.classList.add('hidden');
+                                            }
+                                        })
+                                        .catch(err => console.error('LocationIQ Error:', err));
+                                }, 400);
+                            });
+
+                            // Close dropdown on click outside
+                            document.addEventListener('click', function(e) {
+                                if (!document.getElementById('autocomplete-container').contains(e.target)) {
+                                    resultsContainer.classList.add('hidden');
+                                }
+                            });
+                        });
+                    </script>
+                @endpush
 
                 {{-- Upload Thumbnail --}}
                 <div class="md:col-span-2">

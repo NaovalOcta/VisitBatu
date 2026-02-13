@@ -65,8 +65,9 @@
                     <div class="relative" x-data="{ open: false }">
                         <button @click="open = !open" class="flex items-center focus:outline-none">
                             <div
-                                class="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold border-2 border-white shadow-sm ring-1 ring-gray-100 hover:ring-teal-200 transition-all">
-                                {{ substr(Auth::user()->name, 0, 1) }}
+                                class="h-10 w-10 rounded-full border-2 border-white shadow-sm ring-1 ring-gray-100 hover:ring-teal-200 transition-all overflow-hidden">
+                                <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
+                                    class="w-full h-full object-cover">
                             </div>
                         </button>
 
@@ -74,6 +75,10 @@
                         <div x-show="open" @click.away="open = false" x-transition
                             class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none"
                             x-cloak>
+                            <a href="{{ route('user.profile.edit') }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                <i class="icon-user mr-2"></i> Pengaturan Profil
+                            </a>
                             <a href="{{ route('welcome_page') }}"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
                                 <i class="icon-home mr-2"></i> Halaman Utama
@@ -110,13 +115,17 @@
                     class="block pl-3 pr-4 py-2 text-base font-medium rounded-lg {{ Request::is('user/posts*') ? 'bg-teal-50 text-teal-700' : 'text-gray-600 hover:bg-gray-50' }}">
                     Cerita Saya
                 </a>
+                <a href="{{ route('user.profile.edit') }}"
+                    class="block pl-3 pr-4 py-2 text-base font-medium rounded-lg {{ Request::is('user/profile*') ? 'bg-teal-50 text-teal-700' : 'text-gray-600 hover:bg-gray-50' }}">
+                    Pengaturan Profil
+                </a>
             </div>
             <div class="pt-4 pb-4 border-t border-gray-100 px-4">
                 <div class="flex items-center mb-3">
                     <div class="flex-shrink-0">
-                        <div
-                            class="h-10 w-10 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold">
-                            {{ substr(Auth::user()->name, 0, 1) }}
+                        <div class="h-10 w-10 rounded-full overflow-hidden border border-gray-200">
+                            <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
+                                class="w-full h-full object-cover">
                         </div>
                     </div>
                     <div class="ml-3">

@@ -29,6 +29,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
     </style>
+    @stack('styles')
 </head>
 
 <body class="antialiased font-sans text-gray-700 bg-gray-50 flex flex-col min-h-screen">
@@ -41,6 +42,7 @@
 
     @include('partials.footer')
 
+    @stack('scripts')
 </body>
 
 </html>

@@ -4,7 +4,7 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
+use App\Mail\UserOtpMail;
 use Illuminate\Notifications\Notification;
 
 class OtpNotification extends Notification implements ShouldQueue
@@ -31,20 +31,10 @@ class OtpNotification extends Notification implements ShouldQueue
         return ['mail'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): UserOtpMail
     {
-        return (new MailMessage)
-            ->subject('Kode Verifikasi VisitBatu - ' . $this->otp)
-            ->greeting('Halo ' . $notifiable->name . '!')
-            ->line('Anda menerima email ini karena ada permintaan login ke akun VisitBatu Anda.')
-            ->line('Berikut adalah kode verifikasi Anda:')
-            ->line('**' . $this->otp . '**')
-            ->line('Kode ini berlaku selama 5 menit.')
-            ->line('Jika Anda tidak merasa melakukan login, abaikan email ini.')
-            ->salutation('Salam hangat, Tim VisitBatu');
+        return (new UserOtpMail($notifiable->name, $this->otp))
+            ->to($notifiable->email);
     }
 
     /**

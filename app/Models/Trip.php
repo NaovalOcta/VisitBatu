@@ -17,6 +17,9 @@ class Trip extends Model
         'price',
         'duration',
         'thumbnail',
+        'map_iframe',
+        'latitude',
+        'longitude',
     ];
 
     public function posts()
@@ -28,6 +31,16 @@ class Trip extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->reviews()->avg('rating') ?: 0;
+    }
+
     public function getRouteKeyName()
     {
         return 'slug';

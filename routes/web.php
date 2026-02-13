@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\ReviewController;
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
 
@@ -75,6 +76,11 @@ Route::middleware('auth')->group(function () {
         ->name('verification.send');
 });
 
+// Review System
+Route::post('/trips/{trip:slug}/reviews', [ReviewController::class, 'store'])
+    ->middleware('auth')
+    ->name('reviews.store');
+
 // --- ADMIN ROUTES ---
 Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class])->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -121,6 +127,11 @@ Route::middleware(['auth'])->name('user.')->group(function () {
         'update' => 'posts.update',
         'destroy' => 'posts.destroy',
     ]);
+
+    // Profile Management
+    Route::get('/profile', [\App\Http\Controllers\User\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [\App\Http\Controllers\User\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [\App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
 
 Route::get('/blog/{slug}', [UserPostController::class, 'show'])->name('blog.show');

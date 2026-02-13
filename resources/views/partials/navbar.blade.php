@@ -40,9 +40,9 @@
                             <span class="text-right text-sm leading-tight">
                                 <span class="block font-bold">{{ Auth::user()->name }}</span>
                             </span>
-                            <div
-                                class="h-9 w-9 rounded-full bg-accent-500 flex items-center justify-center text-white font-serif font-bold shadow-md">
-                                {{ substr(Auth::user()->name, 0, 1) }}
+                            <div class="h-9 w-9 rounded-full border border-gray-100 shadow-md overflow-hidden">
+                                <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
+                                    class="w-full h-full object-cover">
                             </div>
                         </button>
                         <div x-show="open" x-transition
@@ -120,9 +120,9 @@
             <div class="mt-4 pt-4 border-t" :class="scrolled ? 'border-gray-200' : 'border-white/20'">
                 @auth
                     <div class="flex items-center gap-3 px-4 py-3">
-                        <div
-                            class="h-10 w-10 rounded-full bg-accent-500 flex items-center justify-center text-white font-serif font-bold shadow-md">
-                            {{ substr(Auth::user()->name, 0, 1) }}
+                        <div class="h-10 w-10 rounded-full border border-white/20 shadow-md overflow-hidden">
+                            <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
+                                class="w-full h-full object-cover">
                         </div>
                         <div>
                             <p class="font-bold text-sm">{{ Auth::user()->name }}</p>

@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
     public function edit()
     {
-        return view('user.profile.edit', [
+        return view('admin.profile.edit', [
             'user' => Auth::user(),
         ]);
     }

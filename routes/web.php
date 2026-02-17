@@ -4,14 +4,15 @@ use App\Http\Middleware\IsAdmin;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Admin\TripController;
+use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\User\UserPostController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminPostController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Auth\GoogleController;
-use App\Http\Controllers\ReviewController;
 
 Route::get('/', [HomeController::class, 'index'])->name('welcome_page');
 
@@ -111,6 +112,12 @@ Route::prefix('admin')->middleware(['auth', \App\Http\Middleware\IsAdmin::class]
         'update' => 'posts.update',
         'destroy' => 'posts.destroy',
     ]);
+
+    // Profile Management
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+
     Route::post('/posts/{post}/approve', [AdminPostController::class, 'approve'])->name('posts.approve');
     Route::post('/posts/{post}/reject', [AdminPostController::class, 'reject'])->name('posts.reject');
 });

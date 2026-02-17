@@ -50,11 +50,18 @@
                 <div class="md:col-span-2">
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Lokasi / Alamat
                         Lengkap</label>
-                    <div class="relative">
+                    <div class="relative" id="autocomplete-container">
                         <span class="absolute left-4 top-3.5 text-gray-400"><i class="icon-map-marker"></i></span>
                         <input type="text" name="location" id="location-input"
                             class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all"
-                            value="{{ old('location') }}" placeholder="Ketik nama tempat atau alamat..." required>
+                            value="{{ old('location') }}" placeholder="Ketik nama tempat atau alamat..." autocomplete="off"
+                            required>
+
+                        {{-- Dropdown Hasil Pencarian --}}
+                        <div id="autocomplete-results"
+                            class="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-xl hidden overflow-hidden">
+                            {{-- Results will be injected here --}}
+                        </div>
                     </div>
                 </div>
 
@@ -198,7 +205,8 @@
 
                                 timeout = setTimeout(() => {
                                     fetch(
-                                            `https://api.locationiq.com/v1/autocomplete.php?key=${apiKey}&q=${encodeURIComponent(query)}&limit=5&format=json`)
+                                            `https://api.locationiq.com/v1/autocomplete.php?key=${apiKey}&q=${encodeURIComponent(query)}&limit=5&format=json`
+                                            )
                                         .then(res => res.json())
                                         .then(data => {
                                             if (data && data.length > 0) {

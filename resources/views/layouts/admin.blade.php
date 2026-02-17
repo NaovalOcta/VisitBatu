@@ -107,6 +107,12 @@
 
                 <p class="px-4 pt-6 pb-2 text-[10px] font-bold text-gray-400 uppercase tracking-wider">System</p>
 
+                <a href="{{ route('admin.profile.edit') }}"
+                    class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group">
+                    <i class="icon-user mr-3 text-lg text-gray-400 group-hover:text-gray-600"></i>
+                    Pengaturan Profil
+                </a>
+
                 <a href="{{ route('welcome_page') }}" target="_blank"
                     class="flex items-center px-4 py-3 text-sm font-medium text-gray-600 rounded-xl hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 group">
                     <i class="icon-external-link mr-3 text-lg text-gray-400 group-hover:text-gray-600"></i>

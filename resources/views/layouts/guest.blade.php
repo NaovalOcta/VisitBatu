@@ -16,9 +16,36 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Script inisialisasi tema sebelum render body -->
+    <script>
+        window.initializeTheme = () => {
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+                return true;
+            } else {
+                document.documentElement.classList.remove('dark');
+                return false;
+            }
+        };
+        // Jalankan segera
+        window.initializeTheme();
+    </script>
 </head>
 
-<body class="font-sans text-gray-900 antialiased bg-gray-50 flex items-center justify-center min-h-screen">
+<body class="font-sans text-gray-900 antialiased bg-gray-50 flex items-center justify-center min-h-screen dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300"
+    x-data="{ darkMode: false }"
+    x-init="
+        darkMode = window.initializeTheme();
+        $watch('darkMode', val => {
+            if (val) {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            }
+        });
+    ">
     @yield('content')
 
     <script>

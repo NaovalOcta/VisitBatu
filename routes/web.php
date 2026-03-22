@@ -141,4 +141,16 @@ Route::middleware(['auth'])->name('user.')->group(function () {
     Route::put('/profile/password', [\App\Http\Controllers\User\ProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
 
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['id', 'en'])) {
+        session()->put('locale', $locale);
+    }
+    return back();
+})->name('lang.switch');
+
+Route::post('/notifications/mark-as-read', function () {
+    auth()->user()->unreadNotifications->markAsRead();
+    return back();
+})->name('notifications.mark-as-read')->middleware('auth');
+
 Route::get('/blog/{slug}', [UserPostController::class, 'show'])->name('blog.show');

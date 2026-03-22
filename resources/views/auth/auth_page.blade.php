@@ -5,7 +5,7 @@
         isSignUp: {{ json_encode(($isSignUp ?? false) || session('error_register') || $errors->has('name') || !empty(old('name'))) }},
         isLoading: false
     }"
-        class="relative w-full max-w-[1000px] min-h-[600px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:block m-4">
+        class="relative w-full max-w-[1000px] min-h-[600px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl dark:shadow-slate-900/50 overflow-hidden flex flex-col md:block m-4 transition-colors duration-300">
 
         <div class="absolute top-0 left-0 h-full w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white transition-all duration-700 ease-in-out"
             :class="isSignUp ? 'md:translate-x-full opacity-100 z-20' : 'opacity-0 z-0 pointer-events-none'">
@@ -13,7 +13,7 @@
             <form action="{{ route('register') }}" method="POST" class="w-full max-w-sm text-center"
                 @submit="isLoading = true">
                 @csrf
-                <h1 class="font-serif text-3xl font-bold text-gray-900 mb-4">Create Account</h1>
+                <h1 class="font-serif text-3xl font-bold text-gray-900 dark:text-slate-100 mb-4">Create Account</h1>
 
                 {{-- Google Sign Up Button --}}
                 <a href="{{ route('auth.google') }}" @click="isLoading = true"
@@ -33,36 +33,36 @@
                 </a>
 
                 <div class="flex items-center gap-4 mb-4">
-                    <div class="flex-1 h-px bg-gray-200"></div>
-                    <span class="text-xs text-gray-400">atau daftar dengan email</span>
-                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <div class="flex-1 h-px bg-gray-200 dark:bg-slate-800"></div>
+                    <span class="text-xs text-gray-400 dark:text-slate-500">atau daftar dengan email</span>
+                    <div class="flex-1 h-px bg-gray-200 dark:bg-slate-800"></div>
                 </div>
 
                 <div class="space-y-3 text-left">
                     <div>
                         <input type="text" name="name" placeholder="Nama Lengkap" value="{{ old('name') }}" required
-                            class="w-full bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition @error('name') border-red-500 bg-red-50 @enderror">
+                            class="w-full bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition @error('name') border-red-500 bg-red-50 dark:bg-red-900/20 @enderror">
                         @error('name')
                             <p class="text-[10px] text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
                         <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required
-                            class="w-full bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition @error('email') border-red-500 bg-red-50 @enderror">
+                            class="w-full bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition @error('email') border-red-500 bg-red-50 dark:bg-red-900/20 @enderror">
                         @error('email')
                             <p class="text-[10px] text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
                         <input type="password" name="password" placeholder="Password" required
-                            class="w-full bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition @error('password') border-red-500 bg-red-50 @enderror">
+                            class="w-full bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition @error('password') border-red-500 bg-red-50 dark:bg-red-900/20 @enderror">
                         @error('password')
                             <p class="text-[10px] text-red-500 mt-1">{{ $message }}</p>
                         @enderror
                     </div>
                     <div>
                         <input type="password" name="password_confirmation" placeholder="Ulangi Password" required
-                            class="w-full bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition">
+                            class="w-full bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition">
                     </div>
                 </div>
 
@@ -82,12 +82,12 @@
                     </span>
                 </button>
 
-                <p class="mt-6 text-sm md:hidden">Sudah punya akun? <button type="button" @click="isSignUp = false"
-                        class="text-primary-700 font-bold">Login</button></p>
+                <p class="mt-6 text-sm text-gray-600 dark:text-slate-400 md:hidden">Sudah punya akun? <button type="button" @click="isSignUp = false"
+                        class="text-primary-700 dark:text-primary-400 font-bold hover:underline">Login</button></p>
             </form>
         </div>
 
-        <div class="absolute top-0 left-0 h-full w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white transition-all duration-700 ease-in-out"
+        <div class="absolute top-0 left-0 h-full w-full md:w-1/2 flex items-center justify-center p-8 md:p-12 bg-white dark:bg-slate-900 transition-all duration-700 ease-in-out"
             :class="isSignUp ? 'md:translate-x-full opacity-0 z-0 pointer-events-none' : 'opacity-100 z-20'">
             <form action="{{ route('login') }}" method="POST" class="w-full max-w-sm text-center"
                 @submit="isLoading = true">
@@ -103,7 +103,7 @@
                     </div>
                 </div>
 
-                <h1 class="font-serif text-3xl font-bold text-gray-900 mb-4">Sign In</h1>
+                <h1 class="font-serif text-3xl font-bold text-gray-900 dark:text-slate-100 mb-4">Sign In</h1>
 
                 {{-- Google Sign In Button --}}
                 <a href="{{ route('auth.google') }}" @click="isLoading = true"
@@ -123,29 +123,29 @@
                 </a>
 
                 <div class="flex items-center gap-4 mb-4">
-                    <div class="flex-1 h-px bg-gray-200"></div>
-                    <span class="text-xs text-gray-400">atau masuk dengan email</span>
-                    <div class="flex-1 h-px bg-gray-200"></div>
+                    <div class="flex-1 h-px bg-gray-200 dark:bg-slate-800"></div>
+                    <span class="text-xs text-gray-400 dark:text-slate-500">atau masuk dengan email</span>
+                    <div class="flex-1 h-px bg-gray-200 dark:bg-slate-800"></div>
                 </div>
 
                 <div class="space-y-4 text-left">
                     <div>
                         <input type="email" name="email" placeholder="Email" value="{{ old('email') }}" required
-                            class="w-full bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition">
+                            class="w-full bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition">
                     </div>
                     <div>
                         <input type="password" name="password" placeholder="Password" required
-                            class="w-full bg-gray-50 border border-gray-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition">
+                            class="w-full bg-gray-50 dark:bg-slate-800/50 border border-gray-200 dark:border-slate-700 text-gray-800 dark:text-slate-200 px-4 py-3 rounded-xl focus:ring-2 focus:ring-primary-500 outline-none transition">
                     </div>
                 </div>
 
                 <div class="flex justify-between items-center mt-4 mb-6 text-xs">
-                    <label class="flex items-center text-gray-500 cursor-pointer">
+                    <label class="flex items-center text-gray-500 dark:text-slate-400 cursor-pointer">
                         <input type="checkbox" name="remember"
-                            class="mr-2 text-primary-600 rounded focus:ring-primary-500">
+                            class="mr-2 text-primary-600 rounded focus:ring-primary-500 dark:bg-slate-800 dark:border-slate-700">
                         Ingat saya
                     </label>
-                    <a href="{{ route('password.request') }}" class="font-bold text-gray-900 hover:text-primary-700">Lupa
+                    <a href="{{ route('password.request') }}" class="font-bold text-gray-900 dark:text-slate-300 hover:text-primary-700 dark:hover:text-primary-400">Lupa
                         Password?</a>
                 </div>
 
@@ -165,8 +165,8 @@
                     </span>
                 </button>
 
-                <p class="mt-6 text-sm md:hidden">Belum punya akun? <button type="button" @click="isSignUp = true"
-                        class="text-primary-700 font-bold">Daftar</button></p>
+                <p class="mt-6 text-sm text-gray-600 dark:text-slate-400 md:hidden">Belum punya akun? <button type="button" @click="isSignUp = true"
+                        class="text-primary-700 dark:text-primary-400 font-bold hover:underline">Daftar</button></p>
             </form>
         </div>
 

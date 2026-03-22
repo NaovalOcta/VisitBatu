@@ -4,7 +4,7 @@
 
 @section('content')
     {{-- 1. HERO SECTION (Konsisten dengan Trips Page) --}}
-    <div class="relative bg-primary-900 pt-32 pb-32 overflow-hidden">
+    <div class="relative bg-primary-900 dark:bg-slate-950 pt-32 pb-32 overflow-hidden transition-colors duration-300">
         {{-- Background Blobs --}}
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-white opacity-5 rounded-full blur-3xl"></div>
         <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-accent-500 opacity-10 rounded-full blur-3xl"></div>
@@ -24,7 +24,7 @@
     </div>
 
     {{-- 2. MAIN CONTENT --}}
-    <div class="bg-gray-50 min-h-screen relative mt-16 pb-20 z-20">
+    <div class="bg-gray-50 dark:bg-slate-900 min-h-screen relative mt-16 pb-20 z-20 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
 
@@ -32,15 +32,15 @@
                 <div class="lg:col-span-1 space-y-6">
 
                     {{-- Card Info --}}
-                    <div class="bg-white rounded-3xl p-8 shadow-lg border border-gray-100">
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-lg dark:shadow-slate-900/50 border border-gray-100 dark:border-slate-700/50 transition-colors duration-300">
                         <div class="flex items-start gap-4 mb-6">
                             <div
                                 class="w-12 h-12 rounded-full bg-primary-50 flex items-center justify-center text-primary-600 text-xl shrink-0">
                                 <i class="icon-map-marker"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-900 text-lg">Kantor Pusat</h4>
-                                <p class="text-gray-500 text-sm mt-1">Jl. Raya Pandanrejo No. 99<br>Batu, Jawa Timur,
+                                <h4 class="font-bold text-gray-900 dark:text-slate-100 text-lg">Kantor Pusat</h4>
+                                <p class="text-gray-500 dark:text-slate-400 text-sm mt-1">Jl. Raya Pandanrejo No. 99<br>Batu, Jawa Timur,
                                     Indonesia</p>
                             </div>
                         </div>
@@ -50,8 +50,8 @@
                                 <i class="icon-envelope"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-900 text-lg">Email</h4>
-                                <p class="text-gray-500 text-sm mt-1">
+                                <h4 class="font-bold text-gray-900 dark:text-slate-100 text-lg">Email</h4>
+                                <p class="text-gray-500 dark:text-slate-400 text-sm mt-1">
                                     <a href="mailto:hello@visitbatu.com"
                                         class="hover:text-primary-600 transition">hello@visitbatu.com</a>
                                 </p>
@@ -63,14 +63,14 @@
                                 <i class="icon-phone"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-gray-900 text-lg">Telepon / WA</h4>
-                                <p class="text-gray-500 text-sm mt-1">+62 812 3456 7890</p>
+                                <h4 class="font-bold text-gray-900 dark:text-slate-100 text-lg">Telepon / WA</h4>
+                                <p class="text-gray-500 dark:text-slate-400 text-sm mt-1">+62 812 3456 7890</p>
                             </div>
                         </div>
                     </div>
 
                     {{-- Social Media --}}
-                    <div class="bg-primary-900 rounded-3xl p-8 text-white text-center relative overflow-hidden">
+                    <div class="bg-primary-900 dark:bg-slate-950 rounded-3xl p-8 text-white text-center relative overflow-hidden transition-colors duration-300">
                         <div class="absolute inset-0 bg-pattern opacity-10"></div>
                         <h4 class="font-serif text-xl font-bold mb-4 relative z-10">Ikuti Perjalanan Kami</h4>
                         <div class="flex justify-center gap-4 relative z-10">
@@ -99,9 +99,9 @@
 
                 {{-- KOLOM KANAN: Formulir Kontak --}}
                 <div class="lg:col-span-2">
-                    <div class="bg-white rounded-3xl p-8 md:p-10 shadow-xl border-t-4 border-primary-600">
-                        <h3 class="font-serif text-3xl font-bold text-gray-800 mb-2">Kirim Pesan</h3>
-                        <p class="text-gray-500 mb-8">Silakan isi formulir di bawah ini, kami akan merespons secepatnya.</p>
+                    <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 md:p-10 shadow-xl dark:shadow-slate-900/50 border-t-4 border-primary-600 dark:border-primary-400 transition-colors duration-300">
+                        <h3 class="font-serif text-3xl font-bold text-gray-800 dark:text-slate-100 mb-2">Kirim Pesan</h3>
+                        <p class="text-gray-500 dark:text-slate-400 mb-8">Silakan isi formulir di bawah ini, kami akan merespons secepatnya.</p>
 
                         {{-- Alert Sukses --}}
                         @if (session('success'))
@@ -119,11 +119,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {{-- Nama --}}
                                 <div>
-                                    <label for="name" class="block text-sm font-bold text-gray-700 mb-2">Nama
+                                    <label for="name" class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Nama
                                         Lengkap</label>
                                     <input type="text" name="name" id="name" value="{{ old('name') }}"
                                         placeholder="Contoh: Budi Santoso"
-                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition outline-none @error('name') border-red-500 bg-red-50 @enderror">
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-500/30 transition outline-none @error('name') border-red-500 bg-red-50 dark:bg-red-900/20 @enderror">
                                     @error('name')
                                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
@@ -131,11 +131,11 @@
 
                                 {{-- Email --}}
                                 <div>
-                                    <label for="email" class="block text-sm font-bold text-gray-700 mb-2">Alamat
+                                    <label for="email" class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Alamat
                                         Email</label>
                                     <input type="email" name="email" id="email" value="{{ old('email') }}"
                                         placeholder="nama@email.com"
-                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition outline-none @error('email') border-red-500 bg-red-50 @enderror">
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-500/30 transition outline-none @error('email') border-red-500 bg-red-50 dark:bg-red-900/20 @enderror">
                                     @error('email')
                                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                     @enderror
@@ -144,11 +144,11 @@
 
                             {{-- Subjek --}}
                             <div>
-                                <label for="subject" class="block text-sm font-bold text-gray-700 mb-2">Subjek
+                                <label for="subject" class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Subjek
                                     Pesan</label>
                                 <input type="text" name="subject" id="subject" value="{{ old('subject') }}"
                                     placeholder="Misal: Tanya Paket Wisata Keluarga"
-                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition outline-none @error('subject') border-red-500 bg-red-50 @enderror">
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-500/30 transition outline-none @error('subject') border-red-500 bg-red-50 dark:bg-red-900/20 @enderror">
                                 @error('subject')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
@@ -156,9 +156,9 @@
 
                             {{-- Pesan --}}
                             <div>
-                                <label for="message" class="block text-sm font-bold text-gray-700 mb-2">Isi Pesan</label>
+                                <label for="message" class="block text-sm font-bold text-gray-700 dark:text-slate-300 mb-2">Isi Pesan</label>
                                 <textarea name="message" id="message" rows="5" placeholder="Tuliskan pertanyaan atau kebutuhan Anda di sini..."
-                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 transition outline-none @error('message') border-red-500 bg-red-50 @enderror">{{ old('message') }}</textarea>
+                                    class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-500/30 transition outline-none @error('message') border-red-500 bg-red-50 dark:bg-red-900/20 @enderror">{{ old('message') }}</textarea>
                                 @error('message')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror

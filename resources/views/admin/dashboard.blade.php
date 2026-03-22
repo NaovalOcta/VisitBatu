@@ -24,10 +24,10 @@
                     class="inline-flex items-center px-5 py-2.5 bg-white text-teal-700 text-sm font-bold rounded-full shadow-sm hover:bg-teal-50 hover:scale-105 transition-all duration-200">
                     <i class="icon-plus mr-2"></i> Tambah Wisata
                 </a>
-                <a href="{{ route('admin.posts.create') }}"
-                    class="inline-flex items-center px-5 py-2.5 bg-white/10 backdrop-blur-sm border border-white/30 text-white text-sm font-bold rounded-full hover:bg-white/20 transition-all duration-200">
+                <button type="button" disabled title="Fitur ini masih dalam tahap pengembangan dan belum dapat digunakan"
+                    class="inline-flex items-center px-5 py-2.5 bg-white/5 backdrop-blur-sm border border-white/10 text-white/40 text-sm font-bold rounded-full cursor-not-allowed transition-all duration-200">
                     <i class="icon-pencil mr-2"></i> Tulis Blog
-                </a>
+                </button>
             </div>
         </div>
     </div>

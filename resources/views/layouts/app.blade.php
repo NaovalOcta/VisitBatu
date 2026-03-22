@@ -2,6 +2,20 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="scroll-smooth">
 
 <head>
+    <script>
+        // Use a function to simplify toggling and ensure persistence
+        window.initializeTheme = () => {
+            const isDark = localStorage.getItem('darkMode') === 'true' || 
+                         (!('darkMode' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+            return isDark;
+        };
+        window.initializeTheme();
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'VisitBatu - The Jewel of East Java')</title>
@@ -23,16 +37,23 @@
 
         /* Efek Kaca untuk Navbar */
         .glass-effect {
-            background: rgba(255, 255, 255, 0.85);
+            background-color: var(--glass-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            border-bottom: 1px solid var(--glass-border);
         }
     </style>
     @stack('styles')
 </head>
 
-<body class="antialiased font-sans text-gray-700 bg-gray-50 flex flex-col min-h-screen">
+<body 
+    x-data="{ darkMode: window.initializeTheme() }" 
+    x-init="$watch('darkMode', val => { 
+        localStorage.setItem('darkMode', val); 
+        if(val) document.documentElement.classList.add('dark'); 
+        else document.documentElement.classList.remove('dark');
+    })"
+    class="antialiased font-sans text-gray-700 dark:text-slate-200 bg-gray-50 dark:bg-slate-950 flex flex-col min-h-screen transition-colors duration-300">
 
     @include('partials.navbar')
 

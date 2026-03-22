@@ -77,7 +77,7 @@
                                         class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-transparent hover:border-blue-100"
                                         title="Edit">
                                         <i class="icon-pencil"></i>
-                                    </a>
+                                    </a
 
                                     <form action="{{ route('admin.trips.destroy', $trip) }}" method="POST"
                                         onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">

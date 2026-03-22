@@ -17,6 +17,7 @@ class Trip extends Model
         'price',
         'duration',
         'thumbnail',
+        'whatsapp_number',
         'map_iframe',
         'latitude',
         'longitude',

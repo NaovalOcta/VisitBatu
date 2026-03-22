@@ -5,6 +5,9 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/* Enable class-based dark mode in Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
     /* --- FONTS --- */
     /* Mengoverride font sans & serif default Tailwind */
@@ -21,6 +24,7 @@
     --color-primary-900: #064e3b;
 
     /* --- COLORS: Accent (Gold) --- */
+    --color-accent-200: #FDE68A;
     --color-accent-400: #fbbf24;
     --color-accent-500: #f59e0b;
     --color-accent-600: #d97706;
@@ -28,4 +32,14 @@
     /* --- SHADOWS --- */
     --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+.dark {
+    --glass-bg: rgba(15, 23, 42, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.1);
 }

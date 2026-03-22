@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use App\Notifications\NewPostSubmitted;
 
 
 class UserPostController extends Controller
@@ -55,7 +57,7 @@ class UserPostController extends Controller
             $slug = $originalSlug . '-' . $count++;
         }
 
-        Post::create([
+        $post = Post::create([
             'user_id' => Auth::id(),
             'trip_id' => $request->trip_id,
             'title'   => $request->title,
@@ -64,6 +66,12 @@ class UserPostController extends Controller
             'image'   => $imagePath,
             'status'  => 'pending',
         ]);
+
+        // Notifikasi Admin
+        $admins = User::where('role', 'admin')->get();
+        foreach ($admins as $admin) {
+            $admin->notify(new NewPostSubmitted($post));
+        }
 
         return redirect()->route('user.dashboard')
             ->with('success', 'Blog berhasil dibuat! Menunggu persetujuan admin.');

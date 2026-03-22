@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PostStatusMail;
+use App\Notifications\PostStatusUpdated;
 
 class AdminPostController extends Controller
 {
@@ -33,6 +34,9 @@ class AdminPostController extends Controller
         // Kirim Email Notifikasi
         Mail::to($post->user->email)->send(new PostStatusMail($post, 'approved'));
 
+        // Kirim Notifikasi Database
+        $post->user->notify(new PostStatusUpdated($post, 'approved'));
+
         return back()->with('success', 'Postingan berhasil disetujui dan ditayangkan.');
     }
 
@@ -43,6 +47,9 @@ class AdminPostController extends Controller
 
         // Kirim Email Notifikasi
         Mail::to($post->user->email)->send(new PostStatusMail($post, 'rejected'));
+
+        // Kirim Notifikasi Database
+        $post->user->notify(new PostStatusUpdated($post, 'rejected'));
 
         return back()->with('error', 'Postingan ditolak.');
     }

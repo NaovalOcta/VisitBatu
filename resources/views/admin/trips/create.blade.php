@@ -116,6 +116,19 @@
                     </div>
                 </div>
 
+                {{-- WhatsApp Number --}}
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nomor WhatsApp
+                        Inquiry</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-3.5 text-gray-400"><i class="icon-whatsapp"></i></span>
+                        <input type="text" name="whatsapp_number"
+                            class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all font-medium"
+                            value="{{ old('whatsapp_number') }}" placeholder="Contoh: 628123456789">
+                        <p class="text-[10px] text-gray-400 mt-2">Gunakan format internasional (62...) tanpa tanda + atau spasi.</p>
+                    </div>
+                </div>
+
                 {{-- Deskripsi --}}
                 <div class="md:col-span-2">
                     <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Deskripsi

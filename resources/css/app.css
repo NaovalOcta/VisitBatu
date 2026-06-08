@@ -29,6 +29,18 @@
     --color-accent-500: #f59e0b;
     --color-accent-600: #d97706;
 
+    /* --- COLORS: Night (Dark Mode Surfaces — Blue-Charcoal) --- */
+    /* Layer hierarchy: 950 (darkest) → 600 (lightest surface) */
+    --color-night-950: #0a0d14;   /* Footer / absolute darkest */
+    --color-night-900: #0f1117;   /* Page background */
+    --color-night-880: #100f1d;   /* Between 850–900 */
+    --color-night-850: #111520;   /* Deep section bg */
+    --color-night-800: #131820;   /* Section background */
+    --color-night-750: #192437;   /* Subtle border / between 700–800 */
+    --color-night-700: #1c2030;   /* Card background */
+    --color-night-650: #212840;   /* Hover border / between 600–700 */
+    --color-night-600: #252d40;   /* Card image slot / lightest surface */
+
     /* --- SHADOWS --- */
     --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
     --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -40,6 +52,6 @@
 }
 
 .dark {
-    --glass-bg: rgba(15, 23, 42, 0.85);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-bg: rgba(15, 17, 23, 0.90);
+    --glass-border: rgba(255, 255, 255, 0.12);
 }

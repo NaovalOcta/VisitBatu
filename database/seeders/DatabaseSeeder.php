@@ -10,6 +10,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
+    
 
     /**
      * Seed the application's database.
@@ -20,9 +21,14 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Admin VisitBatu',
-            'email' => 'admin@visitbatu.com',
+            'email' => 'nopal.r.octa@gmail.com',
             'role' => 'admin',
-            'password' => Hash::make('visitbatu'),
+            'password' => Hash::make('NaOH_27101510'),
+        ]);
+
+        $this->call([
+            CategorySeeder::class,
+            TripSeeder::class,
         ]);
     }
 }

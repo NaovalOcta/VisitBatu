@@ -1,11 +1,11 @@
-<footer class="bg-gray-900 dark:bg-slate-950 text-white pt-20 pb-10 border-t border-gray-800 dark:border-slate-800 relative overflow-hidden font-sans transition-colors duration-300">
+<footer class="bg-gray-900 dark:bg-night-950 text-white pt-20 pb-10 border-t border-gray-800 dark:border-night-800 relative overflow-hidden font-sans transition-colors duration-300">
 
     <div class="absolute top-0 left-0 -ml-10 -mt-10 w-40 h-40 bg-primary-900 rounded-full blur-3xl opacity-20"></div>
     <div class="absolute bottom-0 right-0 -mr-10 -mb-10 w-60 h-60 bg-accent-600 rounded-full blur-3xl opacity-10"></div>
 
     <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
 
-        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-16 border-b border-gray-800 dark:border-slate-800 pb-12">
+        <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 mb-16 border-b border-gray-800 dark:border-night-800 pb-12">
             <div class="lg:col-span-2">
                 <a href="{{ url('/') }}" class="flex items-center gap-3 mb-6">
                     <div
@@ -46,10 +46,10 @@
                 </div>
             </div>
 
-            <div class="lg:col-span-3 bg-gray-800/50 dark:bg-slate-900/50 rounded-2xl p-8 border border-gray-700/50 dark:border-slate-800/50">
+            <div class="lg:col-span-3 bg-gray-800/50 dark:bg-night-900/50 rounded-2xl p-8 border border-gray-700/50 dark:border-night-800/50">
                 <h3 class="text-xl font-bold font-serif mb-2">Bergabung dengan Newsletter Kami</h3>
-                <p class="text-gray-400 dark:text-slate-500 text-sm mb-6">Dapatkan info promo tiket dan rekomendasi wisata tersembunyi
-                    setiap minggunya.</p>
+                <p class="text-gray-400 dark:text-white/60 text-sm mb-6">Dapatkan info promo tiket dan rekomendasi wisata tersembunyi
+                     setiap minggunya.</p>
                 <form class="flex flex-col sm:flex-row gap-3">
                     <input type="email" placeholder="Masukkan alamat email Anda"
                         class="flex-1 px-5 py-3 rounded-xl bg-gray-900 border border-gray-700 text-white focus:outline-none focus:border-accent-500 transition">
@@ -72,6 +72,12 @@
                     <li><a href="{{ url('/trips') }}"
                             class="hover:text-accent-400 transition flex items-center gap-2">{{ __('Destinasi Wisata') }}</a></li>
                     <li><a href="{{ url('/blog') }}"
+                            class="hover:text-accent-400 transition flex items-center gap-2">{{ __('Blog') }}</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4
                     class="text-white font-bold uppercase tracking-wider text-xs mb-6 border-b border-accent-500 inline-block pb-1">
                     Kategori</h4>
                 <ul class="space-y-3 text-sm text-gray-400">
@@ -126,7 +132,7 @@
         </div>
 
         <div
-            class="border-t border-gray-800 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 dark:text-slate-500">
+            class="border-t border-gray-800 dark:border-night-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 dark:text-white/50">
             <p>&copy; {{ date('Y') }} VisitBatu Portal. Dibuat dengan <span class="text-red-500">❤</span> di Kota
                 Batu.</p>
             <div class="flex space-x-6 mt-4 md:mt-0">

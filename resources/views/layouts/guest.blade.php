@@ -32,7 +32,7 @@
     </script>
 </head>
 
-<body class="font-sans text-gray-900 antialiased bg-gray-50 flex items-center justify-center min-h-screen dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300"
+<body class="font-sans text-gray-900 antialiased bg-gray-50 flex items-center justify-center min-h-screen dark:bg-night-900 dark:text-white transition-colors duration-300"
     x-data="{ darkMode: false }"
     x-init="
         darkMode = window.initializeTheme();

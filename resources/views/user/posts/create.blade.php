@@ -4,18 +4,18 @@
     {{-- Header --}}
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-            <h2 class="font-serif text-3xl font-bold text-gray-900">Tulis Cerita Baru ✍️</h2>
-            <p class="text-gray-500 text-sm mt-1">Bagikan pengalaman perjalananmu yang menginspirasi.</p>
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Tulis Cerita Baru ✍️</h2>
+            <p class="text-gray-500 dark:text-white/60 text-sm mt-1">Bagikan pengalaman perjalananmu yang menginspirasi.</p>
         </div>
         <a href="{{ route('user.dashboard') }}"
-            class="inline-flex items-center justify-center px-5 py-2.5 bg-white border border-gray-200 text-gray-600 text-sm font-bold rounded-full hover:bg-gray-50 hover:text-gray-900 transition-all shadow-sm">
+            class="inline-flex items-center justify-center px-5 py-2.5 bg-white dark:bg-transparent border border-gray-200 dark:border-night-750 text-gray-600 dark:text-white/60 text-sm font-bold rounded-full hover:bg-gray-50 dark:hover:bg-night-700 hover:text-gray-900 dark:hover:text-white transition-all shadow-sm">
             <i class="icon-arrow-left mr-2"></i> Kembali
         </a>
     </div>
 
     {{-- Alert Error --}}
     @if ($errors->any())
-        <div class="mb-6 p-4 rounded-2xl bg-red-50 border border-red-100 text-red-800 flex gap-3 items-start">
+        <div class="mb-6 p-4 rounded-2xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/40 text-red-800 dark:text-red-300 flex gap-3 items-start">
             <i class="icon-warning text-lg mt-0.5"></i>
             <ul class="list-disc list-inside text-sm space-y-1">
                 @foreach ($errors->all() as $error)
@@ -27,7 +27,7 @@
 
     {{-- Form Container --}}
     <div x-data="{ isLoading: false }"
-        class="bg-white border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-6 md:p-10">
+        class="bg-white dark:bg-night-800 border border-gray-100 dark:border-night-700/50 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden p-6 md:p-10">
         <form action="{{ route('user.posts.store') }}" method="POST" enctype="multipart/form-data"
             @submit="isLoading = true">
             @csrf
@@ -35,21 +35,21 @@
             <div class="space-y-8">
                 {{-- Judul --}}
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Judul Cerita</label>
+                    <label class="block text-xs font-bold text-gray-400 dark:text-white/50 uppercase tracking-wider mb-2">Judul Cerita</label>
                     <input type="text" name="title"
-                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-serif text-lg font-bold text-gray-900 placeholder-gray-400"
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-serif text-lg font-bold text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30"
                         placeholder="Contoh: Petualangan Seru di Museum Angkut..." value="{{ old('title') }}" required>
                 </div>
 
                 {{-- Lokasi --}}
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Lokasi</label>
+                    <label class="block text-xs font-bold text-gray-400 dark:text-white/50 uppercase tracking-wider mb-2">Lokasi</label>
                     <select name="trip_id"
-                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-serif text-lg font-bold text-gray-900 placeholder-gray-400"
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all font-serif text-lg font-bold text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-white/30"
                         required>
-                        <option value="">Pilih Lokasi</option>
+                        <option value="" class="dark:bg-night-850">Pilih Lokasi</option>
                         @foreach ($trips as $trip)
-                            <option value="{{ $trip->id }}" {{ old('trip_id') == $trip->id ? 'selected' : '' }}>
+                            <option value="{{ $trip->id }}" class="dark:bg-night-850" {{ old('trip_id') == $trip->id ? 'selected' : '' }}>
                                 {{ $trip->title }}
                             </option>
                         @endforeach
@@ -58,17 +58,17 @@
 
                 {{-- Upload Gambar --}}
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Foto Sampul</label>
+                    <label class="block text-xs font-bold text-gray-400 dark:text-white/50 uppercase tracking-wider mb-3">Foto Sampul</label>
                     <label for="image-upload"
-                        class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-3xl cursor-pointer bg-gray-50 hover:bg-teal-50 hover:border-teal-300 transition-all group overflow-hidden">
+                        class="relative flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 dark:border-night-750 border-dashed rounded-3xl cursor-pointer bg-gray-50 dark:bg-night-900 hover:bg-teal-50 dark:hover:bg-night-800 hover:border-teal-300 dark:hover:border-night-650 transition-all group overflow-hidden">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6 relative z-10">
                             <div
-                                class="h-16 w-16 bg-white rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                class="h-16 w-16 bg-white dark:bg-night-800 rounded-full shadow-sm flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                                 <i class="icon-image text-3xl text-teal-500"></i>
                             </div>
-                            <p class="mb-2 text-sm text-gray-500 group-hover:text-teal-700 font-medium">Klik untuk upload
+                            <p class="mb-2 text-sm text-gray-500 dark:text-white/60 group-hover:text-teal-700 dark:group-hover:text-white font-medium">Klik untuk upload
                                 foto</p>
-                            <p class="text-xs text-gray-400">JPG, PNG, JPEG (Max. 2MB)</p>
+                            <p class="text-xs text-gray-400 dark:text-white/40">JPG, PNG, JPEG (Max. 2MB)</p>
                         </div>
                         <input id="image-upload" name="image" type="file" class="hidden" accept="image/*" />
                     </label>
@@ -76,17 +76,17 @@
 
                 {{-- Konten --}}
                 <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Isi Cerita</label>
+                    <label class="block text-xs font-bold text-gray-400 dark:text-white/50 uppercase tracking-wider mb-2">Isi Cerita</label>
                     <textarea name="content" rows="12"
-                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all text-gray-700 leading-relaxed resize-y"
+                        class="w-full px-5 py-4 rounded-2xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10 outline-none transition-all text-gray-700 dark:text-white/80 leading-relaxed resize-y"
                         placeholder="Ceritakan pengalamanmu secara detail di sini..." required>{{ old('content') }}</textarea>
                 </div>
             </div>
 
             {{-- Actions --}}
-            <div class="pt-8 mt-8 border-t border-gray-100 flex items-center justify-end gap-3">
+            <div class="pt-8 mt-8 border-t border-gray-100 dark:border-night-700 flex items-center justify-end gap-3">
                 <a href="{{ route('user.dashboard') }}"
-                    class="px-6 py-3 rounded-full text-sm font-bold text-gray-500 hover:bg-gray-100 transition-all">
+                    class="px-6 py-3 rounded-full text-sm font-bold text-gray-500 dark:text-white/60 hover:bg-gray-100 dark:hover:bg-night-900 transition-all">
                     Batal
                 </a>
                 <button type="submit" :disabled="isLoading"

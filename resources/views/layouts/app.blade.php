@@ -40,7 +40,6 @@
             background-color: var(--glass-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
         }
     </style>
     @stack('styles')
@@ -53,7 +52,7 @@
         if(val) document.documentElement.classList.add('dark'); 
         else document.documentElement.classList.remove('dark');
     })"
-    class="antialiased font-sans text-gray-700 dark:text-slate-200 bg-gray-50 dark:bg-slate-950 flex flex-col min-h-screen transition-colors duration-300">
+    class="antialiased font-sans text-gray-700 dark:text-white bg-gray-50 dark:bg-night-950 flex flex-col min-h-screen transition-colors duration-300">
 
     @include('partials.navbar')
 

@@ -4,24 +4,24 @@
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {{-- Header Section --}}
         <div class="mb-8">
-            <h1 class="font-serif text-3xl font-bold text-gray-900">Pengaturan Profil</h1>
-            <p class="text-gray-500 mt-2">Kelola informasi akun dan kata sandi Anda.</p>
+            <h1 class="font-serif text-3xl font-bold text-gray-900 dark:text-white">Pengaturan Profil</h1>
+            <p class="text-gray-500 dark:text-white/60 mt-2">Kelola informasi akun dan kata sandi Anda.</p>
         </div>
 
         @if (session('success'))
-            <div class="mb-6 p-4 rounded-2xl bg-green-50 border border-green-100 text-green-800 flex items-center gap-3">
+            <div class="mb-6 p-4 rounded-2xl bg-green-50 dark:bg-green-950/20 border border-green-100 dark:border-green-900/40 text-green-800 dark:text-green-300 flex items-center gap-3">
                 <i class="icon-check_circle text-xl"></i>
                 <span class="font-medium">{{ session('success') }}</span>
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="mb-6 p-4 rounded-2xl bg-red-50 border border-red-100 text-red-800">
+            <div class="mb-6 p-4 rounded-2xl bg-red-50 dark:bg-red-950/20 border border-red-100 dark:border-red-900/40 text-red-800 dark:text-red-300">
                 <div class="flex items-center gap-2 mb-2 font-bold">
                     <i class="icon-warning"></i>
                     <span>Harap perbaiki kesalahan berikut:</span>
                 </div>
-                <ul class="list-disc list-inside text-sm space-y-1 text-red-600 ml-1">
+                <ul class="list-disc list-inside text-sm space-y-1 text-red-600 dark:text-red-400 ml-1">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
@@ -30,9 +30,9 @@
         @endif
 
         {{-- Profile Information Card --}}
-        <div class="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden mb-8">
-            <div class="px-6 py-5 border-b border-gray-50">
-                <h3 class="font-serif font-bold text-gray-800 text-xl">Informasi Profil</h3>
+        <div class="bg-white dark:bg-night-800 border border-gray-100 dark:border-night-700/50 rounded-3xl shadow-sm overflow-hidden mb-8">
+            <div class="px-6 py-5 border-b border-gray-50 dark:border-night-700/50">
+                <h3 class="font-serif font-bold text-gray-800 dark:text-white text-xl">Informasi Profil</h3>
             </div>
             <div class="p-6 md:p-8">
                 <form action="{{ route('user.profile.update') }}" method="POST" enctype="multipart/form-data"
@@ -44,13 +44,13 @@
                         {{-- Avatar Section --}}
                         <div class="relative group">
                             <div
-                                class="w-32 h-32 rounded-full overflow-hidden border-4 border-teal-50 shadow-md bg-gray-100">
+                                class="w-32 h-32 rounded-full overflow-hidden border-4 border-teal-50 dark:border-night-700 shadow-md bg-gray-100 dark:bg-night-900">
                                 <img id="avatar-preview"
                                     src="{{ $user->avatar ? (Str::startsWith($user->avatar, 'http') ? $user->avatar : asset('storage/' . $user->avatar)) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
                                     class="w-full h-full object-cover">
                             </div>
                             <label for="avatar-input"
-                                class="absolute bottom-0 right-0 w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-teal-700 transition shadow-lg border-2 border-white">
+                                class="absolute bottom-0 right-0 w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center text-white cursor-pointer hover:bg-teal-700 transition shadow-lg border-2 border-white dark:border-night-800">
                                 <i class="icon-camera"></i>
                                 <input type="file" name="avatar" id="avatar-input" class="hidden" accept="image/*"
                                     onchange="previewAvatar(event)">
@@ -60,18 +60,18 @@
                         {{-- Name & Email Section --}}
                         <div class="flex-1 w-full space-y-6">
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Nama
+                                <label class="block text-xs font-bold text-gray-500 dark:text-white/50 uppercase tracking-wider mb-2">Nama
                                     Lengkap</label>
                                 <input type="text" name="name" value="{{ old('name', $user->name) }}"
-                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all font-medium text-gray-800"
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all font-medium text-gray-800 dark:text-white/85"
                                     required>
                             </div>
 
                             <div>
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Alamat
+                                <label class="block text-xs font-bold text-gray-500 dark:text-white/50 uppercase tracking-wider mb-2">Alamat
                                     Email</label>
                                 <input type="email" name="email" value="{{ old('email', $user->email) }}"
-                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all font-medium text-gray-800"
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all font-medium text-gray-800 dark:text-white/85"
                                     required>
                             </div>
                         </div>
@@ -98,9 +98,9 @@
         </div>
 
         {{-- Password Update Card --}}
-        <div class="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden">
-            <div class="px-6 py-5 border-b border-gray-50">
-                <h3 class="font-serif font-bold text-gray-800 text-xl">
+        <div class="bg-white dark:bg-night-800 border border-gray-100 dark:border-night-700/50 rounded-3xl shadow-sm overflow-hidden">
+            <div class="px-6 py-5 border-b border-gray-50 dark:border-night-700/50">
+                <h3 class="font-serif font-bold text-gray-800 dark:text-white text-xl">
                     {{ $user->password ? 'Ubah Kata Sandi' : 'Pasang Kata Sandi' }}
                 </h3>
             </div>
@@ -113,15 +113,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                         @if ($user->password)
                             <div class="md:col-span-2">
-                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Kata
+                                <label class="block text-xs font-bold text-gray-500 dark:text-white/50 uppercase tracking-wider mb-2">Kata
                                     Sandi Saat Ini</label>
                                 <input type="password" name="current_password"
-                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all"
+                                    class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all text-gray-800 dark:text-white/85"
                                     required>
                             </div>
                         @else
                             <div
-                                class="md:col-span-2 p-4 rounded-2xl bg-teal-50 border border-teal-100 text-teal-800 text-sm">
+                                class="md:col-span-2 p-4 rounded-2xl bg-teal-50 dark:bg-teal-950/20 border border-teal-100 dark:border-teal-900/40 text-teal-800 dark:text-teal-350 text-sm">
                                 <i class="icon-info mr-2"></i>
                                 Anda belum memiliki kata sandi karena login via Google. Silakan pasang kata sandi untuk
                                 dapat login menggunakan email dikemudian hari.
@@ -129,18 +129,18 @@
                         @endif
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Kata
+                            <label class="block text-xs font-bold text-gray-500 dark:text-white/50 uppercase tracking-wider mb-2">Kata
                                 Sandi Baru</label>
                             <input type="password" name="password"
-                                class="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all"
+                                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all text-gray-800 dark:text-white/85"
                                 required>
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Konfirmasi
+                            <label class="block text-xs font-bold text-gray-500 dark:text-white/50 uppercase tracking-wider mb-2">Konfirmasi
                                 Kata Sandi Baru</label>
                             <input type="password" name="password_confirmation"
-                                class="w-full px-4 py-3 rounded-xl bg-gray-50 border-transparent focus:bg-white focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all"
+                                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-night-900 border-transparent focus:bg-white dark:focus:bg-night-800 focus:border-teal-500 focus:ring-2 focus:ring-teal-200 outline-none transition-all text-gray-800 dark:text-white/85"
                                 required>
                         </div>
                     </div>

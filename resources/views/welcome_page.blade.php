@@ -53,7 +53,7 @@
         </div> --}}
     </header>
 
-    <section class="pt-32 pb-20 bg-white dark:bg-slate-950 transition-colors duration-300">
+    <section class="pt-32 pb-20 bg-white dark:bg-night-950 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                 <div class="relative">
@@ -67,7 +67,7 @@
                             class="rounded-2xl shadow-lg w-full h-64 object-cover transform hover:-translate-y-2 transition duration-500">
                     </div>
                     <div
-                        class="absolute -bottom-6 -right-6 bg-white dark:bg-slate-800 p-6 rounded-xl shadow-xl border border-gray-50 dark:border-slate-700 max-w-xs transition-colors duration-300">
+                        class="absolute -bottom-6 -right-6 bg-white dark:bg-night-800 p-6 rounded-xl shadow-xl border border-gray-50 dark:border-night-700 max-w-xs transition-colors duration-300">
                         <div class="flex items-center gap-4">
                             <div class="bg-primary-100 p-3 rounded-full text-primary-700">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -76,8 +76,8 @@
                                 </svg>
                             </div>
                             <div>
-                                <p class="text-3xl font-bold text-gray-900 dark:text-slate-100">150+</p>
-                                <p class="text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wide">Destinasi Wisata</p>
+                                <p class="text-3xl font-bold text-gray-900 dark:text-white">150+</p>
+                                <p class="text-xs text-gray-500 dark:text-white/60 uppercase tracking-wide">Destinasi Wisata</p>
                             </div>
                         </div>
                     </div>
@@ -86,14 +86,14 @@
                 <div>
                     <span class="text-primary-700 font-bold tracking-widest uppercase text-sm mb-2 block">Tentang
                         VisitBatu</span>
-                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-gray-900 dark:text-slate-100 mb-6 leading-tight">
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                         Gerbang Utama Menuju <br> <span class="italic text-primary-700 dark:text-primary-500">Kota Apel</span>
                     </h2>
-                    <p class="text-gray-600 dark:text-slate-400 text-lg leading-relaxed mb-6">
+                    <p class="text-gray-600 dark:text-white/70 text-lg leading-relaxed mb-6">
                         VisitBatu adalah platform kurasi wisata premium yang didedikasikan untuk membantu Anda menemukan
                         keindahan tersembunyi di Kota Batu.
                     </p>
-                    <p class="text-gray-600 dark:text-slate-400 text-lg leading-relaxed mb-8">
+                    <p class="text-gray-600 dark:text-white/70 text-lg leading-relaxed mb-8">
                         Kami menghubungkan wisatawan dengan destinasi lokal terbaik, mulai dari agrowisata petik apel, air
                         terjun alami, hingga taman rekreasi modern berstandar internasional.
                     </p>
@@ -102,12 +102,12 @@
                         <li class="flex items-center gap-3">
                             <span
                                 class="w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-white text-xs">✓</span>
-                            <span class="font-medium text-gray-700 dark:text-slate-300">Informasi Wisata Terupdate</span>
+                            <span class="font-medium text-gray-700 dark:text-white/80">Informasi Wisata Terupdate</span>
                         </li>
                         <li class="flex items-center gap-3">
                             <span
                                 class="w-6 h-6 rounded-full bg-accent-500 flex items-center justify-center text-white text-xs">✓</span>
-                            <span class="font-medium text-gray-700 dark:text-slate-300">Ulasan Jujur dari Komunitas</span>
+                            <span class="font-medium text-gray-700 dark:text-white/80">Ulasan Jujur dari Komunitas</span>
                         </li>
                     </ul>
 
@@ -123,29 +123,29 @@
         </div>
     </section>
 
-    <section class="py-20 bg-gray-50 dark:bg-slate-900 transition-colors duration-300 relative">
+    <section class="py-20 bg-gray-50 dark:bg-night-900 transition-colors duration-300 relative">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="text-center mb-16">
                 <span class="text-accent-500 dark:text-accent-400 font-bold tracking-widest uppercase text-sm">Destinations</span>
-                <h2 class="font-serif text-4xl font-bold text-gray-900 dark:text-slate-100 mt-2">Top Pick Destinations</h2>
+                <h2 class="font-serif text-4xl font-bold text-gray-900 dark:text-white mt-2">Top Pick Destinations</h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($trips as $trip)
                     <div
-                        class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-slate-900/50 hover:shadow-2xl transition-all duration-500 cursor-pointer border border-transparent dark:border-slate-700/50">
+                        class="group bg-white dark:bg-night-800 rounded-3xl overflow-hidden shadow-sm dark:shadow-night-950/50 hover:shadow-2xl transition-all duration-500 cursor-pointer border border-transparent dark:border-night-700/50">
                         <div class="relative h-72 overflow-hidden">
                             <img src="{{ Str::startsWith($trip->thumbnail, 'http') ? $trip->thumbnail : asset('storage/' . $trip->thumbnail) }}"
                                 class="w-full h-full object-cover transform group-hover:scale-110 transition duration-700"
                                 alt="{{ $trip->title }}">
                         </div>
                         <div class="p-8">
-                            <h3 class="font-serif text-2xl font-bold text-gray-900 dark:text-slate-100 mb-2">{{ $trip->title }}</h3>
-                            <p class="text-gray-500 dark:text-slate-400 mb-6 line-clamp-2 text-sm">{{ $trip->description }}</p>
-                            <div class="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-slate-700">
+                            <h3 class="font-serif text-2xl font-bold text-gray-900 dark:text-white mb-2">{{ $trip->title }}</h3>
+                            <p class="text-gray-500 dark:text-white/60 mb-6 line-clamp-2 text-sm">{{ $trip->description }}</p>
+                            <div class="flex items-center justify-between pt-6 border-t border-gray-100 dark:border-night-700">
                                 <span class="text-xl font-bold text-primary-700 dark:text-primary-400">Rp {{ number_format($trip->price) }}</span>
                                 <a href="{{ route('trips-page.show', $trip) }}"
-                                    class="w-10 h-10 rounded-full border dark:border-slate-700 flex items-center justify-center hover:bg-primary-700 dark:hover:bg-primary-600 hover:text-white transition">
+                                    class="w-10 h-10 rounded-full border dark:border-night-700 flex items-center justify-center hover:bg-primary-700 dark:hover:bg-primary-600 hover:text-white transition">
                                     &rarr;
                                 </a>
                             </div>
@@ -158,18 +158,18 @@
 
             <div class="mt-16 text-center">
                 <a href="{{ route('trips-page.index') }}"
-                    class="inline-block px-8 py-3 rounded-full border-2 border-gray-900 dark:border-slate-100 text-gray-900 dark:text-slate-100 font-bold hover:bg-gray-900 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition">Lihat
+                    class="inline-block px-8 py-3 rounded-full border-2 border-gray-900 dark:border-white text-gray-900 dark:text-white font-bold hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900 transition">Lihat
                     Semua Destinasi</a>
             </div>
         </div>
     </section>
 
-    <section class="py-24 bg-white dark:bg-slate-950 border-t border-gray-100 dark:border-slate-800 transition-colors duration-300">
+    <section class="py-24 bg-white dark:bg-night-950 border-t border-gray-100 dark:border-night-800 transition-colors duration-300">
         <div class="max-w-7xl mx-auto px-6 lg:px-8">
             <div class="flex justify-between items-end mb-12">
                 <div>
-                    <h2 class="font-serif text-4xl font-bold text-gray-900 dark:text-slate-100">Traveler's Stories</h2>
-                    <p class="text-gray-500 dark:text-slate-400 mt-2">Cerita pengalaman langsung dari pengunjung.</p>
+                    <h2 class="font-serif text-4xl font-bold text-gray-900 dark:text-white">Traveler's Stories</h2>
+                    <p class="text-gray-500 dark:text-white/60 mt-2">Cerita pengalaman langsung dari pengunjung.</p>
                 </div>
                 <a href="{{ route('blog-page.index') }}"
                     class="text-primary-700 dark:text-primary-400 font-bold hover:text-accent-500 transition">Read
@@ -190,10 +190,10 @@
                                 <span class="text-xs text-gray-400">{{ $post->created_at->diffForHumans() }}</span>
                             </div>
                             <h3
-                                class="font-serif text-xl font-bold text-gray-900 dark:text-slate-100 mb-2 leading-tight group-hover:text-primary-700 dark:group-hover:text-primary-400 transition">
+                                class="font-serif text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-primary-700 dark:group-hover:text-primary-400 transition">
                                 <a href="{{ route('blog.show', $post->slug) }}">{{ $post->title }}</a>
                             </h3>
-                            <p class="text-sm text-gray-500 dark:text-slate-400 line-clamp-2">
+                            <p class="text-sm text-gray-500 dark:text-white/60 line-clamp-2">
                                 {{ Str::limit(strip_tags($post->content), 100) }}</p>
                         </div>
                     </article>

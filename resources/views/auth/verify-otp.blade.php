@@ -1,33 +1,33 @@
 @extends('layouts.guest')
 
 @section('content')
-    <div class="w-full max-w-md bg-white rounded-3xl shadow-2xl overflow-hidden p-8 md:p-12 m-4">
+    <div class="w-full max-w-md bg-white dark:bg-night-800 rounded-3xl shadow-2xl dark:shadow-night-950/50 overflow-hidden p-8 md:p-12 m-4 transition-colors duration-300">
         <div class="text-center">
             {{-- Icon --}}
-            <div class="mx-auto w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-600" fill="none" viewBox="0 0 24 24"
+            <div class="mx-auto w-16 h-16 bg-primary-100 dark:bg-night-900 rounded-full flex items-center justify-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary-600 dark:text-primary-400" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
             </div>
 
-            <h1 class="font-serif text-2xl md:text-3xl font-bold text-gray-900 mb-4">Verifikasi OTP</h1>
+            <h1 class="font-serif text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4">Verifikasi OTP</h1>
 
-            <p class="text-gray-600 mb-2 leading-relaxed">
+            <p class="text-gray-600 dark:text-white/60 mb-2 leading-relaxed">
                 Masukkan kode 6 digit yang telah dikirim ke:
             </p>
 
-            <p class="text-primary-700 font-bold mb-6">{{ $email ?? session('otp_email') }}</p>
+            <p class="text-primary-700 dark:text-primary-400 font-bold mb-6">{{ $email ?? session('otp_email') }}</p>
 
             @if (session('success'))
-                <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl mb-6 text-sm">
+                <div class="bg-green-50 border border-green-300 text-green-800 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300 px-4 py-3 rounded-xl mb-6 text-sm font-medium">
                     {{ session('success') }}
                 </div>
             @endif
 
             @if ($errors->any())
-                <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 text-sm">
+                <div class="bg-red-50 border border-red-300 text-red-800 dark:bg-red-900/20 dark:border-red-850 dark:text-red-350 px-4 py-3 rounded-xl mb-6 text-sm font-medium">
                     @foreach ($errors->all() as $error)
                         <p>{{ $error }}</p>
                     @endforeach
@@ -43,7 +43,7 @@
                         <input type="text" maxlength="1" inputmode="numeric" pattern="[0-9]"
                             x-ref="otp{{ $i }}" @input="handleInput($event, {{ $i }})"
                             @keydown.backspace="handleBackspace($event, {{ $i }})" @paste="handlePaste($event)"
-                            class="w-12 h-14 text-center text-xl font-bold border-2 border-gray-200 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition">
+                            class="w-12 h-14 text-center text-xl font-bold text-gray-900 dark:text-white bg-white dark:bg-night-900 border-2 border-gray-300 dark:border-night-700 rounded-xl focus:border-primary-500 focus:ring-2 focus:ring-primary-200 outline-none transition placeholder-gray-400 dark:placeholder-white/30">
                     @endfor
                 </div>
 
@@ -58,28 +58,28 @@
 
             {{-- Timer and Resend --}}
             <div class="mt-6" x-data="resendTimer()">
-                <p class="text-sm text-gray-500 mb-2">
+                <p class="text-sm text-gray-700 dark:text-white/80 mb-2 font-medium">
                     Tidak menerima kode?
                 </p>
 
                 <template x-if="countdown > 0">
-                    <p class="text-sm text-gray-400">
-                        Kirim ulang dalam <span x-text="countdown" class="font-bold text-primary-600"></span> detik
+                    <p class="text-sm text-gray-600 dark:text-white/60">
+                        Kirim ulang dalam <span x-text="countdown" class="font-bold text-primary-600 dark:text-primary-400"></span> detik
                     </p>
                 </template>
 
                 <template x-if="countdown <= 0">
                     <form method="POST" action="{{ route('otp.resend') }}">
                         @csrf
-                        <button type="submit" class="text-primary-600 font-bold hover:text-primary-800 transition text-sm">
+                        <button type="submit" class="text-primary-600 dark:text-primary-400 font-bold hover:text-primary-800 dark:hover:text-primary-300 transition text-sm">
                             Kirim Ulang Kode OTP
                         </button>
                     </form>
                 </template>
             </div>
 
-            <div class="mt-6 pt-6 border-t border-gray-100">
-                <a href="{{ route('login') }}" class="text-gray-500 hover:text-gray-700 text-sm transition">
+            <div class="mt-6 pt-6 border-t border-gray-100 dark:border-night-700">
+                <a href="{{ route('login') }}" class="text-gray-600 dark:text-white/60 hover:text-gray-900 dark:hover:text-white text-sm font-medium transition">
                     ← Kembali ke halaman login
                 </a>
             </div>

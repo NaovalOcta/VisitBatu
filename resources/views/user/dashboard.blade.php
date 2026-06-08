@@ -23,7 +23,7 @@
 
             <div class="flex gap-3">
                 <a href="{{ route('user.posts.create') }}"
-                    class="inline-flex items-center px-6 py-2.5 bg-white text-teal-700 text-sm font-bold rounded-full shadow-lg hover:bg-teal-50 hover:scale-105 transition-all duration-300">
+                    class="inline-flex items-center px-6 py-2.5 bg-white dark:bg-transparent border border-transparent dark:border-white text-teal-700 dark:text-white text-sm font-bold rounded-full shadow-lg hover:bg-teal-50 dark:hover:bg-white dark:hover:text-teal-700 hover:scale-105 transition-all duration-300">
                     <i class="icon-pencil mr-2"></i> Mulai Menulis
                 </a>
             </div>
@@ -34,29 +34,29 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
         {{-- Card 1: Total Posts --}}
         <div
-            class="bg-white p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all">
+            class="bg-white dark:bg-night-800 p-6 rounded-3xl border border-gray-100 dark:border-night-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all">
             <div class="flex items-center gap-4">
-                <div class="h-14 w-14 rounded-2xl bg-orange-50 flex items-center justify-center text-orange-500 text-2xl">
+                <div class="h-14 w-14 rounded-2xl bg-orange-50 dark:bg-orange-950/20 flex items-center justify-center text-orange-500 dark:text-orange-400 text-2xl">
                     <i class="icon-book"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Cerita Saya</p>
-                    <h3 class="text-3xl font-bold text-gray-900 mt-1">{{ Auth::user()->posts()->count() }}</h3>
+                    <p class="text-xs font-bold text-gray-400 dark:text-white/50 uppercase tracking-wider">Cerita Saya</p>
+                    <h3 class="text-3xl font-bold text-gray-900 dark:text-white mt-1">{{ Auth::user()->posts()->count() }}</h3>
                 </div>
             </div>
         </div>
 
         {{-- Card 2: Status Akun --}}
         <div
-            class="bg-white p-6 rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all">
+            class="bg-white dark:bg-night-800 p-6 rounded-3xl border border-gray-100 dark:border-night-700/50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all">
             <div class="flex items-center gap-4">
-                <div class="h-14 w-14 rounded-2xl bg-teal-50 flex items-center justify-center text-teal-600 text-2xl">
+                <div class="h-14 w-14 rounded-2xl bg-teal-50 dark:bg-teal-950/20 flex items-center justify-center text-teal-600 dark:text-teal-400 text-2xl">
                     <i class="icon-check_circle"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Status Akun</p>
+                    <p class="text-xs font-bold text-gray-400 dark:text-white/50 uppercase tracking-wider">Status Akun</p>
                     <span
-                        class="inline-flex items-center mt-1 px-2.5 py-0.5 rounded-full text-sm font-bold bg-green-100 text-green-700">
+                        class="inline-flex items-center mt-1 px-2.5 py-0.5 rounded-full text-sm font-bold bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-300">
                         Aktif
                     </span>
                 </div>
@@ -82,21 +82,21 @@
     </div>
 
     {{-- 3. Recent Posts Table --}}
-    <div class="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden">
-        <div class="px-6 py-5 border-b border-gray-50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <div class="bg-white dark:bg-night-800 border border-gray-100 dark:border-night-700/50 rounded-3xl shadow-sm overflow-hidden">
+        <div class="px-6 py-5 border-b border-gray-50 dark:border-night-700/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h3 class="font-serif font-bold text-gray-800 text-xl">Riwayat Tulisan</h3>
-                <p class="text-gray-500 text-xs mt-1">Daftar cerita perjalanan yang telah Anda buat.</p>
+                <h3 class="font-serif font-bold text-gray-800 dark:text-white text-xl">Riwayat Tulisan</h3>
+                <p class="text-gray-500 dark:text-white/60 text-xs mt-1">Daftar cerita perjalanan yang telah Anda buat.</p>
             </div>
             <a href="{{ route('user.posts.index') }}"
-                class="text-sm font-bold text-teal-600 hover:text-teal-700 flex items-center group">
+                class="text-sm font-bold text-teal-600 dark:text-accent-400 hover:text-teal-700 dark:hover:text-accent-300 flex items-center group">
                 Lihat Semua <i class="icon-arrow-right ml-1 transform group-hover:translate-x-1 transition-transform"></i>
             </a>
         </div>
 
         <div class="overflow-x-auto">
             <table class="w-full text-left text-sm whitespace-nowrap">
-                <thead class="bg-gray-50 text-gray-500 border-b border-gray-100">
+                <thead class="bg-gray-50 dark:bg-night-900 text-gray-500 dark:text-white/50 border-b border-gray-100 dark:border-night-700/50">
                     <tr>
                         <th class="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Judul Cerita</th>
                         <th class="px-6 py-4 font-bold uppercase tracking-wider text-[10px]">Tanggal</th>
@@ -104,36 +104,36 @@
                         <th class="px-6 py-4 font-bold uppercase tracking-wider text-[10px] text-right">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-gray-50">
+                <tbody class="divide-y divide-gray-50 dark:divide-night-700/50">
                     @forelse(Auth::user()->posts()->latest()->take(5)->get() as $post)
-                        <tr class="hover:bg-gray-50/50 transition-colors">
+                        <tr class="hover:bg-gray-50/50 dark:hover:bg-night-900/50 transition-colors">
                             <td class="px-6 py-4">
-                                <div class="font-bold text-gray-900 max-w-xs truncate">{{ $post->title }}</div>
+                                <div class="font-bold text-gray-900 dark:text-white max-w-xs truncate">{{ $post->title }}</div>
                             </td>
-                            <td class="px-6 py-4 text-gray-500 text-xs">
+                            <td class="px-6 py-4 text-gray-500 dark:text-white/60 text-xs">
                                 <i class="icon-calendar mr-1"></i> {{ $post->created_at->format('d M Y') }}
                             </td>
                             <td class="px-6 py-4">
                                 @if ($post->status == 'approved')
                                     <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700">
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 dark:bg-green-950/40 text-green-700 dark:text-green-300">
                                         Published
                                     </span>
                                 @elseif($post->status == 'rejected')
                                     <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-700">
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-300">
                                         Rejected
                                     </span>
                                 @else
                                     <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700">
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-yellow-100 dark:bg-yellow-950/40 text-yellow-700 dark:text-yellow-300">
                                         Pending
                                     </span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <a href="{{ route('user.posts.edit', $post) }}"
-                                    class="text-gray-400 hover:text-teal-600 font-bold text-xs transition-colors">
+                                    class="text-gray-400 dark:text-white/50 hover:text-teal-600 dark:hover:text-accent-400 font-bold text-xs transition-colors">
                                     Edit
                                 </a>
                             </td>
@@ -141,13 +141,13 @@
                     @empty
                         <tr>
                             <td colspan="4" class="px-6 py-12 text-center">
-                                <div class="flex flex-col items-center justify-center text-gray-400">
-                                    <div class="h-12 w-12 bg-gray-50 rounded-full flex items-center justify-center mb-3">
-                                        <i class="icon-pencil text-xl text-gray-300"></i>
+                                <div class="flex flex-col items-center justify-center text-gray-400 dark:text-white/50">
+                                    <div class="h-12 w-12 bg-gray-50 dark:bg-night-900 rounded-full flex items-center justify-center mb-3">
+                                        <i class="icon-pencil text-xl text-gray-300 dark:text-white/50"></i>
                                     </div>
-                                    <p class="font-medium text-gray-500 text-sm">Belum ada cerita yang dibuat.</p>
+                                    <p class="font-medium text-gray-500 dark:text-white/60 text-sm">Belum ada cerita yang dibuat.</p>
                                     <a href="{{ route('user.posts.create') }}"
-                                        class="text-teal-600 hover:underline text-xs mt-1">Buat cerita pertamamu!</a>
+                                        class="text-teal-600 dark:text-accent-400 hover:underline text-xs mt-1">Buat cerita pertamamu!</a>
                                 </div>
                             </td>
                         </tr>

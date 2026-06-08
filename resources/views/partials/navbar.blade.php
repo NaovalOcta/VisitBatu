@@ -1,10 +1,10 @@
 @php
-    $isHome = request()->routeIs('welcome_page');
+    $hasHero = request()->routeIs('welcome_page') || request()->routeIs('trips-page.index') || request()->routeIs('blog-page.index');
 @endphp
-<nav x-data="{ scrolled: false, mobileOpen: false, isHome: {{ $isHome ? 'true' : 'false' }} }" 
+<nav x-data="{ scrolled: false, mobileOpen: false, hasHero: {{ $hasHero ? 'true' : 'false' }} }"
     @scroll.window="scrolled = (window.pageYOffset > 50)"
-    :class="(scrolled || !isHome)
-        ? 'glass-effect py-3 shadow-sm text-gray-800 dark:text-slate-100' 
+    :class="(scrolled || !hasHero)
+        ? 'glass-effect py-3 shadow-sm text-gray-800 dark:text-white'
         : 'bg-transparent py-6 text-white drop-shadow-md'"
     class="fixed w-full z-50 transition-all duration-300 top-0 left-0">
 
@@ -12,7 +12,7 @@
         <div class="flex justify-between items-center">
 
             <a href="{{ url('/') }}" class="flex items-center gap-3 group">
-                <div :class="(scrolled || !isHome) ? 'bg-primary-800 text-white dark:bg-primary-600' : 'bg-white text-primary-900'"
+                <div :class="(scrolled || !hasHero) ? 'bg-primary-800 text-white dark:bg-primary-600' : 'bg-white text-primary-900'"
                     class="w-10 h-10 flex items-center justify-center rounded-lg shadow-lg transition-colors duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
@@ -40,24 +40,24 @@
             {{-- Desktop Actions (Lang & Notif) --}}
             <div class="hidden md:flex items-center gap-4">
                 {{-- Language Switcher --}}
-                <div class="flex items-center bg-white/10 dark:bg-slate-800/50 rounded-full p-1 border border-white/20 dark:border-slate-700/50" :class="(scrolled || !isHome) ? 'bg-gray-100 border-gray-200 dark:bg-slate-800/80 dark:border-slate-700' : ''">
-                    <a href="{{ route('lang.switch', 'id') }}" 
-                       class="px-2 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'id' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-slate-200' }}"
-                       :class="(scrolled || !isHome) && app()->getLocale() != 'id' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-slate-300' : ''">
+                <div class="flex items-center bg-white/10 dark:bg-night-800/50 rounded-full p-1 border border-white/20 dark:border-night-700/50" :class="(scrolled || !hasHero) ? 'bg-gray-100 border-gray-200 dark:bg-night-800/80 dark:border-night-700' : ''">
+                    <a href="{{ route('lang.switch', 'id') }}"
+                       class="px-2 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'id' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 hover:text-white dark:text-white/60 dark:hover:text-white' }}"
+                       :class="(scrolled || !hasHero) && app()->getLocale() != 'id' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-white' : ''">
                        ID
-                    </a>
-                    <a href="{{ route('lang.switch', 'en') }}" 
-                       class="px-2 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'en' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 hover:text-white dark:text-slate-400 dark:hover:text-slate-200' }}"
-                       :class="(scrolled || !isHome) && app()->getLocale() != 'en' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-slate-300' : ''">
+                     </a>
+                    <a href="{{ route('lang.switch', 'en') }}"
+                       class="px-2 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'en' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 hover:text-white dark:text-white/60 dark:hover:text-white' }}"
+                       :class="(scrolled || !hasHero) && app()->getLocale() != 'en' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-white' : ''">
                        EN
-                    </a>
+                     </a>
                 </div>
 
                 {{-- Dark Mode Toggle --}}
-                <button @click="darkMode = !darkMode" 
+                <button @click="darkMode = !darkMode"
                     type="button"
-                    class="p-2 rounded-full transition-all duration-300 hover:bg-white/10 dark:hover:bg-slate-800/50 focus:outline-none"
-                    :class="(scrolled || !isHome) ? 'text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800' : 'text-white/80 hover:text-white'">
+                    class="p-2 rounded-full transition-all duration-300 hover:bg-white/10 dark:hover:bg-night-800/50 focus:outline-none"
+                    :class="(scrolled || !hasHero) ? 'text-gray-600 dark:text-white/70 hover:bg-gray-100 dark:hover:bg-night-800' : 'text-white/80 hover:text-white'">
                     <template x-if="!darkMode">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -73,7 +73,7 @@
                 @auth
                 {{-- Notification Bell --}}
                 <div class="relative" x-data="{ open: false }">
-                    <button @click="open = !open" class="relative p-2 rounded-full transition hover:bg-white/10 dark:hover:bg-slate-800/50 focus:outline-none" :class="(scrolled || !isHome) ? 'hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-600 dark:text-slate-300' : 'text-white/80 hover:text-white'">
+                    <button @click="open = !open" class="relative p-2 rounded-full transition hover:bg-white/10 dark:hover:bg-night-800/50 focus:outline-none" :class="(scrolled || !hasHero) ? 'hover:bg-gray-100 dark:hover:bg-night-800 text-gray-600 dark:text-white/70' : 'text-white/80 hover:text-white'">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                         </svg>
@@ -86,8 +86,8 @@
                     </button>
 
                     <div x-show="open" @click.away="open = false" x-transition
-                        class="absolute right-0 mt-3 w-80 bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 rounded-2xl shadow-2xl border border-gray-100 dark:border-slate-800 py-4 z-50 overflow-hidden">
-                        <div class="px-4 pb-3 border-b border-gray-100 dark:border-slate-800 flex justify-between items-center">
+                        class="absolute right-0 mt-3 w-80 bg-white dark:bg-night-900 text-gray-800 dark:text-white rounded-2xl shadow-2xl border border-gray-100 dark:border-night-800 py-4 z-50 overflow-hidden">
+                        <div class="px-4 pb-3 border-b border-gray-100 dark:border-night-800 flex justify-between items-center">
                             <h3 class="font-bold text-sm">Notifikasi</h3>
                             @if(auth()->user()->unreadNotifications->count() > 0)
                             <form action="{{ route('notifications.mark-as-read') }}" method="POST">
@@ -98,13 +98,13 @@
                         </div>
                         <div class="max-h-96 overflow-y-auto">
                             @forelse(auth()->user()->notifications->take(5) as $notification)
-                            <div class="px-4 py-3 {{ $notification->read_at ? 'opacity-60' : 'bg-primary-50/50 dark:bg-primary-900/20' }} border-b border-gray-50 dark:border-slate-800 last:border-0">
+                            <div class="px-4 py-3 {{ $notification->read_at ? 'opacity-60' : 'bg-primary-50/50 dark:bg-primary-900/20' }} border-b border-gray-50 dark:border-night-800 last:border-0">
                                 <p class="text-xs font-medium">{{ $notification->data['message'] }}</p>
-                                <p class="text-[10px] text-gray-400 dark:text-slate-500 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                                <p class="text-[10px] text-gray-400 dark:text-white/50 mt-1">{{ $notification->created_at->diffForHumans() }}</p>
                             </div>
                             @empty
                             <div class="px-4 py-8 text-center">
-                                <p class="text-xs text-gray-400 dark:text-slate-500">Tidak ada notifikasi baru.</p>
+                                <p class="text-xs text-gray-400 dark:text-white/50">Tidak ada notifikasi baru.</p>
                             </div>
                             @endforelse
                         </div>
@@ -122,21 +122,21 @@
                             <span class="text-right text-sm leading-tight">
                                 <span class="block font-bold">{{ Auth::user()->name }}</span>
                             </span>
-                            <div class="h-9 w-9 rounded-full border border-gray-100 shadow-md overflow-hidden">
+                            <div class="h-9 w-9 rounded-full border border-gray-100 dark:border-night-700 shadow-md overflow-hidden">
                                 <img src="{{ Auth::user()->avatar_url }}" alt="{{ Auth::user()->name }}"
                                     class="w-full h-full object-cover">
                             </div>
                         </button>
                         <div x-show="open" x-transition
-                            class="absolute right-0 mt-3 w-48 bg-white dark:bg-slate-900 text-gray-800 dark:text-slate-200 rounded-xl shadow-xl border border-gray-100 dark:border-slate-800 py-2 overflow-hidden">
+                            class="absolute right-0 mt-3 w-48 bg-white dark:bg-night-900 text-gray-800 dark:text-white rounded-xl shadow-xl border border-gray-100 dark:border-night-800 py-2 overflow-hidden">
 
                             {{-- LOGIKA PENGECEKAN ROLE --}}
                             @if (Auth::user()->role === 'admin')
-                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">
+                                <a href="{{ route('admin.dashboard') }}" class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-night-800">
                                     {{ __('Dashboard') }}
                                 </a>
                             @else
-                                <a href="{{ route('user.dashboard') }}" class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-slate-800">
+                                <a href="{{ route('user.dashboard') }}" class="block px-4 py-2 hover:bg-gray-50 dark:hover:bg-night-800">
                                     {{ __('Dashboard') }}
                                 </a>
                             @endif
@@ -161,8 +161,8 @@
 
             {{-- Mobile Hamburger Button --}}
             <button @click="mobileOpen = !mobileOpen"
-                class="md:hidden p-2 rounded-lg hover:bg-white/10 dark:hover:bg-slate-800 transition focus:outline-none"
-                :class="(scrolled || !isHome) ? 'text-gray-800 dark:text-slate-200' : 'text-white'">
+                class="md:hidden p-2 rounded-lg hover:bg-white/10 dark:hover:bg-night-800 transition focus:outline-none"
+                :class="(scrolled || !hasHero) ? 'text-gray-800 dark:text-white' : 'text-white'">
                 <svg x-show="!mobileOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -179,28 +179,28 @@
             x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
             x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0"
             x-transition:leave-end="opacity-0 -translate-y-2" x-cloak class="md:hidden mt-4 pb-4 border-t"
-            :class="(scrolled || !isHome) ? 'border-gray-200 dark:border-slate-800' : 'border-white/20 dark:border-slate-800/50'">
+            :class="(scrolled || !hasHero) ? 'border-gray-200 dark:border-night-800' : 'border-white/20 dark:border-night-800/50'">
 
             <div class="flex items-center justify-between px-4 pt-4 pb-2">
                 <span class="text-[10px] font-bold uppercase tracking-widest opacity-60">Language</span>
-                <div class="flex items-center bg-white/10 dark:bg-slate-800/50 rounded-full p-1 border border-white/20 dark:border-slate-700/50" :class="(scrolled || !isHome) ? 'bg-gray-100 border-gray-200 dark:bg-slate-800/80 dark:border-slate-700' : ''">
-                    <a href="{{ route('lang.switch', 'id') }}" 
-                       class="px-3 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'id' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 dark:text-slate-500' }}"
-                       :class="(scrolled || !isHome) && app()->getLocale() != 'id' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-slate-300' : ''">
+                <div class="flex items-center bg-white/10 dark:bg-night-800/50 rounded-full p-1 border border-white/20 dark:border-night-700/50" :class="(scrolled || !hasHero) ? 'bg-gray-100 border-gray-200 dark:bg-night-800/80 dark:border-night-700' : ''">
+                    <a href="{{ route('lang.switch', 'id') }}"
+                       class="px-3 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'id' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 dark:text-white/60' }}"
+                       :class="(scrolled || !hasHero) && app()->getLocale() != 'id' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-white' : ''">
                        ID
                     </a>
-                    <a href="{{ route('lang.switch', 'en') }}" 
-                       class="px-3 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'en' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 dark:text-slate-500' }}"
-                       :class="(scrolled || !isHome) && app()->getLocale() != 'en' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-slate-300' : ''">
+                    <a href="{{ route('lang.switch', 'en') }}"
+                       class="px-3 py-1 text-[10px] font-bold rounded-full transition {{ app()->getLocale() == 'en' ? 'bg-accent-500 text-white shadow-sm' : 'text-gray-400 dark:text-white/60' }}"
+                       :class="(scrolled || !hasHero) && app()->getLocale() != 'en' ? 'text-gray-500 hover:text-gray-800 dark:hover:text-white' : ''">
                        EN
                     </a>
                 </div>
 
                 {{-- Mobile Theme Toggle --}}
-                <button @click="darkMode = !darkMode" 
+                <button @click="darkMode = !darkMode"
                     type="button"
-                    class="flex items-center gap-2 px-3 py-1.5 rounded-full border transition border-white/20 dark:border-slate-700/50"
-                    :class="darkMode ? 'bg-slate-800 text-accent-400 border-accent-500/30' : 'bg-white/10 text-white'">
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full border transition border-white/20 dark:border-night-700/50"
+                    :class="darkMode ? 'bg-night-800 text-accent-400 border-accent-500/30' : 'bg-white/10 text-white'">
                     <span x-show="!darkMode" class="flex items-center gap-2">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
@@ -219,23 +219,23 @@
             <div class="flex flex-col space-y-1 pt-2">
                 <a href="{{ route('welcome_page') }}"
                     class="px-4 py-3 rounded-xl font-medium transition text-sm uppercase tracking-wide"
-                    :class="(scrolled || !isHome) ? 'hover:bg-gray-100 dark:hover:bg-slate-800' : 'hover:bg-white/10'">
+                    :class="(scrolled || !hasHero) ? 'hover:bg-gray-100 dark:hover:bg-night-800' : 'hover:bg-white/10'">
                     {{ __('Home') }}
                 </a>
                 <a href="{{ route('trips-page.index') }}"
                     class="px-4 py-3 rounded-xl font-medium transition text-sm uppercase tracking-wide"
-                    :class="(scrolled || !isHome) ? 'hover:bg-gray-100 dark:hover:bg-slate-800' : 'hover:bg-white/10'">
+                    :class="(scrolled || !hasHero) ? 'hover:bg-gray-100 dark:hover:bg-night-800' : 'hover:bg-white/10'">
                     {{ __('Destinations') }}
                 </a>
                 <a href="{{ route('blog-page.index') }}"
                     class="px-4 py-3 rounded-xl font-medium transition text-sm uppercase tracking-wide"
-                    :class="(scrolled || !isHome) ? 'hover:bg-gray-100 dark:hover:bg-slate-800' : 'hover:bg-white/10'">
+                    :class="(scrolled || !hasHero) ? 'hover:bg-gray-100 dark:hover:bg-night-800' : 'hover:bg-white/10'">
                     {{ __('Blog') }}
                 </a>
             </div>
 
             {{-- Mobile Auth Section --}}
-            <div class="mt-4 pt-4 border-t" :class="(scrolled || !isHome) ? 'border-gray-200 dark:border-slate-800' : 'border-white/20 dark:border-slate-800/50'">
+            <div class="mt-4 pt-4 border-t" :class="(scrolled || !hasHero) ? 'border-gray-200 dark:border-night-800' : 'border-white/20 dark:border-night-800/50'">
                 @auth
                     <div class="flex items-center gap-3 px-4 py-3">
                         <div class="h-10 w-10 rounded-full border border-white/20 shadow-md overflow-hidden">
@@ -251,7 +251,7 @@
                     @if (Auth::user()->role === 'admin')
                         <a href="{{ route('admin.dashboard') }}"
                             class="block px-4 py-3 rounded-xl font-medium transition text-sm"
-                            :class="(scrolled || !isHome) ? 'hover:bg-gray-100 dark:hover:bg-slate-800' : 'hover:bg-white/10'">
+                            :class="(scrolled || !hasHero) ? 'hover:bg-gray-100 dark:hover:bg-night-800' : 'hover:bg-white/10'">
                             <span class="flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -263,7 +263,7 @@
                     @else
                         <a href="{{ route('user.dashboard') }}"
                             class="block px-4 py-3 rounded-xl font-medium transition text-sm"
-                            :class="(scrolled || !isHome) ? 'hover:bg-gray-100 dark:hover:bg-slate-800' : 'hover:bg-white/10'">
+                            :class="(scrolled || !hasHero) ? 'hover:bg-gray-100 dark:hover:bg-night-800' : 'hover:bg-white/10'">
                             <span class="flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -278,7 +278,7 @@
                         @csrf
                         <button type="submit"
                             class="w-full text-left px-4 py-3 rounded-xl font-medium text-red-500 transition text-sm"
-                            :class="(scrolled || !isHome) ? 'hover:bg-red-50 dark:hover:bg-red-900/20' : 'hover:bg-white/10'">
+                            :class="(scrolled || !hasHero) ? 'hover:bg-red-50 dark:hover:bg-red-900/20' : 'hover:bg-white/10'">
                             <span class="flex items-center gap-2">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -292,12 +292,12 @@
                     <div class="flex flex-col gap-3 px-4">
                         <a href="{{ route('login') }}"
                             class="w-full py-3 text-center rounded-xl font-bold text-sm border-2 transition"
-                            :class="(scrolled || !isHome) ? 'border-gray-300 hover:bg-gray-100 dark:border-slate-700 dark:hover:bg-slate-800' : 'border-white/30 hover:bg-white/10'">
+                            :class="(scrolled || !hasHero) ? 'border-gray-300 hover:bg-gray-100 dark:border-night-700 dark:hover:bg-night-800' : 'border-white/30 hover:bg-white/10'">
                             Log In
                         </a>
                         <a href="{{ route('register') }}"
                             class="w-full py-3 text-center bg-accent-500 hover:bg-accent-600 text-white rounded-xl font-bold text-sm shadow-lg transition">
-                            Sign Up
+                             Sign Up
                         </a>
                     </div>
                 @endauth
